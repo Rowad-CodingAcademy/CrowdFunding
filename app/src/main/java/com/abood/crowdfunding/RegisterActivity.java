@@ -14,30 +14,31 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText newUserPass,newUserEmail;
-    Button signupBTN;
-    FirebaseAuth auth;
+    EditText newUserEmail,newUserPassword;
+    Button signupBtn;
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        newUserPass=findViewById(R.id.new_user_pass);
-        newUserEmail=findViewById(R.id.new_user_email);
-        signupBTN=findViewById(R.id.signup_btn);
+        newUserEmail = findViewById(R.id.new_user_email);
+        newUserPassword = findViewById(R.id.new_user_password);
+        signupBtn = findViewById(R.id.signup_btn);
 
-        auth=FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
-        signupBTN.setOnClickListener(new View.OnClickListener() {
+        signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                auth.createUserWithEmailAndPassword(newUserEmail.getText().toString(),newUserPass.getText().toString())
+                firebaseAuth.createUserWithEmailAndPassword(newUserEmail.getText().toString(),newUserPassword.getText().toString())
                         .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()){
+
                                     Toast.makeText(RegisterActivity.this, "User Created Successfully", Toast.LENGTH_SHORT).show();
 
                                 }
