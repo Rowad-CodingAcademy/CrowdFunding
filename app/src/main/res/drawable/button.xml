@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
+    <item android:state_enabled="true" >
         <shape android:shape="rectangle">
             <solid android:color="#31373F"/>
             <stroke android:color="#0055CA" android:width="2dp" />
+            <!--corners allow us to make the rounded corners button-->
+            <corners android:radius="15dp" />
+        </shape>
+    </item>
+    <item android:state_enabled="false">
+        <shape android:shape="rectangle">
+            <solid android:color="#BF31373F"/>
+            <stroke android:color="#4D0055CA" android:width="2dp" />
             <!--corners allow us to make the rounded corners button-->
             <corners android:radius="15dp" />
         </shape>
