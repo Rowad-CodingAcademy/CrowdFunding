@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,6 +25,7 @@ public class RegisterActivity extends AppCompatActivity
     Button signupBtn;
     FirebaseAuth firebaseAuth;
     ProgressDialog progress;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +63,8 @@ public class RegisterActivity extends AppCompatActivity
                                 {
                                     progress.dismiss();
                                     Toast.makeText(RegisterActivity.this, "User Created Successfully", Toast.LENGTH_SHORT).show();
-
+                                    intent = new Intent(RegisterActivity.this,LoginActivity.class);
+                                    startActivity(intent);
                                 }
                                 else
                                     {
