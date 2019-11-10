@@ -66,8 +66,8 @@ public class LoginActivity extends AppCompatActivity
                                 if(task.isSuccessful())
                                 {
 
-//                                    Intent afterIntnet=new Intent(LoginActivity.this,LoginActivity.class);
-//                                    startActivity(afterIntnet);
+                                    Intent afterIntnet=new Intent(LoginActivity.this,CamoaignListAcyivity.class);
+                                    startActivity(afterIntnet);
 
                                     progress.dismiss();
                                     Toast.makeText(LoginActivity.this, "Welcome", Toast.LENGTH_SHORT).show();

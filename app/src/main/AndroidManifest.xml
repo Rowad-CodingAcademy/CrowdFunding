@@ -21,9 +21,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity">
-
-        </activity>
+        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".CamoaignListAcyivity"></activity>
+        <activity android:name=".AddCampaignActivity"></activity>
     </application>
 
 </manifest>
