@@ -12,7 +12,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
-public class CamoaignListAcyivity extends AppCompatActivity {
+public class CampaignListActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -88,7 +88,7 @@ public class CamoaignListAcyivity extends AppCompatActivity {
 
 //                updateUI();
 
-                Intent intent = new Intent(CamoaignListAcyivity.this,AddCampaignActivity.class);
+                Intent intent = new Intent(CampaignListActivity.this,AddCampaignActivity.class);
                 intent.putExtra("type",tab);
                 startActivity(intent);
 
@@ -98,7 +98,7 @@ public class CamoaignListAcyivity extends AppCompatActivity {
 
                 sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
                 sharedpreferences.edit().remove("username").apply();
-                Intent intent2 = new Intent(CamoaignListAcyivity.this,LoginActivity.class);
+                Intent intent2 = new Intent(CampaignListActivity.this,LoginActivity.class);
                 startActivity(intent2);
 
                 return true;

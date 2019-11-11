@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity
                                 if(task.isSuccessful())
                                 {
 
-                                    Intent afterIntnet=new Intent(LoginActivity.this,CamoaignListAcyivity.class);
+                                    Intent afterIntnet=new Intent(LoginActivity.this, CampaignListActivity.class);
                                     startActivity(afterIntnet);
 
                                     progress.dismiss();

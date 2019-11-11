@@ -5,7 +5,7 @@
     <color name="colorAccent">#0055CA</color>
     <color name="disabledButtonTextColor">#80ffffff</color>
     <color name="enabledButtonTextColor">#fff</color>
-    <color name="colorGray">#D3D3D3</color>
+    <color name="colorGray">#F1F1F1</color>
     <color name="buttonPrimary">#A88789</color>
     <color name="colorTextPrimary">#FFFFFF</color>
     <color name="colorTextDisable">#66FFFFFF</color>

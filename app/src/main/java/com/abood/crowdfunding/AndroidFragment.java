@@ -197,12 +197,10 @@ public class AndroidFragment extends Fragment {
 //            checkUser(posts.get(position).getpUser());
 //            Picasso.get().load(AppServer.IP+userProfile).into(holder.userProfile);
 
-            holder.user.setText(posts.get(position).getpUser());
-            holder.date.setText(posts.get(position).getpDate());
-            holder.postQuestion.setText(posts.get(position).getpQuestion());
+            holder.campaignImage.setImageResource(R.drawable.campaign);
 
-            holder.postImage.setImageResource(R.drawable.ic_launcher_foreground);
-            holder.userProfile.setImageResource(R.drawable.ic_launcher_foreground);
+            holder.campaignTitle.setText(posts.get(position).getpUser());
+            holder.campaignDescription.setText(posts.get(position).getpDate());
 
         }
 
@@ -217,77 +215,18 @@ public class AndroidFragment extends Fragment {
 
     public class AndroidViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        ImageView userProfile,postImage,deletePost;
-        TextView user,date,postQuestion;
-        ImageButton like,disslike;
-        EditText answer;
+        ImageView campaignImage;
+        TextView campaignTitle,campaignDescription;
+
 
         public AndroidViewHolder(@NonNull View itemView) {
             super(itemView);
 
             itemView.setOnClickListener(this);
 
-            userProfile = itemView.findViewById(R.id.user_profile);
-            postImage = itemView.findViewById(R.id.post_image);
-            deletePost = itemView.findViewById(R.id.delete_post);
-            user = itemView.findViewById(R.id.post_user);
-            date = itemView.findViewById(R.id.post_date);
-            postQuestion = itemView.findViewById(R.id.post_question);
-            like = itemView.findViewById(R.id.like_Button);
-            disslike = itemView.findViewById(R.id.disslike_Button);
-            answer = itemView.findViewById(R.id.post_answer);
-            answer.setFocusable(false);
-
-            like.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    like.setImageResource(R.drawable.ic_blue_like_24dp);
-                    disslike.setImageResource(R.drawable.ic_disslike_24dp);
-
-                }
-            });
-
-            disslike.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    like.setImageResource(R.drawable.ic_like_24dp);
-                    disslike.setImageResource(R.drawable.ic_red_disslike_24dp);
-
-                }
-            });
-
-            answer.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-//                    FragmentManager manager = getFragmentManager();
-//                    int position = getAdapterPosition();
-//                    AnswerFragment dialog = AnswerFragment.newInstance(posts.get(position).getpId());
-//                    dialog.show(manager, DIALOG_ANSWER);
-
-                }
-            });
-
-
-            deletePost.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-//                    if (Login.userName.equals(posts.get(getAdapterPosition()).getpUser())) {
-//
-//                        swipPosition = getAdapterPosition();
-////                        posts.remove(getAdapterPosition());
-//                        deletePost();
-//                        posts.remove(getAdapterPosition());
-//                        androidAdapter.notifyDataSetChanged();
-//
-//                    } else {
-//                        Toast.makeText(getActivity(), "This is not Your Post...You can`t delete This Post", Toast.LENGTH_SHORT).show();
-//                    }
-                }
-            });
+            campaignImage = itemView.findViewById(R.id.campaign_image);
+            campaignTitle = itemView.findViewById(R.id.campaign_title);
+            campaignDescription = itemView.findViewById(R.id.campaign_description);
 
         }
 
