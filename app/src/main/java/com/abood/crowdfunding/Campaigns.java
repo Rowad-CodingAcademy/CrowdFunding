@@ -7,14 +7,16 @@ import java.util.Date;
 
 public class Campaigns {
 
-    private String pId;
-    private String pUser;
-    private Date Date;
-    private String pDate;
-    private String pQuestion;
-    private String pType;
-    private Boolean pAction;
-    private String pImage;
+    private String campTitle;
+    private String campDescription;
+    private Date campStart;
+    private Date campEnd;
+    private String campTarget;
+    private String campLocation;
+    private String campCountry;
+    private String campImageUrl;
+    private String campVideoUrl;
+
 
     public Campaigns() {
 
