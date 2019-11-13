@@ -17,6 +17,7 @@
         <activity android:name=".AddCampaignActivity" />
         <activity
             android:name=".CampaignListActivity"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

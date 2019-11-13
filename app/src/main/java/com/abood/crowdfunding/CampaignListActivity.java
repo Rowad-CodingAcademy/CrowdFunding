@@ -1,5 +1,6 @@
 package com.abood.crowdfunding;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,9 +17,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class CampaignListActivity extends AppCompatActivity {
 
+    FirebaseAuth firebaseAuth;
     private ActionBar actionBar;
     private Toolbar toolbar;
     private Menu menu_navigation;
@@ -142,7 +145,6 @@ public class CampaignListActivity extends AppCompatActivity {
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             public void onDrawerOpened(View drawerView) {
-                updateCounter(nav_view);
                 super.onDrawerOpened(drawerView);
             }
         };
@@ -158,7 +160,7 @@ public class CampaignListActivity extends AppCompatActivity {
         });
 
 
-        updateCounter(nav_view);
+
         menu_navigation = nav_view.getMenu();
 
         // navigation header
@@ -176,7 +178,7 @@ public class CampaignListActivity extends AppCompatActivity {
                     menu_navigation.add(1, 2, 100, "Manage accounts").setIcon(R.drawable.ic_settings);
                 } else {
                     nav_view.inflateMenu(R.menu.activity_campaign_list_drawer);
-                    updateCounter(nav_view);
+
                 }
             }
         });
@@ -191,11 +193,11 @@ public class CampaignListActivity extends AppCompatActivity {
             // Handle navigation view item clicks here.
             int id = item.getItemId();
 
-            if (id == R.id.nav_help) {
-//                getSupportActionBar().setTitle("Home");
-//                getSupportFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment()).commit();
-//                Intent i = new Intent(this,MainActivity.class);
-//                startActivity(i);
+            if (id == R.id.nav_log_out) {
+                firebaseAuth = FirebaseAuth.getInstance();
+                firebaseAuth.signOut();
+                Intent i = new Intent(CampaignListActivity.this,LoginActivity.class);
+                startActivity(i);
             }
 
         } else {
@@ -221,22 +223,6 @@ public class CampaignListActivity extends AppCompatActivity {
     }
 
 
-    private void updateCounter(NavigationView nav) {
-        if (is_account_mode) return;
-        Menu m = nav.getMenu();
-        ((TextView) m.findItem(R.id.nav_all_inbox).getActionView().findViewById(R.id.text)).setText("75");
-        ((TextView) m.findItem(R.id.nav_inbox).getActionView().findViewById(R.id.text)).setText("68");
-
-        TextView badgePrioInbx = m.findItem(R.id.nav_priority_inbox).getActionView().findViewById(R.id.text);
-        badgePrioInbx.setText("3 new");
-        badgePrioInbx.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
-
-        TextView badgeSocial = m.findItem(R.id.nav_social).getActionView().findViewById(R.id.text);
-        badgeSocial.setText("51 new");
-        badgeSocial.setBackgroundColor(getResources().getColor(R.color.green_500));
-
-        ((TextView) m.findItem(R.id.nav_spam).getActionView().findViewById(R.id.text)).setText("13");
-    }
 
 
     public static boolean toggleArrow(View view) {
