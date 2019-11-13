@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FinalAddCampaignActivity"></activity>
+        <activity android:name=".CampaignDetailsActivity"></activity>
+        <activity android:name=".FinalAddCampaignActivity" />
         <activity
             android:name=".CampaignListActivity"
             android:theme="@style/AppTheme.NoActionBar">
