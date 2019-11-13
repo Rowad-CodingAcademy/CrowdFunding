@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".AndroidFragment">
+    tools:context=".EndingSoonCampaignsFragment">
 
     <include
-        layout="@layout/app_bar_campain_list"
+        layout="@layout/app_bar_campaign_list"
         android:layout_width="match_parent"
         android:layout_height="105dp" />
 

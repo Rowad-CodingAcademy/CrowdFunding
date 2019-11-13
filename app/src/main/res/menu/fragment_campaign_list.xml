@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/delete_post"
-        android:icon="@drawable/ic_delete_24dp"
-        android:title="delete_crime"
+        android:id="@+id/search"
+        android:icon="@drawable/ic_search_24dp"
+        android:title="Search"
         app:showAsAction="ifRoom|withText"/>
 
 </menu>

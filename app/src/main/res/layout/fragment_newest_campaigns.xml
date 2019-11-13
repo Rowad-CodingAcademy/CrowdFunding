@@ -5,17 +5,17 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".FlutterFragment">
+    tools:context=".NewestCampaignsFragment">
 
     <include
-        layout="@layout/app_bar_campain_list"
+        layout="@layout/app_bar_campaign_list"
         android:layout_width="match_parent"
         android:layout_height="105dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/flutter_recycler_view"
+        android:id="@+id/kotlin_recycler_view"
         ></androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

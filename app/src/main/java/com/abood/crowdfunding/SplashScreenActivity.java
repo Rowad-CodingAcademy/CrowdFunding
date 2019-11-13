@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class SplashActivity extends AppCompatActivity
+public class SplashScreenActivity extends AppCompatActivity
 {
 
     private final int SPLASH_DISPLAY_LENGTH = 2500;
@@ -23,7 +23,7 @@ public class SplashActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.activity_splash_screen);
 
         splashLogoImageView =findViewById(R.id.splash_logo_imageview);
 
@@ -51,13 +51,13 @@ public class SplashActivity extends AppCompatActivity
     {
         if(currentUser==null)
         {
-            Intent loginIntent=new Intent(SplashActivity.this,LoginActivity.class);
+            Intent loginIntent=new Intent(SplashScreenActivity.this,LoginActivity.class);
             startActivity(loginIntent);
             finish();
         }
         else
         {
-            Intent userIntent=new Intent(SplashActivity.this,LoginActivity.class);
+            Intent userIntent=new Intent(SplashScreenActivity.this,LoginActivity.class);
             startActivity(userIntent);
             finish();
         }

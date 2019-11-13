@@ -299,6 +299,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:text="Loot of Lima is a multiplayer deduction puzzle, where you ask questions and piece together information to find buried treasure before your opponents.
 
 Deduction games are games like Clue. In Clue, you try to figure out the who/where/how of a murder. To do so, you eliminate all whos/wheres/hows that are not possible answers.
@@ -308,6 +309,8 @@ Loot of Lima is similar, except:
 1. Loot of Lima uses a clever coordinate system to give you the sense of searching different spots on Cocos Island.
 
 2. Loot of Lima is much harder. Not harder to learn, but harder to solve the head scratching puzzle of where the treasure is buried"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView11" />
         </androidx.constraintlayout.widget.ConstraintLayout>

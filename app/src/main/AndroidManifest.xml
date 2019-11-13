@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".CampaignDetailsActivity"></activity>
-        <activity android:name=".FinalAddCampaignActivity" />
+        <activity android:name=".AddCampaignActivity" />
         <activity
             android:name=".CampaignListActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -26,8 +26,7 @@
         </activity>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".SplashActivity" />
-        <activity android:name=".AddCampaignActivity" />
+        <activity android:name=".SplashScreenActivity" />
     </application>
 
 </manifest>

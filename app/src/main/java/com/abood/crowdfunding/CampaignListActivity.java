@@ -1,7 +1,5 @@
 package com.abood.crowdfunding;
 
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,7 +8,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,14 +35,14 @@ public class CampaignListActivity extends AppCompatActivity {
     private static final String MyPREFERENCES = "Abood";
     private SharedPreferences sharedpreferences;
 
-    FlutterFragment flutterFragment;
-    KotlinFragment kotlinFragment;
-    AndroidFragment androidFragment;
+    PopularCampaignsFragment popularCampaignsFragment;
+    NewestCampaignsFragment newestCampaignsFragment;
+    EndingSoonCampaignsFragment endingSoonCampaignsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_campain_list);
+        setContentView(R.layout.activity_campaign_list);
 
         initToolbar();
         initNavigationMenu();
@@ -94,7 +91,7 @@ public class CampaignListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
-        getMenuInflater().inflate(R.menu.fragment_post_list, menu);
+        getMenuInflater().inflate(R.menu.fragment_campaign_list, menu);
         return true;
     }
 
@@ -103,22 +100,11 @@ public class CampaignListActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
 
-            case R.id.new_crime:
+            case R.id.search:
 
-//                updateUI();
-
-                Intent intent = new Intent(CampaignListActivity.this,AddCampaignActivity.class);
-                intent.putExtra("type",tab);
-                startActivity(intent);
-
-                return true;
-
-            case R.id.logout:
-
-                sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-                sharedpreferences.edit().remove("username").apply();
-                Intent intent2 = new Intent(CampaignListActivity.this,LoginActivity.class);
-                startActivity(intent2);
+//                Intent intent = new Intent(CampaignListActivity.this,AddCampaignActivity.class);
+//                intent.putExtra("type",tab);
+//                startActivity(intent);
 
                 return true;
 
@@ -131,12 +117,12 @@ public class CampaignListActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager)
     {
         adapter = new CrowdFundingViewPager(getSupportFragmentManager());
-        flutterFragment = new FlutterFragment();
-        kotlinFragment = new KotlinFragment();
-        androidFragment = new AndroidFragment();
-        adapter.addFragment(flutterFragment,"CALLS");
-        adapter.addFragment(kotlinFragment,"CHAT");
-        adapter.addFragment(androidFragment,"CONTACTS");
+        popularCampaignsFragment = new PopularCampaignsFragment();
+        newestCampaignsFragment = new NewestCampaignsFragment();
+        endingSoonCampaignsFragment = new EndingSoonCampaignsFragment();
+        adapter.addFragment(popularCampaignsFragment,"POPULAR");
+        adapter.addFragment(newestCampaignsFragment,"NEWEST");
+        adapter.addFragment(endingSoonCampaignsFragment,"ENDING SOON");
         viewPager.setAdapter(adapter);
     }
 
@@ -189,7 +175,7 @@ public class CampaignListActivity extends AppCompatActivity {
                     menu_navigation.add(1, 1, 100, "Add account").setIcon(R.drawable.ic_add);
                     menu_navigation.add(1, 2, 100, "Manage accounts").setIcon(R.drawable.ic_settings);
                 } else {
-                    nav_view.inflateMenu(R.menu.activity_campain_list_drawer);
+                    nav_view.inflateMenu(R.menu.activity_campaign_list_drawer);
                     updateCounter(nav_view);
                 }
             }

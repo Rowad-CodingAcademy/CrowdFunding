@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">CrowdFunding</string>
-    <string name="tab1">FLUTTER</string>
-    <string name="tab2">KOTLIN</string>
-    <string name="tab3">ANDROID</string>
+    <string name="tab1">POPULAR</string>
+    <string name="tab2">NEWEST</string>
+    <string name="tab3">ENDING SOON</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
