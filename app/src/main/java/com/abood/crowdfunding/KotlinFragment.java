@@ -228,7 +228,9 @@ public class KotlinFragment extends Fragment {
         @Override
         public void onClick(View view) {
 
-            Toast.makeText(getActivity(), "Abood", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), "Abood", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(getActivity(),CampaignDetailsActivity.class);
+            startActivity(i);
 
         }
     }
