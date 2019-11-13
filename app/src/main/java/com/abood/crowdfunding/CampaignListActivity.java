@@ -91,7 +91,7 @@ public class CampaignListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
-        getMenuInflater().inflate(R.menu.fragment_campaign_list, menu);
+        getMenuInflater().inflate(R.menu.activity_campaign_list, menu);
         return true;
     }
 
