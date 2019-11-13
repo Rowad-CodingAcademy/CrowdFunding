@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,10 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
-
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
-import com.mikhaellopez.circularimageview.CircularImageView;
 
 public class CampaignListActivity extends AppCompatActivity {
 
@@ -46,19 +45,16 @@ public class CampaignListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_campain_list);
 
         initToolbar();
         initNavigationMenu();
-
 
         viewPager = findViewById(R.id.viewpager);
         viewPager.setOffscreenPageLimit(3);
         setupViewPager(viewPager);
 
         tabLayout = findViewById(R.id.tablayout);
-
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -219,7 +215,7 @@ public class CampaignListActivity extends AppCompatActivity {
         } else {
             TextView name =  navigation_header.findViewById(R.id.name);
             TextView email =  navigation_header.findViewById(R.id.email);
-            CircularImageView userPhoto =  navigation_header.findViewById(R.id.nav_user_photo);
+            ImageView userPhoto =  navigation_header.findViewById(R.id.nav_user_photo);
             switch (item.getItemId()) {
                 case 1000:
                     name.setText("Evans Collins");

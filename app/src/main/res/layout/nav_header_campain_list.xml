@@ -15,7 +15,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
 
-    <com.mikhaellopez.circularimageview.CircularImageView
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/nav_user_photo"
         android:layout_width="64dp"
         android:layout_height="64dp"
