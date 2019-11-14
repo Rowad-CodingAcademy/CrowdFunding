@@ -30,7 +30,7 @@ public class CampaignListActivity extends AppCompatActivity {
     private boolean is_account_mode = false;
 
     private ViewPager viewPager;
-    CrowdFundingViewPager adapter;
+    CampaignPagerAdapter adapter;
     private TabLayout tabLayout;
 
 
@@ -119,7 +119,7 @@ public class CampaignListActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager)
     {
-        adapter = new CrowdFundingViewPager(getSupportFragmentManager());
+        adapter = new CampaignPagerAdapter(getSupportFragmentManager());
         popularCampaignsFragment = new PopularCampaignsFragment();
         newestCampaignsFragment = new NewestCampaignsFragment();
         endingSoonCampaignsFragment = new EndingSoonCampaignsFragment();

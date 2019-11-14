@@ -6,12 +6,14 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
 
-public class CrowdFundingViewPager extends FragmentPagerAdapter {
+public class CampaignPagerAdapter extends FragmentPagerAdapter
+{
 
     private final ArrayList<Fragment> mFragmentList = new ArrayList<>();
     private final ArrayList<String> mFragmentTitleList = new ArrayList<>();
 
-    public CrowdFundingViewPager(FragmentManager manager) {
+    public CampaignPagerAdapter(FragmentManager manager)
+    {
         super(manager);
     }
 
@@ -25,7 +27,8 @@ public class CrowdFundingViewPager extends FragmentPagerAdapter {
         return mFragmentList.size();
     }
 
-    public void addFragment(Fragment fragment, String title) {
+    public void addFragment(Fragment fragment, String title)
+    {
         mFragmentList.add(fragment);
         mFragmentTitleList.add(title);
     }
