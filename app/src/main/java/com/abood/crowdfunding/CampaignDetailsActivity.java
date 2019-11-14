@@ -11,23 +11,30 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class CampaignDetailsActivity extends AppCompatActivity
 {
 
-    public  static  final String EXTRA_CAMPAIGN="com.abood.crowdfunding.campaign";
-    private ViewPager mViewPager;
+    public  static  final String EXTRA_CAMPAIGN_UUID="com.abood.crowdfunding.campaignId";
+    private TextView mTitleTV,ownerNameTV,mDonationRatioTV,mDonorsTV,mDaysToGoTV,mDescriptionTV;
+    private ViewPager mPhotoViewPager;
     LinearLayout layout_dots;
+    Button donateBtn;
+    ImageView ownerPhotoImageView;
+    private ProgressBar progress_determinate;
     Campaigns campaign;
     private Runnable runnable = null;
     private Handler handler = new Handler();
     private ArrayList<String> campaignPhotoes;
-    private ProgressBar progress_determinate;
 
 
     @Override
@@ -35,12 +42,21 @@ public class CampaignDetailsActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campaign_details);
-        mViewPager = findViewById(R.id.campaign_photos_viewPager);
+
+        mTitleTV=findViewById(R.id.campaign_title_textView);
+        mPhotoViewPager = findViewById(R.id.campaign_photos_viewPager);
         layout_dots =  findViewById(R.id.layout_dots);
+        donateBtn=findViewById(R.id.donate_btn);
+        ownerPhotoImageView=findViewById(R.id.owner_photo_circleImageView);
+        ownerNameTV=findViewById(R.id.owner_name_textView);
         progress_determinate =  findViewById(R.id.progress_determinate);
+        mDonationRatioTV=findViewById(R.id.campaign_ratio_textView);
+        mDonorsTV=findViewById(R.id.campaign_donors_textView);
+        mDaysToGoTV=findViewById(R.id.campaign_daysToGo_textView);
+        mDescriptionTV=findViewById(R.id.campaign_description_textView);
 
 
-        campaign = (Campaigns) getIntent().getSerializableExtra(EXTRA_CAMPAIGN);
+        campaign = (Campaigns) getIntent().getSerializableExtra(EXTRA_CAMPAIGN_UUID);
         campaignPhotoes = new ArrayList<>();
         campaignPhotoes.add("https://inteng-storage.s3.amazonaws.com/img/iea/nR6bV9jp6o/sizes/learntocodebundle_resize_md.jpg");
         campaignPhotoes.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZhJjWOsPN9z6ADOSviiGDA19FIVaIhsZgI0Sr1vFet5L0mu8Kzg&s");
@@ -59,11 +75,11 @@ public class CampaignDetailsActivity extends AppCompatActivity
                 return campaignPhotoes.size();
             }
         };
-        mViewPager.setAdapter(adapter);
+        mPhotoViewPager.setAdapter(adapter);
 
         startAutoSlider(adapter.getCount());
         addBottomDots(layout_dots, adapter.getCount(), 0);
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mPhotoViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int pos, float positionOffset, int positionOffsetPixels) {
             }
@@ -86,10 +102,10 @@ public class CampaignDetailsActivity extends AppCompatActivity
         progress_determinate.setProgressDrawable(draw);
 
     }
-    public static Intent newIntent(Context packageContext, Campaigns campaign)
+    public static Intent newIntent(Context packageContext, UUID campaignId)
     {
         Intent intent = new Intent(packageContext, CampaignDetailsActivity.class);
-        intent.putExtra(EXTRA_CAMPAIGN, (Serializable) campaign);
+        intent.putExtra(EXTRA_CAMPAIGN_UUID,  campaignId);
         return intent;
     }
 
@@ -97,10 +113,10 @@ public class CampaignDetailsActivity extends AppCompatActivity
         runnable = new Runnable() {
             @Override
             public void run() {
-                int pos = mViewPager.getCurrentItem();
+                int pos = mPhotoViewPager.getCurrentItem();
                 pos = pos + 1;
                 if (pos >= count) pos = 0;
-                mViewPager.setCurrentItem(pos);
+                mPhotoViewPager.setCurrentItem(pos);
                 handler.postDelayed(runnable, 5000);
             }
         };
