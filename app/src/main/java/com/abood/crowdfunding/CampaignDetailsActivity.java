@@ -35,7 +35,7 @@ public class CampaignDetailsActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campaign_details);
-        mViewPager = findViewById(R.id.campaign_view_pager);
+        mViewPager = findViewById(R.id.campaign_photos_viewPager);
         layout_dots =  findViewById(R.id.layout_dots);
         progress_determinate =  findViewById(R.id.progress_determinate);
 
