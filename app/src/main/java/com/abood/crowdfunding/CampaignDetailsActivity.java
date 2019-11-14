@@ -1,15 +1,19 @@
 package com.abood.crowdfunding;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,8 +21,13 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.UUID;
 
 public class CampaignDetailsActivity extends AppCompatActivity
@@ -29,9 +38,13 @@ public class CampaignDetailsActivity extends AppCompatActivity
     private ViewPager mPhotoViewPager;
     LinearLayout layout_dots;
     Button donateBtn;
-    ImageView ownerPhotoImageView;
+    ImageView ownerPhotoImageView,mDaysToGoImageView;
     private ProgressBar progress_determinate;
-    Campaigns campaign;
+    UUID campaignId;
+    Campaign campaign;
+    Users user;
+    int mDonationRatio;
+    int mDaysToGo;
     private Runnable runnable = null;
     private Handler handler = new Handler();
     private ArrayList<String> campaignPhotoes;
@@ -53,10 +66,75 @@ public class CampaignDetailsActivity extends AppCompatActivity
         mDonationRatioTV=findViewById(R.id.campaign_ratio_textView);
         mDonorsTV=findViewById(R.id.campaign_donors_textView);
         mDaysToGoTV=findViewById(R.id.campaign_daysToGo_textView);
+        mDaysToGoImageView=findViewById(R.id.campaign_daysToGo_imageView);
         mDescriptionTV=findViewById(R.id.campaign_description_textView);
 
 
-        campaign = (Campaigns) getIntent().getSerializableExtra(EXTRA_CAMPAIGN_UUID);
+        campaignId = (UUID) getIntent().getSerializableExtra(EXTRA_CAMPAIGN_UUID);
+
+
+        //mTitleTV.setText(campaign.getCampTitle());
+
+        setUpViewPager();
+
+        setUpProgressBar();
+
+        donateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = DonationActivity.newIntent(CampaignDetailsActivity.this,campaignId);
+                startActivity(i);
+            }
+        });
+
+        /*
+        user=
+        Glide.with(CampaignDetailsActivity.this)
+                .load(user.getuPhotoUrl())
+                .asBitmap()
+                .centerCrop()
+                .error(R.color.grey_20)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .into(new BitmapImageViewTarget(ownerPhotoImageView) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        RoundedBitmapDrawable circularBitmapDrawable =
+                                RoundedBitmapDrawableFactory.create(CampaignDetailsActivity.this.getResources(), resource);
+                        circularBitmapDrawable.setCornerRadius((float) 10); // radius for corners
+                        view.setImageDrawable(circularBitmapDrawable);
+                    }
+                });
+
+
+
+        ownerNameTV.setText(user.getuEmail());
+        mDonorsTV.setText(campaign.getCampDownersNum().toString());
+        mDaysToGo=getDaysDifference(campaign.getCampStart(),campaign.getCampEnd());
+        if(mDaysToGo==0)
+        {
+            mDaysToGoImageView.setImageResource(R.drawable.ic_alarm_on_black_24dp);
+        }
+        else
+        {
+            mDaysToGoTV.setText("end");
+
+        }
+        mDaysToGoTV.setText(mDaysToGo);
+
+        mDescriptionTV.setText(campaign.getCampDescription());*/
+
+    }
+    public static Intent newIntent(Context packageContext, UUID campaignId)
+    {
+        Intent intent = new Intent(packageContext, CampaignDetailsActivity.class);
+        intent.putExtra(EXTRA_CAMPAIGN_UUID,  campaignId);
+        return intent;
+    }
+
+    private void setUpViewPager()
+    {
+        //campaignPhotoes=campaign.getCampImageUrl();
+
         campaignPhotoes = new ArrayList<>();
         campaignPhotoes.add("https://inteng-storage.s3.amazonaws.com/img/iea/nR6bV9jp6o/sizes/learntocodebundle_resize_md.jpg");
         campaignPhotoes.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZhJjWOsPN9z6ADOSviiGDA19FIVaIhsZgI0Sr1vFet5L0mu8Kzg&s");
@@ -76,7 +154,6 @@ public class CampaignDetailsActivity extends AppCompatActivity
             }
         };
         mPhotoViewPager.setAdapter(adapter);
-
         startAutoSlider(adapter.getCount());
         addBottomDots(layout_dots, adapter.getCount(), 0);
         mPhotoViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -94,19 +171,15 @@ public class CampaignDetailsActivity extends AppCompatActivity
             public void onPageScrollStateChanged(int state) {
             }
         });
+    }
 
+    private void setUpProgressBar()
+    {
         runProgressDeterminate();
         // Get the Drawable custom_progressbar
         Drawable draw=getResources().getDrawable(R.drawable.donated_progressbar);
         // set the drawable as progress drawable
         progress_determinate.setProgressDrawable(draw);
-
-    }
-    public static Intent newIntent(Context packageContext, UUID campaignId)
-    {
-        Intent intent = new Intent(packageContext, CampaignDetailsActivity.class);
-        intent.putExtra(EXTRA_CAMPAIGN_UUID,  campaignId);
-        return intent;
     }
 
     private void startAutoSlider(final int count) {
@@ -156,6 +229,14 @@ public class CampaignDetailsActivity extends AppCompatActivity
             }
         };
         mHandler.post(runnable);
+    }
+
+    public static int getDaysDifference(Date fromDate, Date toDate)
+    {
+        if(fromDate==null||toDate==null)
+            return 0;
+
+        return (int)( (toDate.getTime() - fromDate.getTime()) / (1000 * 60 * 60 * 24));
     }
 }
 

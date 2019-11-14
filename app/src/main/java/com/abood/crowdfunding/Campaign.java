@@ -1,28 +1,57 @@
 package com.abood.crowdfunding;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 public class Campaign {
     private String campTitle;
     private String campDescription;
     private Date campStart;
     private Date campEnd;
-    private String campTarget;
     private String campLocation;
     private String campCountry;
-    private String campImageUrl;
+    private ArrayList<String> campImageUrl;
     private String campVideoUrl;
+    private UUID campOwnerId;
+    private UUID campDownersNum;
+    private Double campCost;
+
+    public Double getCampCost() {
+        return campCost;
+    }
+
+    public void setCampCost(Double campCost) {
+        this.campCost = campCost;
+    }
+
+    public UUID getCampDownersNum() {
+        return campDownersNum;
+    }
+
+    public void setCampDownersNum(UUID campDownersNum) {
+        this.campDownersNum = campDownersNum;
+    }
+
+
+    public UUID getCampOwnerId() {
+        return campOwnerId;
+    }
+
+    public void setCampOwnerId(UUID campOwnerId) {
+        this.campOwnerId = campOwnerId;
+    }
+
 
     public Campaign() {
     }
 
-    public Campaign(String campTitle, String campDescription, Date campStart, Date campEnd, String campTarget,
-                    String campLocation, String campCountry, String campImageUrl, String campVideoUrl) {
+    public Campaign(String campTitle, String campDescription, Date campStart, Date campEnd,
+                    String campLocation, String campCountry, ArrayList<String> campImageUrl, String campVideoUrl) {
         this.campTitle = campTitle;
         this.campDescription = campDescription;
         this.campStart = campStart;
         this.campEnd = campEnd;
-        this.campTarget = campTarget;
         this.campLocation = campLocation;
         this.campCountry = campCountry;
         this.campImageUrl = campImageUrl;
@@ -30,10 +59,9 @@ public class Campaign {
     }
 
     public Campaign(String campTitle, String campDescription, String campTarget,
-                    String campLocation, String campCountry, String campImageUrl) {
+                    String campLocation, String campCountry, ArrayList<String> campImageUrl) {
         this.campTitle = campTitle;
         this.campDescription = campDescription;
-        this.campTarget = campTarget;
         this.campLocation = campLocation;
         this.campCountry = campCountry;
         this.campImageUrl = campImageUrl;
@@ -71,14 +99,6 @@ public class Campaign {
         this.campEnd = campEnd;
     }
 
-    public String getCampTarget() {
-        return campTarget;
-    }
-
-    public void setCampTarget(String campTarget) {
-        this.campTarget = campTarget;
-    }
-
     public String getCampLocation() {
         return campLocation;
     }
@@ -95,11 +115,11 @@ public class Campaign {
         this.campCountry = campCountry;
     }
 
-    public String getCampImageUrl() {
+    public ArrayList<String> getCampImageUrl() {
         return campImageUrl;
     }
 
-    public void setCampImageUrl(String campImageUrl) {
+    public void setCampImageUrl(ArrayList<String> campImageUrl) {
         this.campImageUrl = campImageUrl;
     }
 

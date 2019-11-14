@@ -93,7 +93,7 @@ public class AddCampaignActivity extends AppCompatActivity {
                 if (mUploadTask != null && mUploadTask.isInProgress()) {
                     Toast.makeText(AddCampaignActivity.this, "Upload in progress", Toast.LENGTH_SHORT).show();
                 } else {
-                    uploadFile();
+                    //uploadFile();
                 }
             }
         });
@@ -147,7 +147,7 @@ public class AddCampaignActivity extends AppCompatActivity {
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
-    private void uploadFile() {
+   /* private void uploadFile() {
         if (mImageUri != null&&mVideoUri!=null) {
             StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
                     + "." + getFileExtension(mImageUri));
@@ -192,5 +192,5 @@ public class AddCampaignActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
         }
-    }
+    }*/
 }

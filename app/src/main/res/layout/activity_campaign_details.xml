@@ -234,7 +234,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
             <ImageView
-                android:id="@+id/campaign_donors_imageView"
+                android:id="@+id/campaign_daysToGo_imageView"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="12dp"

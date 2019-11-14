@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CampaignDetailsActivity"></activity>
+        <activity android:name=".DonationActivity"></activity>
+        <activity android:name=".CampaignDetailsActivity" />
         <activity android:name=".AddCampaignActivity" />
         <activity
             android:name=".CampaignListActivity"
