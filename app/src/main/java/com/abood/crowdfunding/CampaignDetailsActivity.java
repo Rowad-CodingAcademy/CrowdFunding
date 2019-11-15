@@ -20,15 +20,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class CampaignDetailsActivity extends AppCompatActivity
 {
@@ -45,6 +50,7 @@ public class CampaignDetailsActivity extends AppCompatActivity
     Users user;
     int mDonationRatio;
     int mDaysToGo;
+    String dateDiff;
     private Runnable runnable = null;
     private Handler handler = new Handler();
     private ArrayList<String> campaignPhotoes;
@@ -88,7 +94,7 @@ public class CampaignDetailsActivity extends AppCompatActivity
                 "1. Loot of Lima uses a clever coordinate system to give you the sense of searching different spots on Cocos Island.\n" +
                 "\n" +
                 "2. Loot of Lima is much harder. Not harder to learn, but harder to solve the head scratching puzzle of where the treasure is buried"
-                ,new Date(),new Date(),campaignPhotoes,27,10000.0,3000.0);
+                ,new Date(),new Date() ,campaignPhotoes,27,10000.0,3000.0);
         //mTitleTV.setText(campaign.getCampTitle());
 
         setUpViewPager();
@@ -132,19 +138,21 @@ public class CampaignDetailsActivity extends AppCompatActivity
 
         mDonorsTV.setText(String.valueOf(campaign.getCampDownersNum()));
 
-/*
-        mDaysToGo=getDaysDifference(campaign.getCampStart(),campaign.getCampEnd());
-        if(mDaysToGo==0)
+        //dateDiff=getDateDifference(getFormattedDate(campaign.getCampEnd()));
+        dateDiff=getDateDifference("2019-11-18-11-30-10");
+
+        if(dateDiff.matches("finished"))
         {
             mDaysToGoImageView.setImageResource(R.drawable.ic_alarm_on_black_24dp);
-            mDaysToGoTV.setText("finished");
+            mDaysToGoTV.setText(dateDiff);
         }
         else
         {
-            mDaysToGoTV.setText(mDaysToGo);
-
+            mDaysToGoTV.setText(dateDiff);
         }
-*/
+
+
+
         mDescriptionTV.setText(campaign.getCampDescription());
 
     }
@@ -235,6 +243,73 @@ public class CampaignDetailsActivity extends AppCompatActivity
             dots[current].setImageResource(R.drawable.shape_circle);
         }
     }
+
+
+        String getDateDifference(String  endDate)
+    {
+
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+
+        Date currentDate = new Date();
+        try {
+            Date eDate;
+
+            eDate = dateFormat.parse(endDate);
+
+            Long diff = eDate.getTime() - currentDate.getTime();
+
+
+            if (diff<= 0)
+            {
+                dateDiff="finished";
+
+            } else {
+                long days = (int) TimeUnit.MILLISECONDS.toDays(diff);
+                if (days != 0) {
+                    dateDiff= days + "Days ";
+
+                }
+                long hours = (int) (TimeUnit.MILLISECONDS.toHours(diff) - TimeUnit.DAYS.toHours(days));
+
+                if (hours != 0) {
+                    dateDiff= hours + "Hours ";
+
+                }
+                long minutes = (int) (TimeUnit.MILLISECONDS.toMinutes(diff) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(hours)));
+
+                if (minutes != 0) {
+                    dateDiff= minutes + "Minutes ";
+
+                }
+
+                long seconds = (int) (TimeUnit.MILLISECONDS.toSeconds(diff) - TimeUnit.MINUTES.toSeconds(minutes));
+
+                if (seconds != 0) {
+                    dateDiff= seconds +"Seconds";
+
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return dateDiff;
+    }
+
+    String getFormattedDate(Date date)
+    {
+        long year=date.getYear();
+        long month=date.getMonth();
+        long day=date.getDay();
+        long hour=date.getHours();
+        long minute=date.getMinutes();
+        long second=date.getSeconds();
+        return year+"-"+month+"-"+day+"-"+hour+"-"+minute+"-"+second;
+    }
+
+
+
 
 }
 
