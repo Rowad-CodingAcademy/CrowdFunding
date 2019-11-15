@@ -167,17 +167,18 @@
                 android:id="@+id/progress_determinate"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_width="0dp"
-                android:layout_height="10dp"
+                android:layout_height="7dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/donated_progressbar"
                 android:indeterminate="false"
                 android:max="100"
-                android:progress="10"
+                android:progressDrawable="@drawable/donated_progressbar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3"
-                android:progressDrawable="@drawable/donated_progressbar"/>
+                app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -197,7 +198,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="100%"
                 android:textColor="@color/colorAccent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -229,7 +229,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="5000 "
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
                 app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
@@ -261,9 +260,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="24dp"
-                android:text="27"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/campaign_donors_imageView"
+                app:layout_constraintStart_toEndOf="@+id/campaign_daysToGo_imageView"
                 app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -295,20 +293,11 @@
 
             <TextView
                 android:id="@+id/campaign_description_textView"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="Loot of Lima is a multiplayer deduction puzzle, where you ask questions and piece together information to find buried treasure before your opponents.
-
-Deduction games are games like Clue. In Clue, you try to figure out the who/where/how of a murder. To do so, you eliminate all whos/wheres/hows that are not possible answers.
-
-Loot of Lima is similar, except:
-
-1. Loot of Lima uses a clever coordinate system to give you the sense of searching different spots on Cocos Island.
-
-2. Loot of Lima is much harder. Not harder to learn, but harder to solve the head scratching puzzle of where the treasure is buried"
+                android:layout_marginEnd="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -72,12 +72,26 @@ public class CampaignDetailsActivity extends AppCompatActivity
 
         campaignId = (UUID) getIntent().getSerializableExtra(EXTRA_CAMPAIGN_UUID);
 
+        //campaignPhotoes=campaign.getCampImageUrl();
 
+        campaignPhotoes = new ArrayList<>();
+        campaignPhotoes.add("https://inteng-storage.s3.amazonaws.com/img/iea/nR6bV9jp6o/sizes/learntocodebundle_resize_md.jpg");
+        campaignPhotoes.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZhJjWOsPN9z6ADOSviiGDA19FIVaIhsZgI0Sr1vFet5L0mu8Kzg&s");
+        campaignPhotoes.add("https://www.codingbytes.com/wp-content/uploads/2019/04/Learn-coding-online.jpeg");
+
+        campaign=new Campaign("Campaign Title","Loot of Lima is a multiplayer deduction puzzle, where you ask questions and piece together information to find buried treasure before your opponents.\n" +
+                "\n" +
+                "Deduction games are games like Clue. In Clue, you try to figure out the who/where/how of a murder. To do so, you eliminate all whos/wheres/hows that are not possible answers.\n" +
+                "\n" +
+                "Loot of Lima is similar, except:\n" +
+                "\n" +
+                "1. Loot of Lima uses a clever coordinate system to give you the sense of searching different spots on Cocos Island.\n" +
+                "\n" +
+                "2. Loot of Lima is much harder. Not harder to learn, but harder to solve the head scratching puzzle of where the treasure is buried"
+                ,new Date(),new Date(),campaignPhotoes,27,10000.0,3000.0);
         //mTitleTV.setText(campaign.getCampTitle());
 
         setUpViewPager();
-
-        setUpProgressBar();
 
         donateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,8 +101,9 @@ public class CampaignDetailsActivity extends AppCompatActivity
             }
         });
 
-        /*
-        user=
+
+        user=new Users("Bushra","https://www.clipartwiki.com/clipimg/detail/174-1742152_computer-icons-user-clip-art-transparent-user-icon.png");
+
         Glide.with(CampaignDetailsActivity.this)
                 .load(user.getuPhotoUrl())
                 .asBitmap()
@@ -107,21 +122,30 @@ public class CampaignDetailsActivity extends AppCompatActivity
 
 
 
-        ownerNameTV.setText(user.getuEmail());
-        mDonorsTV.setText(campaign.getCampDownersNum().toString());
+        ownerNameTV.setText(user.getuName());
+
+        mDonationRatio=new Integer(String.valueOf(Math.round((campaign.getCampDonated()*100)/campaign.getCampCost())));
+
+        mDonationRatioTV.setText(mDonationRatio+"%");
+
+        setUpProgressBar();
+
+        mDonorsTV.setText(String.valueOf(campaign.getCampDownersNum()));
+
+/*
         mDaysToGo=getDaysDifference(campaign.getCampStart(),campaign.getCampEnd());
         if(mDaysToGo==0)
         {
             mDaysToGoImageView.setImageResource(R.drawable.ic_alarm_on_black_24dp);
+            mDaysToGoTV.setText("finished");
         }
         else
         {
-            mDaysToGoTV.setText("end");
+            mDaysToGoTV.setText(mDaysToGo);
 
         }
-        mDaysToGoTV.setText(mDaysToGo);
-
-        mDescriptionTV.setText(campaign.getCampDescription());*/
+*/
+        mDescriptionTV.setText(campaign.getCampDescription());
 
     }
     public static Intent newIntent(Context packageContext, UUID campaignId)
@@ -133,12 +157,7 @@ public class CampaignDetailsActivity extends AppCompatActivity
 
     private void setUpViewPager()
     {
-        //campaignPhotoes=campaign.getCampImageUrl();
 
-        campaignPhotoes = new ArrayList<>();
-        campaignPhotoes.add("https://inteng-storage.s3.amazonaws.com/img/iea/nR6bV9jp6o/sizes/learntocodebundle_resize_md.jpg");
-        campaignPhotoes.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZhJjWOsPN9z6ADOSviiGDA19FIVaIhsZgI0Sr1vFet5L0mu8Kzg&s");
-        campaignPhotoes.add("https://www.codingbytes.com/wp-content/uploads/2019/04/Learn-coding-online.jpeg");
         FragmentManager fragmentManager = getSupportFragmentManager();
         final FragmentStatePagerAdapter adapter=new FragmentStatePagerAdapter(fragmentManager)
         {
@@ -175,7 +194,8 @@ public class CampaignDetailsActivity extends AppCompatActivity
 
     private void setUpProgressBar()
     {
-        runProgressDeterminate();
+        progress_determinate.setProgress(mDonationRatio);
+
         // Get the Drawable custom_progressbar
         Drawable draw=getResources().getDrawable(R.drawable.donated_progressbar);
         // set the drawable as progress drawable
@@ -216,27 +236,5 @@ public class CampaignDetailsActivity extends AppCompatActivity
         }
     }
 
-    private void runProgressDeterminate() {
-        final Handler mHandler = new Handler();
-        Runnable runnable = new Runnable() {
-            public void run() {
-                int progress = progress_determinate.getProgress() + 10;
-                progress_determinate.setProgress(progress);
-                if (progress > 100) {
-                    progress_determinate.setProgress(0);
-                }
-                mHandler.postDelayed(this, 1000);
-            }
-        };
-        mHandler.post(runnable);
-    }
-
-    public static int getDaysDifference(Date fromDate, Date toDate)
-    {
-        if(fromDate==null||toDate==null)
-            return 0;
-
-        return (int)( (toDate.getTime() - fromDate.getTime()) / (1000 * 60 * 60 * 24));
-    }
 }
 

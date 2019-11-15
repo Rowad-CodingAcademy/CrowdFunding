@@ -14,40 +14,28 @@ public class Campaign {
     private ArrayList<String> campImageUrl;
     private String campVideoUrl;
     private UUID campOwnerId;
-    private UUID campDownersNum;
+    private int campDownersNum;
     private Double campCost;
-
-    public Double getCampCost() {
-        return campCost;
-    }
-
-    public void setCampCost(Double campCost) {
-        this.campCost = campCost;
-    }
-
-    public UUID getCampDownersNum() {
-        return campDownersNum;
-    }
-
-    public void setCampDownersNum(UUID campDownersNum) {
-        this.campDownersNum = campDownersNum;
-    }
-
-
-    public UUID getCampOwnerId() {
-        return campOwnerId;
-    }
-
-    public void setCampOwnerId(UUID campOwnerId) {
-        this.campOwnerId = campOwnerId;
-    }
-
-
-    public Campaign() {
-    }
+    private Double campDonated;
 
     public Campaign(String campTitle, String campDescription, Date campStart, Date campEnd,
-                    String campLocation, String campCountry, ArrayList<String> campImageUrl, String campVideoUrl) {
+                    ArrayList<String> campImageUrl, int campDownersNum, Double campCost
+            , Double campDonated)
+    {
+        this.campTitle = campTitle;
+        this.campDescription = campDescription;
+        this.campStart = campStart;
+        this.campEnd = campEnd;
+        this.campImageUrl = campImageUrl;
+        this.campDownersNum = campDownersNum;
+        this.campCost = campCost;
+        this.campDonated = campDonated;
+    }
+
+    public Campaign(String campTitle, String campDescription, Date campStart, Date campEnd, String campLocation
+            , String campCountry, ArrayList<String> campImageUrl, String campVideoUrl, UUID campOwnerId
+            , int campDownersNum, Double campCost, Double campDonated)
+    {
         this.campTitle = campTitle;
         this.campDescription = campDescription;
         this.campStart = campStart;
@@ -56,15 +44,27 @@ public class Campaign {
         this.campCountry = campCountry;
         this.campImageUrl = campImageUrl;
         this.campVideoUrl = campVideoUrl;
+        this.campOwnerId = campOwnerId;
+        this.campDownersNum = campDownersNum;
+        this.campCost = campCost;
+        this.campDonated = campDonated;
     }
 
-    public Campaign(String campTitle, String campDescription, String campTarget,
-                    String campLocation, String campCountry, ArrayList<String> campImageUrl) {
+    public Campaign(String campTitle, String campDescription, Date campStart, Date campEnd, String campLocation
+            , String campCountry, ArrayList<String> campImageUrl, UUID campOwnerId, int campDownersNum
+            , Double campCost, Double campDonated)
+    {
         this.campTitle = campTitle;
         this.campDescription = campDescription;
+        this.campStart = campStart;
+        this.campEnd = campEnd;
         this.campLocation = campLocation;
         this.campCountry = campCountry;
         this.campImageUrl = campImageUrl;
+        this.campOwnerId = campOwnerId;
+        this.campDownersNum = campDownersNum;
+        this.campCost = campCost;
+        this.campDonated = campDonated;
     }
 
     public String getCampTitle() {
@@ -129,5 +129,39 @@ public class Campaign {
 
     public void setCampVideoUrl(String campVideoUrl) {
         this.campVideoUrl = campVideoUrl;
+    }
+
+
+    public Double getCampDonated() {
+        return campDonated;
+    }
+
+    public void setCampDonated(Double campDonated) {
+        this.campDonated = campDonated;
+    }
+
+    public Double getCampCost() {
+        return campCost;
+    }
+
+    public void setCampCost(Double campCost) {
+        this.campCost = campCost;
+    }
+
+    public int getCampDownersNum() {
+        return campDownersNum;
+    }
+
+    public void setCampDownersNum(int campDownersNum) {
+        this.campDownersNum = campDownersNum;
+    }
+
+
+    public UUID getCampOwnerId() {
+        return campOwnerId;
+    }
+
+    public void setCampOwnerId(UUID campOwnerId) {
+        this.campOwnerId = campOwnerId;
     }
 }

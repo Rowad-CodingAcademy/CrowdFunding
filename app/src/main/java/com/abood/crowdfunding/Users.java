@@ -9,6 +9,10 @@ public class Users
     private String uEmail;
     private String uPhotoUrl;
 
+    public Users(String uName, String uPhotoUrl) {
+        this.uName = uName;
+        this.uPhotoUrl = uPhotoUrl;
+    }
 
     public UUID getuId() {
         return uId;
