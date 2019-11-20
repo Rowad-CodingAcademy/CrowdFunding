@@ -11,11 +11,11 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-public class ViewNewCampaign extends AppCompatActivity {
+public class ViewAllCampaignsToPause extends AppCompatActivity {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference campaignRef = db.collection("Campaigns");
-    private ManageNewCampaignAdapter campaignAdapter;
+    private ManageCampaignActiveAdapter campaignAdapter;
 
 
     private Campaigns mCampaign;
@@ -28,12 +28,12 @@ public class ViewNewCampaign extends AppCompatActivity {
     }
 
     private void setUpResyclerView() {
-        Query query = campaignRef.whereEqualTo("campaignApprove", "0");
+        Query query = campaignRef.orderBy("campaignCost", Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<Campaigns> options = new FirestoreRecyclerOptions.Builder<Campaigns>()
                 .setQuery(query,Campaigns.class)
                 .build();
 
-        campaignAdapter = new ManageNewCampaignAdapter(options);
+        campaignAdapter = new ManageCampaignActiveAdapter(options);
 
         RecyclerView recyclerView = findViewById(R.id.compaign_manage_recyclerview);
         recyclerView.setHasFixedSize(true);

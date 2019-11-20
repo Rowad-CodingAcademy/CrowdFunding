@@ -83,6 +83,18 @@
                 app:srcCompat="@drawable/ic_check_black_24dp" />
 
             <ImageView
+                android:id="@+id/pause_btn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.187"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_pause_circle_filled_black_24dp"
+                android:visibility="invisible"/>
+
+            <ImageView
                 android:id="@+id/campaign_daysToGo_imageView"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -117,7 +129,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/campaign_daysToGo_imageView"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
             <TextView
                 android:id="@+id/campaign_target"
@@ -143,6 +156,17 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_close_black_24dp" />
 
+
+            <ImageView
+                android:id="@+id/resume_campaign"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imageView2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_play_circle_filled_black_24dp"
+                android:visibility="invisible"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

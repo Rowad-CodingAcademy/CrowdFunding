@@ -7,41 +7,40 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
-public class ManageNewCampaignAdapter extends FirestoreRecyclerAdapter<Campaigns, ManageNewCampaignAdapter.CompaignViewHolder> {
+public class ManageCampaignActiveAdapter extends FirestoreRecyclerAdapter<Campaigns, ManageCampaignActiveAdapter.CompaignViewHolder> {
 
 
-    public ManageNewCampaignAdapter(@NonNull FirestoreRecyclerOptions<Campaigns> options) {
+    public ManageCampaignActiveAdapter(@NonNull FirestoreRecyclerOptions<Campaigns> options) {
         super(options);
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull CompaignViewHolder holder, final int position, @NonNull Campaigns model) {
+    protected void onBindViewHolder(@NonNull ManageCampaignActiveAdapter.CompaignViewHolder holder, final int position, @NonNull Campaigns model) {
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         Picasso.get().load(model.getCampaignImage()).into(holder.campaignImage);
         holder.campaignTitle.setText(model.getCampaignTitle());
         holder.campaignDescription.setText(model.getCampaignDescription());
-        holder.acceptBTN.setOnClickListener(new View.OnClickListener() {
+        
+        holder.pauseBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateStatusToAccepted(position);
+                updateStatusToPaused(position);
             }
         });
 
-        holder.refuseBTN.setOnClickListener(new View.OnClickListener() {
+        holder.resumeBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                updateStatusToReject(position);
+                updateStatusToResume(position);
             }
         });
     }
@@ -50,18 +49,18 @@ public class ManageNewCampaignAdapter extends FirestoreRecyclerAdapter<Campaigns
 
     @NonNull
     @Override
-    public CompaignViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ManageCampaignActiveAdapter.CompaignViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_compaign_to_approve_cardview, parent, false);
         return new CompaignViewHolder(v);
     }
 
 
-    void updateStatusToAccepted(int position) {
-        getSnapshots().getSnapshot(position).getReference().update("campaignApprove", "1");
+    void updateStatusToPaused(int position) {
+        getSnapshots().getSnapshot(position).getReference().update("campaignActive", "0");
     }
 
-    void updateStatusToReject(int position) {
-        getSnapshots().getSnapshot(position).getReference().update("campaignApprove", "2");
+    void updateStatusToResume(int position) {
+        getSnapshots().getSnapshot(position).getReference().update("campaignActive", "1");
     }
 
     public class CompaignViewHolder extends RecyclerView.ViewHolder {
@@ -80,6 +79,10 @@ public class ManageNewCampaignAdapter extends FirestoreRecyclerAdapter<Campaigns
             refuseBTN = itemView.findViewById(R.id.reject_campaign);
             pauseBTN = itemView.findViewById(R.id.pause_btn);
             resumeBTN = itemView.findViewById(R.id.resume_campaign);
+            pauseBTN.setVisibility(View.VISIBLE);
+            resumeBTN.setVisibility(View.VISIBLE);
+            acceptBTN.setVisibility(View.INVISIBLE);
+            refuseBTN.setVisibility(View.INVISIBLE);
         }
     }
 }
