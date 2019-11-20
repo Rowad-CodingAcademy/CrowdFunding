@@ -15,7 +15,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/android_recycler_view"
+        android:id="@+id/ending_soon_campaign_recycler_view"
         ></androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>
