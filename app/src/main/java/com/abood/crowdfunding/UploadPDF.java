@@ -23,7 +23,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-public class UpdatePDF extends AppCompatActivity {
+public class UploadPDF extends AppCompatActivity {
     Button selectFile,upload;
     TextView notification;
     FirebaseStorage storage;
@@ -33,7 +33,7 @@ public class UpdatePDF extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_pdf);
+        setContentView(R.layout.activity_upload_pdf);
         notification=findViewById(R.id.notification);
         selectFile=findViewById(R.id.select_file);
         upload =  findViewById(R.id.upload);
@@ -43,13 +43,13 @@ public class UpdatePDF extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
 
-                if(ContextCompat.checkSelfPermission(UpdatePDF.this, Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED)
+                if(ContextCompat.checkSelfPermission(UploadPDF.this, Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED)
                 {
                     selectPDF();
                 }
                 else
                 {
-                    ActivityCompat.requestPermissions(UpdatePDF.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},9);
+                    ActivityCompat.requestPermissions(UploadPDF.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},9);
                 }
             }
         });
@@ -61,7 +61,7 @@ public class UpdatePDF extends AppCompatActivity {
                 }
                 else
                 {
-                    Toast.makeText(UpdatePDF.this, "Select a file", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UploadPDF.this, "Select a file", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -74,12 +74,12 @@ public class UpdatePDF extends AppCompatActivity {
         storageReference.child("uploads").child(fileName).putFile(pdfURi).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(UpdatePDF.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UploadPDF.this, "Uploaded", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(UpdatePDF.this, "not Uploaded", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UploadPDF.this, "not Uploaded", Toast.LENGTH_SHORT).show();
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
