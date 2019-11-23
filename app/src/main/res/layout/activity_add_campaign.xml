@@ -71,6 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:id="@+id/camp_image_view"
+            android:clickable="true"
             ></ImageView>
         <ProgressBar
             android:layout_width="match_parent"

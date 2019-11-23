@@ -1,105 +1,58 @@
 package com.abood.crowdfunding;
 
-import org.json.JSONException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 public class Campaigns {
 
-    private String pId;
-    private String pUser;
-    private Date Date;
-    private String pDate;
-    private String pQuestion;
-    private String pType;
-    private Boolean pAction;
-    private String pImage;
+    private String campaignTitle;
+    private String campaignDescription;
+    private String campaignLocation;
+    private String campaignCountry;
+    private String campaignImage;
 
     public Campaigns() {
-
-        Date = new Date();
-
     }
 
-    public String getpId() {
-        return pId;
+
+    public String getCampaignTitle() {
+        return campaignTitle;
     }
 
-    public void setpId(String pId) {
-        this.pId = pId;
+    public void campaignTitle(String campaignTitle) {
+        this.campaignTitle = campaignTitle;
     }
 
-    public String getpUser() {
-        return pUser;
+    public String getCampaignDescription() {
+        return campaignDescription;
     }
 
-    public void setpUser(String pUser) {
-        this.pUser = pUser;
+    public void campaignDescription(String campaignDescription) {
+        this.campaignDescription = campaignDescription;
     }
 
-    public java.util.Date getDate() {
-        return Date;
+    public String getCampaignLocation() {
+        return campaignLocation;
     }
 
-    public String getpDate() {
-        return pDate;
+    public void campaignLocation(String campaignLocation) {
+        this.campaignLocation = campaignLocation;
     }
 
-    public void setpDate(String pDate) {
-        this.pDate = pDate;
+    public String getCampaignCountry() {
+        return campaignCountry;
     }
 
-    public String getpQuestion() {
-        return pQuestion;
+    public void campaignCountry(String campaignCountry) {
+        this.campaignCountry = campaignCountry;
     }
 
-    public void setpQuestion(String pQuestion) {
-        this.pQuestion = pQuestion;
+    public String getCampaignImage() {
+        return campaignImage;
     }
 
-    public Boolean getpAction() {
-        return pAction;
+    public void campaignImage(String campaignImage) {
+        this.campaignImage = campaignImage;
     }
-
-    public void setpAction(Boolean pAction) {
-        this.pAction = pAction;
-    }
-
-    public String getpType() {
-        return pType;
-    }
-
-    public void setpType(String pType) {
-        this.pType = pType;
-    }
-
-    public String getpImage() {
-        return pImage;
-    }
-
-    public void setpImage(String pImage) {
-        this.pImage = pImage;
-    }
-
-    static Campaigns createTask() throws JSONException {
-
-        Campaigns pPosts = new Campaigns();
-
-//        pPosts.setpId(post.getString("id"));
-//        pPosts.setpDate(post.getString("date"));
-//        pPosts.setpUser(post.getString("user"));
-//        pPosts.setpType(post.getString("type"));
-//        pPosts.setpQuestion(post.getString("question"));
-//        pPosts.setpImage(post.getString("image"));
-////        pPosts.setpAction(post.getBoolean("action"));
-
-
-        pPosts.setpDate("2020");
-        pPosts.setpUser("Abood");
-        pPosts.setpType("android");
-        pPosts.setpQuestion("Campaign");
-
-        return  pPosts;
-
-    }
-
 }

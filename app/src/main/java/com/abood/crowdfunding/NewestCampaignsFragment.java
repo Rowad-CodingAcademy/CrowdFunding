@@ -1,7 +1,6 @@
 package com.abood.crowdfunding;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,16 +13,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import org.json.JSONException;
-import java.util.ArrayList;
+import com.bumptech.glide.Glide;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 
 public class NewestCampaignsFragment extends Fragment {
 
     RecyclerView newestCampaignsRecyclerView;
-    NewestCampaignsAdapter newestCampaignsAdapter;
-    ArrayList<Campaigns> campaigns = new ArrayList<>();
-    String id;
+    FirebaseFirestore store;
+    private FirestoreRecyclerAdapter<Campaigns, NewestCampaignsViewHolder> adapter;
 
 
     @Override
@@ -32,85 +33,59 @@ public class NewestCampaignsFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//
-//        switch (item.getItemId()) {
-//
-//            case R.id.new_crime:
-//
-////                updateUI();
-//                Intent intent = new Intent(getActivity(),AddCampaignActivity.class);
-//                startActivity(intent);
-//                return true;
-//
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v =  inflater.inflate(R.layout.fragment_ending_soon_campaigns, container, false);
+        View v =  inflater.inflate(R.layout.fragment_newest_campaigns, container, false);
 
-        newestCampaignsRecyclerView = v.findViewById(R.id.android_recycler_view);
+        newestCampaignsRecyclerView = v.findViewById(R.id.newest_campaign_recycler_view);
         newestCampaignsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        try {
-            campaigns.add(Campaigns.createTask());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        store = FirebaseFirestore.getInstance();
+        Query query = store.collection("Campaigns");
 
-        newestCampaignsAdapter = new NewestCampaignsAdapter(campaigns,getActivity());
-        newestCampaignsRecyclerView.setAdapter(newestCampaignsAdapter);
+        FirestoreRecyclerOptions<Campaigns> options = new FirestoreRecyclerOptions.Builder<Campaigns>()
+                .setQuery(query, Campaigns.class)
+                .build();
+
+        adapter = new FirestoreRecyclerAdapter<Campaigns, NewestCampaignsViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull NewestCampaignsViewHolder holder , int position, @NonNull Campaigns campaign) {
+                holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage());
+            }
+
+            @NonNull
+            @Override
+            public NewestCampaignsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.campaign_holder, parent, false);
+                return new NewestCampaignsViewHolder(view);
+            }
+        };
+        newestCampaignsRecyclerView.setAdapter(adapter);
 
         return v;
 
     }
 
-    public class NewestCampaignsAdapter extends RecyclerView.Adapter<NewestCampaignsViewHolder> {
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
 
-        ArrayList<Campaigns> campaigns;
-        Context context;
+    @Override
+    public void onStop() {
+        super.onStop();
 
-        public NewestCampaignsAdapter(ArrayList<Campaigns> campaigns, Context context) {
-            this.campaigns = campaigns;
-            this.context = context;
-        }
-
-        @NonNull
-        @Override
-        public NewestCampaignsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-            View v = LayoutInflater.from(context).inflate(R.layout.campaign_holder,parent,false);
-            return new NewestCampaignsViewHolder(v);
-
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull NewestCampaignsViewHolder holder, int position) {
-
-//            Picasso.get().load(AppServer.IP+campaigns.get(position).getpImage()).into(holder.postImage);
-
-            holder.campaignImage.setImageResource(R.drawable.campaign);
-            holder.campaignTitle.setText(campaigns.get(position).getpUser());
-            holder.campaignDescription.setText(campaigns.get(position).getpDate());
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return campaigns.size();
+        if (adapter != null) {
+            adapter.stopListening();
         }
     }
 
 
-
-
     public class NewestCampaignsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        private View view;
 
         ImageView campaignImage;
         TextView campaignTitle,campaignDescription;
@@ -120,10 +95,21 @@ public class NewestCampaignsFragment extends Fragment {
             super(itemView);
 
             itemView.setOnClickListener(this);
+            view = itemView;
+
+        }
+
+        void setData(String name, String age , String image ) {
 
             campaignImage = itemView.findViewById(R.id.campaign_image);
             campaignTitle = itemView.findViewById(R.id.campaign_title);
             campaignDescription = itemView.findViewById(R.id.campaign_description);
+
+            campaignTitle.setText(name);
+            campaignDescription.setText(age);
+//            Picasso.get().load(image).into(userImage);
+            Glide.with(getActivity()).load(image).into(campaignImage);
+
 
         }
 
