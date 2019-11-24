@@ -50,8 +50,22 @@ public class EndingSoonCampaignsFragment extends Fragment {
 
         adapter = new FirestoreRecyclerAdapter<Campaigns, EndingSoonCampaignsViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull EndingSoonCampaignsViewHolder holder , int position, @NonNull Campaigns campaign) {
+            protected void onBindViewHolder(@NonNull EndingSoonCampaignsViewHolder holder , final int position, @NonNull Campaigns campaign) {
                 holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage());
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent i = new Intent(getActivity(),CampaignDetailsActivity.class);
+                        String documentId = getSnapshots().getSnapshot(position).getId();
+                        i.putExtra("position",documentId);
+                        startActivity(i);
+
+                    }
+                });
+
+
             }
 
             @NonNull
@@ -84,7 +98,7 @@ public class EndingSoonCampaignsFragment extends Fragment {
     }
 
 
-    public class EndingSoonCampaignsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class EndingSoonCampaignsViewHolder extends RecyclerView.ViewHolder {
 
         private View view;
 
@@ -95,7 +109,6 @@ public class EndingSoonCampaignsFragment extends Fragment {
         public EndingSoonCampaignsViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            itemView.setOnClickListener(this);
             view = itemView;
 
         }
@@ -114,13 +127,6 @@ public class EndingSoonCampaignsFragment extends Fragment {
 
         }
 
-        @Override
-        public void onClick(View view) {
-
-            Intent i = new Intent(getActivity(),CampaignDetailsActivity.class);
-            startActivity(i);
-
-        }
     }
 
 }

@@ -50,8 +50,21 @@ public class PopularCampaignsFragment extends Fragment {
 
         adapter = new FirestoreRecyclerAdapter<Campaigns, PopularCampaignsViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull PopularCampaignsViewHolder holder , int position, @NonNull Campaigns campaign) {
+            protected void onBindViewHolder(@NonNull PopularCampaignsViewHolder holder , final int position, @NonNull Campaigns campaign) {
                 holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage());
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent i = new Intent(getActivity(),CampaignDetailsActivity.class);
+                        String documentId = getSnapshots().getSnapshot(position).getId();
+                        i.putExtra("position",documentId);
+                        startActivity(i);
+
+                    }
+                });
+
             }
 
             @NonNull
@@ -83,7 +96,7 @@ public class PopularCampaignsFragment extends Fragment {
     }
 
 
-    public class PopularCampaignsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class PopularCampaignsViewHolder extends RecyclerView.ViewHolder {
 
         private View view;
 
@@ -94,7 +107,6 @@ public class PopularCampaignsFragment extends Fragment {
         public PopularCampaignsViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            itemView.setOnClickListener(this);
             view = itemView;
 
         }
@@ -110,14 +122,6 @@ public class PopularCampaignsFragment extends Fragment {
 //            Picasso.get().load(image).into(userImage);
             Glide.with(getActivity()).load(image).into(campaignImage);
 
-
-        }
-
-        @Override
-        public void onClick(View view) {
-
-            Intent i = new Intent(getActivity(),CampaignDetailsActivity.class);
-            startActivity(i);
 
         }
     }
