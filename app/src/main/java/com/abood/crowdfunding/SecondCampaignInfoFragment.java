@@ -19,7 +19,6 @@ import com.google.android.material.snackbar.Snackbar;
  */
 public class SecondCampaignInfoFragment extends Fragment {
 
-
     private NestedScrollView nested_scroll_view;
     private ImageButton typeToggle
             ,targetCostToggle
@@ -140,7 +139,7 @@ public class SecondCampaignInfoFragment extends Fragment {
             }
         });
 
-        countrySaveBTN.setOnClickListener(new View.OnClickListener() {
+        countrySaveBTN.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(rootView, "Data saved", Snackbar.LENGTH_SHORT).show();
