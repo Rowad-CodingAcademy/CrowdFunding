@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class DonationActivity extends AppCompatActivity {
 
-    public static Intent newIntent(Context context, UUID campaignId)
+    public static Intent newIntent(Context context, String campaignId)
     {
         return new Intent(context,DonationActivity.class);
     }

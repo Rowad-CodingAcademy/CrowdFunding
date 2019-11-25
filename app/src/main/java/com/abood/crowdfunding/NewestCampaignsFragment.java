@@ -57,9 +57,7 @@ public class NewestCampaignsFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
 
-                        Intent i = new Intent(getActivity(),CampaignDetailsActivity.class);
-                        String documentId = getSnapshots().getSnapshot(position).getId();
-                        i.putExtra("position",documentId);
+                        Intent i = CampaignDetailsActivity.newIntent(getActivity(),getSnapshots().getSnapshot(position).getId());
                         startActivity(i);
 
                     }

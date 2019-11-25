@@ -1,5 +1,6 @@
 package com.abood.crowdfunding;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -7,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,10 +23,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,13 +44,13 @@ public class CampaignDetailsActivity extends AppCompatActivity
 {
 
     public  static  final String EXTRA_CAMPAIGN_UUID="com.abood.crowdfunding.campaignId";
-    private TextView mTitleTV,ownerNameTV,mDonationRatioTV,mDonorsTV,mDaysToGoTV,mDescriptionTV;
+    private TextView mTitleTV,ownerNameTV,mDonationRatioTV,mDonorsTV,mDaysToGoTV,mDescriptionTV,mCostTV,mLocationTV;
     private ViewPager mPhotoViewPager;
     LinearLayout layout_dots;
     Button donateBtn;
     ImageView ownerPhotoImageView,mDaysToGoImageView;
     private ProgressBar progress_determinate;
-    UUID campaignId;
+    String campaignId;
     Campaigns campaigns;
     Users user;
     int mDonationRatio;
@@ -51,6 +59,8 @@ public class CampaignDetailsActivity extends AppCompatActivity
     private Runnable runnable = null;
     private Handler handler = new Handler();
     private ArrayList<String> campaignPhotoes;
+    private ProgressDialog progressDialog;
+    private FirebaseFirestore firebaseFirestore;
 
 
     @Override
@@ -58,6 +68,11 @@ public class CampaignDetailsActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campaign_details);
+
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
 
         mTitleTV=findViewById(R.id.campaign_title_textView);
         mPhotoViewPager = findViewById(R.id.campaign_photos_viewPager);
@@ -70,20 +85,115 @@ public class CampaignDetailsActivity extends AppCompatActivity
         mDonorsTV=findViewById(R.id.campaign_donors_textView);
         mDaysToGoTV=findViewById(R.id.campaign_daysToGo_textView);
         mDaysToGoImageView=findViewById(R.id.campaign_daysToGo_imageView);
+        mCostTV=findViewById(R.id.campaign_cost_textView);
+        mLocationTV=findViewById(R.id.campaign_location_textView);
         mDescriptionTV=findViewById(R.id.campaign_description_textView);
-
-
-        campaignId = (UUID) getIntent().getSerializableExtra(EXTRA_CAMPAIGN_UUID);
-
-        //campaignPhotoes=campaigns.getCampImageUrl();
-
         campaignPhotoes = new ArrayList<>();
-        campaignPhotoes.add("https://inteng-storage.s3.amazonaws.com/img/iea/nR6bV9jp6o/sizes/learntocodebundle_resize_md.jpg");
-        campaignPhotoes.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZhJjWOsPN9z6ADOSviiGDA19FIVaIhsZgI0Sr1vFet5L0mu8Kzg&s");
-        campaignPhotoes.add("https://www.codingbytes.com/wp-content/uploads/2019/04/Learn-coding-online.jpeg");
 
 
-        setUpViewPager();
+
+        campaignId =  getIntent().getStringExtra(EXTRA_CAMPAIGN_UUID);
+
+        firebaseFirestore.collection("Campaigns").document(campaignId).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>()
+                {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task)
+                    {
+
+                        if(task.isSuccessful()) {
+
+                            progressDialog.dismiss();
+
+                            if (task.getResult().exists())
+                            {
+
+                                campaigns=new Campaigns();
+
+                                campaigns.setCampaignTitle(task.getResult().getString("campaignTitle"));
+                                campaigns.setCampaignDescription(task.getResult().getString("campaignDescription"));
+                                //campaigns.setCampaignLocation(task.getResult().getString("campaignLocation"));
+                                //campaigns.setCampaignCountry(task.getResult().getString("campaignCountry"));
+                                campaigns.setCampaignImage(task.getResult().getString("campaignImage"));
+                                campaigns.setCampaignCost(task.getResult().getString("campaignCost"));
+                                campaigns.setCampaignLocation(task.getResult().getString("campaignLocation"));
+
+                                mTitleTV.setText(campaigns.getCampaignTitle());
+                                //campaignPhotoes=campaigns.getCampImageUrl();
+
+                                campaignPhotoes.add(campaigns.getCampaignImage());
+                                campaignPhotoes.add("https://inteng-storage.s3.amazonaws.com/img/iea/nR6bV9jp6o/sizes/learntocodebundle_resize_md.jpg");
+                                campaignPhotoes.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZhJjWOsPN9z6ADOSviiGDA19FIVaIhsZgI0Sr1vFet5L0mu8Kzg&s");
+                                campaignPhotoes.add("https://www.codingbytes.com/wp-content/uploads/2019/04/Learn-coding-online.jpeg");
+
+                                setUpViewPager();
+
+
+                                user=new Users("Bushra","https://www.clipartwiki.com/clipimg/detail/174-1742152_computer-icons-user-clip-art-transparent-user-icon.png");
+
+                                Glide.with(CampaignDetailsActivity.this)
+                                        .load(user.getuPhotoUrl())
+                                        .asBitmap()
+                                        .centerCrop()
+                                        .error(R.color.grey_20)
+                                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                        .into(new BitmapImageViewTarget(ownerPhotoImageView) {
+                                            @Override
+                                            protected void setResource(Bitmap resource) {
+                                                RoundedBitmapDrawable circularBitmapDrawable =
+                                                        RoundedBitmapDrawableFactory.create(CampaignDetailsActivity.this.getResources(), resource);
+                                                circularBitmapDrawable.setCornerRadius((float) 10); // radius for corners
+                                                view.setImageDrawable(circularBitmapDrawable);
+                                            }
+                                        });
+
+
+
+                                ownerNameTV.setText(user.getuName());
+
+                                mDonationRatio=new Integer(String.valueOf(Math.round((0.3*100)/ 3000)));
+
+                                mDonationRatioTV.setText(mDonationRatio+"%");
+
+                                setUpProgressBar();
+
+                                mDonorsTV.setText("3000");
+
+                                mCostTV.setText(campaigns.getCampaignCost()+" $");
+                                mLocationTV.setText(campaigns.getCampaignLocation());
+
+                                //dateDiff=getDateDifference(getFormattedDate(campaigns.getCampEnd()));
+                                dateDiff=getDateDifference("2019-11-18-11-30-10");
+
+                                if(dateDiff.matches("finished"))
+                                {
+                                    mDaysToGoImageView.setImageResource(R.drawable.ic_alarm_on_black_24dp);
+                                    mDaysToGoTV.setText(dateDiff);
+                                }
+                                else
+                                {
+                                    mDaysToGoTV.setText(dateDiff);
+                                }
+
+
+
+                                mDescriptionTV.setText(campaigns.getCampaignDescription());
+
+
+
+                            } else {
+                                Toast.makeText(CampaignDetailsActivity.this, "Error" + task.getException(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                    }
+                });
+
+
+
+
+
+
 
         donateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,64 +204,9 @@ public class CampaignDetailsActivity extends AppCompatActivity
         });
 
 
-        user=new Users("Bushra","https://www.clipartwiki.com/clipimg/detail/174-1742152_computer-icons-user-clip-art-transparent-user-icon.png");
-
-        Glide.with(CampaignDetailsActivity.this)
-                .load(user.getuPhotoUrl())
-                .asBitmap()
-                .centerCrop()
-                .error(R.color.grey_20)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .into(new BitmapImageViewTarget(ownerPhotoImageView) {
-                    @Override
-                    protected void setResource(Bitmap resource) {
-                        RoundedBitmapDrawable circularBitmapDrawable =
-                                RoundedBitmapDrawableFactory.create(CampaignDetailsActivity.this.getResources(), resource);
-                        circularBitmapDrawable.setCornerRadius((float) 10); // radius for corners
-                        view.setImageDrawable(circularBitmapDrawable);
-                    }
-                });
-
-
-
-        ownerNameTV.setText(user.getuName());
-
-        mDonationRatio=new Integer(String.valueOf(Math.round((0.3*100)/ 3000)));
-
-        mDonationRatioTV.setText(mDonationRatio+"%");
-
-        setUpProgressBar();
-
-        mDonorsTV.setText("3000");
-
-        //dateDiff=getDateDifference(getFormattedDate(campaigns.getCampEnd()));
-        dateDiff=getDateDifference("2019-11-18-11-30-10");
-
-        if(dateDiff.matches("finished"))
-        {
-            mDaysToGoImageView.setImageResource(R.drawable.ic_alarm_on_black_24dp);
-            mDaysToGoTV.setText(dateDiff);
-        }
-        else
-        {
-            mDaysToGoTV.setText(dateDiff);
-        }
-
-
-
-        mDescriptionTV.setText("Android is a mobile operating system based on a modified version of the Linux kernel and " +
-                "other open source software, designed primarily for touchscreen mobile devices such as smartphones and " +
-                "tablets. Android is developed by a consortium of developers known as the Open Handset Alliance, with the " +
-                "main contributor and commercial marketer being Google.[10] Initially developed by Android Inc., which Google " +
-                "bought in 2005, Android was unveiled in 2007, with the first commercial Android device launched in September 2008. " +
-                "The current stable version is Android 10, released on September 3, 2019. The core Android source code is known as " +
-                "Android Open Source Project (AOSP), which is primarily licensed under the Apache License. This has allowed variants " +
-                "of Android to be developed on a range of other electronics, such as game consoles, digital cameras, PCs and others, " +
-                "each with a specialized user interface. Some well known derivatives include Android TV for televisions and Wear OS " +
-                "for wearables, both developed by Google.");
 
     }
-    public static Intent newIntent(Context packageContext, UUID campaignId)
+    public static Intent newIntent(Context packageContext, String campaignId)
     {
         Intent intent = new Intent(packageContext, CampaignDetailsActivity.class);
         intent.putExtra(EXTRA_CAMPAIGN_UUID,  campaignId);

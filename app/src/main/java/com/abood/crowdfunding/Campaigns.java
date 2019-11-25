@@ -11,16 +11,13 @@ public class Campaigns {
     private String campaignLocation;
     private String campaignCountry;
     private String campaignImage;
-
-    public Campaigns() {
-    }
-
+    private String campaignCost;
 
     public String getCampaignTitle() {
         return campaignTitle;
     }
 
-    public void campaignTitle(String campaignTitle) {
+    public void setCampaignTitle(String campaignTitle) {
         this.campaignTitle = campaignTitle;
     }
 
@@ -28,7 +25,7 @@ public class Campaigns {
         return campaignDescription;
     }
 
-    public void campaignDescription(String campaignDescription) {
+    public void setCampaignDescription(String campaignDescription) {
         this.campaignDescription = campaignDescription;
     }
 
@@ -36,7 +33,7 @@ public class Campaigns {
         return campaignLocation;
     }
 
-    public void campaignLocation(String campaignLocation) {
+    public void setCampaignLocation(String campaignLocation) {
         this.campaignLocation = campaignLocation;
     }
 
@@ -44,7 +41,7 @@ public class Campaigns {
         return campaignCountry;
     }
 
-    public void campaignCountry(String campaignCountry) {
+    public void setCampaignCountry(String campaignCountry) {
         this.campaignCountry = campaignCountry;
     }
 
@@ -52,7 +49,15 @@ public class Campaigns {
         return campaignImage;
     }
 
-    public void campaignImage(String campaignImage) {
+    public void setCampaignImage(String campaignImage) {
         this.campaignImage = campaignImage;
+    }
+
+    public String getCampaignCost() {
+        return campaignCost;
+    }
+
+    public void setCampaignCost(String campaignCost) {
+        this.campaignCost = campaignCost;
     }
 }
