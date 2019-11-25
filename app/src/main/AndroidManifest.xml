@@ -20,9 +20,9 @@
         <activity android:name=".DonationActivity" />
         <activity android:name=".CampaignDetailsActivity" />
         <activity android:name=".AddCampaignActivity" />
-        <activity android:name=".CampaignListActivity" />
+        <activity android:name=".DonationDetailsActivity" />
         <activity
-            android:name=".DonationDetailsActivity"
+            android:name=".CampaignListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
