@@ -76,9 +76,7 @@ public class ManageNewCampaignAdapter extends FirestoreRecyclerAdapter<Campaigns
             campaignImage = itemView.findViewById(R.id.new_camp_img);
             campaignTitle = itemView.findViewById(R.id.new_camp_title);
             campaignDescription = itemView.findViewById(R.id.new_camp_desc);
-            acceptBTN = itemView.findViewById(R.id.accept_btn);
             refuseBTN = itemView.findViewById(R.id.reject_campaign);
-            pauseBTN = itemView.findViewById(R.id.pause_btn);
             resumeBTN = itemView.findViewById(R.id.resume_campaign);
         }
     }
