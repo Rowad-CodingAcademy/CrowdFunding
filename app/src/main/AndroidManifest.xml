@@ -22,7 +22,7 @@
         <activity android:name=".AddCampaignActivity" />
         <activity android:name=".DonationDetailsActivity" />
         <activity
-            android:name=".CampaignListActivity"
+            android:name=".ViewNewCampaign"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
