@@ -17,7 +17,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".UploadPDF"></activity>
-        <activity android:name=".DonationActivity" />
         <activity android:name=".CampaignDetailsActivity" />
         <activity android:name=".AddCampaignActivity" />
         <activity android:name=".DonationDetailsActivity" />
