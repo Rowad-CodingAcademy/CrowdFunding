@@ -3,6 +3,7 @@ package com.abood.crowdfunding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -68,7 +69,7 @@ public class ManageNewCampaignAdapter extends FirestoreRecyclerAdapter<Campaigns
 
         ImageView campaignImage;
         TextView campaignTitle, campaignDescription;
-        ImageView acceptBTN, refuseBTN, pauseBTN, resumeBTN;
+        Button acceptBTN, refuseBTN, pauseBTN, resumeBTN;
 
         public CompaignViewHolder(@NonNull View itemView) {
             super(itemView);

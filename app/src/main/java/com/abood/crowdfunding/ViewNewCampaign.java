@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -78,7 +79,7 @@ public class ViewNewCampaign extends AppCompatActivity {
             Picasso.get().load(model.getCampaignImage()).into(holder.campaignImage);
             holder.campaignTitle.setText(model.getCampaignTitle());
             holder.campaignDescription.setText(model.getCampaignDescription());
-            holder.acceptBTN.setOnClickListener(new View.OnClickListener() {
+            holder.resumeBTN.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     updateStatusToAccepted(position);
@@ -115,7 +116,7 @@ public class ViewNewCampaign extends AppCompatActivity {
 
             ImageView campaignImage;
             TextView campaignTitle, campaignDescription;
-            ImageView acceptBTN, refuseBTN, pauseBTN, resumeBTN;
+            Button acceptBTN, refuseBTN, pauseBTN, resumeBTN;
 
             public CompaignViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -123,9 +124,9 @@ public class ViewNewCampaign extends AppCompatActivity {
                 campaignImage = itemView.findViewById(R.id.new_camp_img);
                 campaignTitle = itemView.findViewById(R.id.new_camp_title);
                 campaignDescription = itemView.findViewById(R.id.new_camp_desc);
-                acceptBTN = itemView.findViewById(R.id.accept_btn);
+                //acceptBTN = itemView.findViewById(R.id.accept_btn);
                 refuseBTN = itemView.findViewById(R.id.reject_campaign);
-                pauseBTN = itemView.findViewById(R.id.pause_btn);
+                //pauseBTN = itemView.findViewById(R.id.pause_btn);
                 resumeBTN = itemView.findViewById(R.id.resume_campaign);
             }
         }
