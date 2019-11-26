@@ -198,7 +198,7 @@ public class CampaignDetailsActivity extends AppCompatActivity
         donateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = DonationActivity.newIntent(CampaignDetailsActivity.this,campaignId);
+                Intent i = new Intent(CampaignDetailsActivity.this,DonationDetailsActivity.class);
                 startActivity(i);
             }
         });
