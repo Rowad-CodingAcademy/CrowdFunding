@@ -205,6 +205,11 @@ public class CampaignListActivity extends AppCompatActivity {
                 startActivity(i);
             }
 
+            if (id == R.id.nav_profile) {
+                Intent i = new Intent(CampaignListActivity.this,ViewNewCampaign.class);
+                startActivity(i);
+            }
+
         } else {
             TextView name =  navigation_header.findViewById(R.id.name);
             TextView email =  navigation_header.findViewById(R.id.email);

@@ -21,6 +21,7 @@
         <activity android:name=".CampaignDetailsActivity" />
         <activity android:name=".AddCampaignActivity" />
         <activity android:name=".DonationDetailsActivity" />
+        <activity android:name=".ViewNewCampaign" />
         <activity
             android:name=".CampaignListActivity"
             android:theme="@style/AppTheme.NoActionBar">

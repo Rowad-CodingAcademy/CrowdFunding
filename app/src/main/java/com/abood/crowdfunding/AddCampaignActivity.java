@@ -129,10 +129,9 @@ public class AddCampaignActivity extends AppCompatActivity {
                 final String country = campaignCountry.getText().toString();
                 final String cost = campaignCost.getText().toString();
                 final String description = campaignDescription.getText().toString();
-                final String location = campaignLocationt.getText().toString();
 
 
-                if(!TextUtils.isEmpty(title)&&!TextUtils.isEmpty(country)&&!TextUtils.isEmpty(cost)&&!TextUtils.isEmpty(description)&&!TextUtils.isEmpty(location)&&imageUri!=null){
+                if(!TextUtils.isEmpty(title)&&!TextUtils.isEmpty(country)&&!TextUtils.isEmpty(cost)&&imageUri!=null){
 
                     File newFile = new File(imageUri.getPath());
 
@@ -163,7 +162,7 @@ public class AddCampaignActivity extends AppCompatActivity {
 
                             if (task.isSuccessful()) {
 
-                                storeData(task, title, country, cost, description,location);
+                                storeData(task, title, country, cost, description);
 
                             } else {
 
@@ -190,7 +189,7 @@ public class AddCampaignActivity extends AppCompatActivity {
     }
 
 
-    private void storeData(Task<UploadTask.TaskSnapshot> task, String title, String country, String cost, String description, String location) {
+    private void storeData(Task<UploadTask.TaskSnapshot> task, String title, String country, String cost, String description) {
 
 
         Task<Uri> download_uri;
@@ -209,14 +208,14 @@ public class AddCampaignActivity extends AppCompatActivity {
         }
 
         Map<String, String> campaignData = new HashMap<>();
+        campaignData.put("userId", user_id);
         campaignData.put("campaignTitle", title);
         campaignData.put("campaignCountry", country);
         campaignData.put("campaignCost", cost);
         campaignData.put("campaignDescription", description);
-        campaignData.put("campaignLocation", location);
         campaignData.put("campaignApprove", "0");
         campaignData.put("campaignStatus", "1");
-        campaignData.put("campaignActive", "1");
+        campaignData.put("campaignFund", "0");
         campaignData.put("campaignImage", url.toString());
 
         firebaseFirestore.collection("Campaigns").add(campaignData).addOnSuccessListener(AddCampaignActivity.this, new OnSuccessListener<DocumentReference>() {
