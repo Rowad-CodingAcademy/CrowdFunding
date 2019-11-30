@@ -215,7 +215,10 @@ public class AddCampaignActivity extends AppCompatActivity {
         campaignData.put("campaignDescription", description);
         campaignData.put("campaignApprove", "0");
         campaignData.put("campaignStatus", "1");
-        campaignData.put("campaignFund", "0");
+        campaignData.put("campaignCategory", "1");
+        campaignData.put("campaignDays", "1");
+        campaignData.put("campaignFunds", "0");
+        campaignData.put("campaignDonors", "0");
         campaignData.put("campaignImage", url.toString());
 
         firebaseFirestore.collection("Campaigns").add(campaignData).addOnSuccessListener(AddCampaignActivity.this, new OnSuccessListener<DocumentReference>() {

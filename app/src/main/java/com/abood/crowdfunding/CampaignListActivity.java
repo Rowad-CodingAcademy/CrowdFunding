@@ -33,11 +33,6 @@ public class CampaignListActivity extends AppCompatActivity {
     CampaignPagerAdapter adapter;
     private TabLayout tabLayout;
 
-
-    int tab;
-    private static final String MyPREFERENCES = "Abood";
-    private SharedPreferences sharedpreferences;
-
     PopularCampaignsFragment popularCampaignsFragment;
     NewestCampaignsFragment newestCampaignsFragment;
     EndingSoonCampaignsFragment endingSoonCampaignsFragment;
@@ -81,7 +76,6 @@ public class CampaignListActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 tabLayout.getTabAt(position).select();
-                tab = tabLayout.getSelectedTabPosition();
             }
 
             @Override
