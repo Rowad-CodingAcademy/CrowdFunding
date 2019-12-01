@@ -4,6 +4,10 @@
     <string name="tab2">NEWEST</string>
     <string name="tab3">ENDING SOON</string>
 
+    <string name="usertab1">CAMPAIGN</string>
+    <string name="usertab2">DONATE</string>
+
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>

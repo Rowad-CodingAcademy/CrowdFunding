@@ -24,18 +24,14 @@
         <activity
             android:name=".CampaignListActivity"
             android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
-        <activity
-            android:name=".AdminDashboardActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-        <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".RegisterActivity" />
+        <activity android:name=".ProfileActivity" />
         <activity android:name=".LoginActivity"></activity>
         <activity android:name=".SplashScreenActivity" />
         <activity
