@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewNewCampaign">
+    tools:context=".ViewNewCampaign"
+    android:background="#EBEBEB">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/compaign_manage_recyclerview"
         android:layout_width="match_parent"

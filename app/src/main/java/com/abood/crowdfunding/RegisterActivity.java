@@ -228,6 +228,7 @@ public class RegisterActivity extends AppCompatActivity
         campaignData.put("userId", user_id);
         campaignData.put("userName", name);
         campaignData.put("userImage", url.toString());
+        campaignData.put("userType", "1");
 
         firebaseFirestore.collection("Users").add(campaignData).addOnSuccessListener(RegisterActivity.this, new OnSuccessListener<DocumentReference>() {
 

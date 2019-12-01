@@ -1,7 +1,6 @@
 package com.abood.crowdfunding;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,17 +8,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
+
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class CampaignListActivity extends AppCompatActivity {
+public class AdminDashboardActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
     private ActionBar actionBar;
@@ -33,14 +34,13 @@ public class CampaignListActivity extends AppCompatActivity {
     CampaignPagerAdapter adapter;
     private TabLayout tabLayout;
 
-    PopularCampaignsFragment popularCampaignsFragment;
-    NewestCampaignsFragment newestCampaignsFragment;
-    EndingSoonCampaignsFragment endingSoonCampaignsFragment;
+    ApproveNewCampaignsFragment approveNewCampaignsFragment;
+    ManageCampaignsFragment manageCampaignsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_campaign_list);
+        setContentView(R.layout.activity_admin_campaign_list);
 
         initToolbar();
         initNavigationMenu();
@@ -85,48 +85,48 @@ public class CampaignListActivity extends AppCompatActivity {
         });
 
     }
+    
 
-    @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_campaign_list, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-
-            case R.id.search:
-
-//                Intent intent = new Intent(CampaignListActivity.this,AddCampaignActivity.class);
-//                intent.putExtra("type",tab);
-//                startActivity(intent);
-
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(final Menu menu) {
+//        getMenuInflater().inflate(R.menu.activity_campaign_list, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//
+//        switch (item.getItemId()) {
+//
+//            case R.id.search:
+//
+////                Intent intent = new Intent(CampaignListActivity.this,AddCampaignActivity.class);
+////                intent.putExtra("type",tab);
+////                startActivity(intent);
+//
+//                return true;
+//
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
 
     private void setupViewPager(ViewPager viewPager)
     {
         adapter = new CampaignPagerAdapter(getSupportFragmentManager());
-        popularCampaignsFragment = new PopularCampaignsFragment();
-        newestCampaignsFragment = new NewestCampaignsFragment();
-        endingSoonCampaignsFragment = new EndingSoonCampaignsFragment();
-        adapter.addFragment(popularCampaignsFragment,"POPULAR");
-        adapter.addFragment(newestCampaignsFragment,"NEWEST");
-        adapter.addFragment(endingSoonCampaignsFragment,"ENDING SOON");
+        approveNewCampaignsFragment = new ApproveNewCampaignsFragment();
+        manageCampaignsFragment = new ManageCampaignsFragment();
+        adapter.addFragment(approveNewCampaignsFragment,"APPROVE");
+        adapter.addFragment(manageCampaignsFragment,"MANAGE");
         viewPager.setAdapter(adapter);
     }
 
 
 
     private void initToolbar() {
-        toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.admin_toolbar);
 //        toolbar.setBackgroundColor(getResources().getColor(R.color.pink_600));
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
@@ -135,7 +135,7 @@ public class CampaignListActivity extends AppCompatActivity {
     }
 
     private void initNavigationMenu() {
-        final NavigationView nav_view = findViewById(R.id.nav_view);
+        final NavigationView nav_view = findViewById(R.id.admin_nav_view);
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             public void onDrawerOpened(View drawerView) {
@@ -190,17 +190,17 @@ public class CampaignListActivity extends AppCompatActivity {
             if (id == R.id.nav_log_out) {
                 firebaseAuth = FirebaseAuth.getInstance();
                 firebaseAuth.signOut();
-                Intent i = new Intent(CampaignListActivity.this,LoginActivity.class);
+                Intent i = new Intent(AdminDashboardActivity.this,LoginActivity.class);
                 startActivity(i);
             }
 
             if (id == R.id.nav_start_project) {
-                Intent i = new Intent(CampaignListActivity.this,AddCampaignActivity.class);
+                Intent i = new Intent(AdminDashboardActivity.this,AddCampaignActivity.class);
                 startActivity(i);
             }
 
             if (id == R.id.nav_profile) {
-                Intent i = new Intent(CampaignListActivity.this,ViewNewCampaign.class);
+                Intent i = new Intent(AdminDashboardActivity.this,ViewNewCampaign.class);
                 startActivity(i);
             }
 
@@ -240,7 +240,7 @@ public class CampaignListActivity extends AppCompatActivity {
 
     public void data(String s) {
 
-        Toast.makeText(CampaignListActivity.this, s, Toast.LENGTH_SHORT).show();
+        Toast.makeText(AdminDashboardActivity.this, s, Toast.LENGTH_SHORT).show();
     }
 
 }

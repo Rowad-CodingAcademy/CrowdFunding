@@ -43,58 +43,55 @@ public class LoginActivity extends AppCompatActivity
         userEmail.addTextChangedListener(mTextWatcher);
         userPassword.addTextChangedListener(mTextWatcher);
 
-        loginBtn.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
+        loginBtn.setOnClickListener(new View.OnClickListener() {
 
-                progress = new ProgressDialog(LoginActivity.this);
-                progress.setMessage("Logging in ...");
-                progress.setCancelable(false);
-                progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                progress.show();
+        @Override
+        public void onClick(View view) {
 
-                firebaseAuth = FirebaseAuth.getInstance();
-                firebaseAuth.signInWithEmailAndPassword(userEmail.getText().toString(),userPassword.getText().toString())
-                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>()
-                        {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task)
-                            {
+            progress = new ProgressDialog(LoginActivity.this);
+            progress.setMessage("Logging in ...");
+            progress.setCancelable(false);
+            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progress.show();
 
-                                if(task.isSuccessful())
-                                {
+            firebaseAuth = FirebaseAuth.getInstance();
+            firebaseAuth.signInWithEmailAndPassword(userEmail.getText().toString(),userPassword.getText().toString())
+                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                     @Override
+                     public void onComplete(@NonNull Task<AuthResult> task)
+                     {
 
-                                    Intent afterIntnet=new Intent(LoginActivity.this, CampaignListActivity.class);
-                                    startActivity(afterIntnet);
+                      if(task.isSuccessful())
+                      {
 
-                                    progress.dismiss();
-                                    Toast.makeText(LoginActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
+                          Intent afterIntnet=new Intent(LoginActivity.this, CampaignListActivity.class);
+                          startActivity(afterIntnet);
 
-                                }
-                                else
-                                    {
-                                        progress.dismiss();
+                          progress.dismiss();
+                          Toast.makeText(LoginActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
 
-                                        final AlertDialog.Builder dialog=new AlertDialog.Builder(LoginActivity.this);
-                                        dialog.setTitle("Logging Failed");
-                                        dialog.setMessage(  task.getException().getMessage());
-                                        dialog.setCancelable(true);
+                      }
+                      else {
+                          progress.dismiss();
 
-                                        dialog.setPositiveButton("Try Again", new DialogInterface.OnClickListener()
-                                        {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i)
-                                            {
-                                                dialogInterface.cancel();
-                                            }
-                                        });
-                                        dialog.create();
-                                        dialog.show();
-                                }
-                            }
-                        });
+                          final AlertDialog.Builder dialog=new AlertDialog.Builder(LoginActivity.this);
+                          dialog.setTitle("Logging Failed");
+                          dialog.setMessage(task.getException().getMessage());
+                          dialog.setCancelable(true);
+
+                          dialog.setPositiveButton("Try Again", new DialogInterface.OnClickListener()
+                          {
+                              @Override
+                              public void onClick(DialogInterface dialogInterface, int i)
+                              {
+                                  dialogInterface.cancel();
+                              }
+                          });
+
+                          dialog.create();
+                          dialog.show();
+                      }
+                            }});
             }
 
 

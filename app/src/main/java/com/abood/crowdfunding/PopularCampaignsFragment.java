@@ -75,6 +75,8 @@ public class PopularCampaignsFragment extends Fragment {
         };
         popularCampaignsRecyclerView.setAdapter(adapter);
 
+        ((CampaignListActivity) getActivity()).data("aaaaaaaaaaaaaaa");
+
         return v;
 
     }

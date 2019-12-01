@@ -10,7 +10,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,7 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.squareup.picasso.Picasso;
 
-public class ViewNewCampaign extends AppCompatActivity {
+public class ApproveNewCampaignsFragment extends Fragment {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference campaignRef = db.collection("Campaigns");
@@ -31,13 +33,16 @@ public class ViewNewCampaign extends AppCompatActivity {
     private Campaigns mCampaign;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_compaign_to_manage);
-        setUpResyclerView();
     }
 
-    private void setUpResyclerView() {
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        View v =  inflater.inflate(R.layout.fragment_approve_new_campaigns, container, false);
+
         Query query = campaignRef.whereEqualTo("campaignApprove", "0");
         FirestoreRecyclerOptions<Campaigns> options = new FirestoreRecyclerOptions.Builder<Campaigns>()
                 .setQuery(query,Campaigns.class)
@@ -45,21 +50,23 @@ public class ViewNewCampaign extends AppCompatActivity {
 
         campaignAdapter = new ManageNewCampaignAdapter(options);
 
-        RecyclerView recyclerView = findViewById(R.id.compaign_manage_recyclerview);
+        RecyclerView recyclerView = v.findViewById(R.id.approve_campaign_recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(campaignAdapter);
+        return v;
+
     }
 
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
         campaignAdapter.startListening();
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
         campaignAdapter.stopListening();
     }
@@ -86,9 +93,8 @@ public class ViewNewCampaign extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-//                    updateStatusToReject(position);
+                    updateStatusToReject(position);
 
-                    Toast.makeText(ViewNewCampaign.this, position+"", Toast.LENGTH_SHORT).show();
                 }
             });
 
