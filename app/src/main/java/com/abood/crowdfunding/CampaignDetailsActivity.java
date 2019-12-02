@@ -91,7 +91,6 @@ public class CampaignDetailsActivity extends AppCompatActivity
         campaignPhotoes = new ArrayList<>();
 
 
-
         campaignId =  getIntent().getStringExtra(EXTRA_CAMPAIGN_UUID);
 
         firebaseFirestore.collection("Campaigns").document(campaignId).get()

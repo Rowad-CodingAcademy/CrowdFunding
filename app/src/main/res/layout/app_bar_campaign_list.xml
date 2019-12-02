@@ -50,11 +50,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-<!--    <include layout="@layout/content_campain_list" />-->
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewpager"
@@ -63,8 +58,6 @@
             android:layout_below="@+id/tablayout"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_alignParentBottom="true"/>
-    </FrameLayout>
-
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

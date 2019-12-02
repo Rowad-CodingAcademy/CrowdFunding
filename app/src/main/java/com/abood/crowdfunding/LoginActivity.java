@@ -2,10 +2,14 @@ package com.abood.crowdfunding;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,10 +17,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Document;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity
 {
@@ -24,6 +43,7 @@ public class LoginActivity extends AppCompatActivity
     EditText userEmail,userPassword;
     Button loginBtn,signupBtn;
     FirebaseAuth firebaseAuth;
+    private FirebaseFirestore firebaseFirestore;
     ProgressDialog progress;
 
     @Override
@@ -61,12 +81,50 @@ public class LoginActivity extends AppCompatActivity
                      public void onComplete(@NonNull Task<AuthResult> task)
                      {
 
-                      if(task.isSuccessful())
-                      {
+                      if(task.isSuccessful()) {
 
+//                          firebaseFirestore = FirebaseFirestore.getInstance();
+//                          firebaseFirestore.collection("Users")
+//                                  .whereEqualTo("userId",firebaseAuth.getUid())
+//                                  .whereEqualTo("userType","10000").get()
+//                                  .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//                                      @Override
+//                                      public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//
+////                                          String type = queryDocumentSnapshots.getDocuments().get().getString("userType");
+//                                          Toast.makeText(LoginActivity.this, "True", Toast.LENGTH_SHORT).show();
+//
+//                                      }
+//                                  }).addOnFailureListener(new OnFailureListener() {
+//                              @Override
+//                              public void onFailure(@NonNull Exception e) {
+//
+//                                  Toast.makeText(LoginActivity.this, "False", Toast.LENGTH_SHORT).show();
+//
+//                              }
+//                          });
+
+//                          firebaseFirestore.collection("Users").document(firebaseAuth.getUid()).get()
+//                                  .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                                      @Override
+//                                      public void onComplete(@NonNull Task<DocumentSnapshot> task)
+//                                      {
+//
+//                                          if(task.isSuccessful()) {
+//
+//                                              if (task.getResult().exists()) {
+//
+//                                                  task.getResult().getReference();
+//                                                  String type = task.getResult().getString("userType");
+//
+//                                              }
+//                                          }
+//
+//                                      }
+//                                  });
+//
                           Intent afterIntnet=new Intent(LoginActivity.this, CampaignListActivity.class);
                           startActivity(afterIntnet);
-
                           progress.dismiss();
                           Toast.makeText(LoginActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
 
