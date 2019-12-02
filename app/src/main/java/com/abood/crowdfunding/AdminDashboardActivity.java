@@ -195,7 +195,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
             }
 
             if (id == R.id.nav_start_project) {
-                Intent i = new Intent(AdminDashboardActivity.this,AddCampaignActivity.class);
+                Intent i = new Intent(AdminDashboardActivity.this,ClosedCampaignsActivity.class);
                 startActivity(i);
             }
 
