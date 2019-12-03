@@ -130,6 +130,7 @@
 
 
                             <TextView
+                                android:id="@+id/target_amount"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/spacing_large"
@@ -343,7 +344,7 @@
                                         android:layout_marginLeft="@dimen/spacing_large"
                                         android:layout_marginRight="@dimen/spacing_large"
                                         android:layout_weight="1"
-                                        android:text="Card Name"
+                                        android:text="Card Number"
                                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                                         android:textColor="@color/grey_90" />
 
@@ -393,7 +394,8 @@
                                         android:gravity="center_vertical"
                                         android:hint="Card Number"
                                         android:padding="@dimen/spacing_middle"
-                                        android:textColor="@color/grey_60" />
+                                        android:textColor="@color/grey_60"
+                                        android:id="@+id/card_no"/>
 
                                     <View
                                         android:layout_width="match_parent"
@@ -456,7 +458,7 @@
                                     android:orientation="vertical">
 
                                     <EditText
-                                        android:id="@+id/cardholder_name"
+                                        android:id="@+id/card_holder_name"
                                         android:layout_width="match_parent"
                                         android:layout_height="50dp"
                                         android:layout_marginLeft="@dimen/spacing_large"
@@ -615,7 +617,30 @@
 
                                 </LinearLayout>
 
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                <Button
+                                    android:id="@+id/donate_btn"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/spacing_large"
+                                    android:layout_marginRight="@dimen/spacing_large"
+                                    android:background="@color/colorAccent"
+                                    android:padding="@dimen/spacing_middle"
+                                    android:text="Next"
+                                    android:textColor="#fff" />
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="6dp" />
+
                             </LinearLayout>
+
+
+                        </LinearLayout>
 
 
                         </LinearLayout>

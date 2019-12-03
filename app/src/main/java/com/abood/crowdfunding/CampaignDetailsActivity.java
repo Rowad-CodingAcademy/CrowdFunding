@@ -199,6 +199,7 @@ public class CampaignDetailsActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(CampaignDetailsActivity.this,DonationDetailsActivity.class);
+                i.putExtra("campaignID",campaignId);
                 startActivity(i);
             }
         });
