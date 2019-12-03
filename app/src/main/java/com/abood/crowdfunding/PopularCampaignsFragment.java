@@ -18,18 +18,20 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.squareup.picasso.Picasso;
 
 
 public class PopularCampaignsFragment extends Fragment {
 
     RecyclerView popularCampaignsRecyclerView;
     FirebaseFirestore store;
-    private FirestoreRecyclerAdapter<Campaigns, PopularCampaignsViewHolder> adapter;
+    private PopularCampaignAdapter popularCampaignAdapter;
+
+//    private FirestoreRecyclerAdapter<Campaigns, PopularCampaignsViewHolder> adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
     }
 
 
@@ -48,32 +50,36 @@ public class PopularCampaignsFragment extends Fragment {
                 .setQuery(query, Campaigns.class)
                 .build();
 
-        adapter = new FirestoreRecyclerAdapter<Campaigns, PopularCampaignsViewHolder>(options) {
-            @Override
-            protected void onBindViewHolder(@NonNull PopularCampaignsViewHolder holder , final int position, @NonNull Campaigns campaign) {
-                holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage());
+        popularCampaignAdapter = new PopularCampaignAdapter(options);
 
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v)
-                    {
 
-                        Intent i = CampaignDetailsActivity.newIntent(getActivity(),getSnapshots().getSnapshot(position).getId());
-                        startActivity(i);
 
-                    }
-                });
-
-            }
-
-            @NonNull
-            @Override
-            public PopularCampaignsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.campaign_holder, parent, false);
-                return new PopularCampaignsViewHolder(view);
-            }
-        };
-        popularCampaignsRecyclerView.setAdapter(adapter);
+//        adapter = new FirestoreRecyclerAdapter<Campaigns, PopularCampaignsViewHolder>(options) {
+//            @Override
+//            protected void onBindViewHolder(@NonNull PopularCampaignsViewHolder holder , final int position, @NonNull Campaigns campaign) {
+//                holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage());
+//
+//                holder.itemView.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v)
+//                    {
+//
+//                        Intent i = CampaignDetailsActivity.newIntent(getActivity(),getSnapshots().getSnapshot(position).getId());
+//                        startActivity(i);
+//
+//                    }
+//                });
+//
+//            }
+//
+//            @NonNull
+//            @Override
+//            public PopularCampaignsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+//                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.campaign_holder, parent, false);
+//                return new PopularCampaignsViewHolder(view);
+//            }
+//        };
+        popularCampaignsRecyclerView.setAdapter(popularCampaignAdapter);
 
         ((CampaignListActivity) getActivity()).data("aaaaaaaaaaaaaaa");
 
@@ -84,15 +90,48 @@ public class PopularCampaignsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        adapter.startListening();
+        popularCampaignAdapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
-        if (adapter != null) {
-            adapter.stopListening();
+        if (popularCampaignAdapter != null) {
+            popularCampaignAdapter.stopListening();
+        }
+    }
+
+
+    class PopularCampaignAdapter extends FirestoreRecyclerAdapter<Campaigns, PopularCampaignsViewHolder> {
+
+
+        public PopularCampaignAdapter(@NonNull FirestoreRecyclerOptions<Campaigns> options) {
+            super(options);
+        }
+
+        @Override
+        protected void onBindViewHolder(@NonNull PopularCampaignsViewHolder holder , final int position, @NonNull Campaigns campaign) {
+            holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage());
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v)
+                {
+
+                    Intent i = CampaignDetailsActivity.newIntent(getActivity(),getSnapshots().getSnapshot(position).getId());
+                    startActivity(i);
+
+                }
+            });
+
+        }
+
+        @NonNull
+        @Override
+        public PopularCampaignsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.campaign_holder, parent, false);
+            return new PopularCampaignsViewHolder(view);
         }
     }
 

@@ -7,10 +7,6 @@
     android:orientation="vertical"
     tools:context=".EndingSoonCampaignsFragment">
 
-    <include
-        layout="@layout/app_bar_campaign_list"
-        android:layout_width="match_parent"
-        android:layout_height="105dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
