@@ -16,10 +16,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firestore.v1.DocumentTransform;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -95,6 +98,8 @@ public class DonationDetailsActivity extends AppCompatActivity {
         donation.put("code", code);
         donation.put("user_id", userID);
         donation.put("campaign_id", campaignID);
+        donation.put("timestamp", new Date());
+
         Task<DocumentReference> documentReferenceTask = db.collection("Donation")
                 .add(donation)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
