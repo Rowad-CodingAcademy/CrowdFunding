@@ -91,13 +91,13 @@ public class DonationDetailsActivity extends AppCompatActivity {
         String campaignID = getIntent().getStringExtra("campaignID");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> donation = new HashMap<>();
-        donation.put("target_amount", target_reward);
-        donation.put("card_no", cardNO);
-        donation.put("holder_name", holder);
-        donation.put("expiration_date", expiration);
+        donation.put("targetAmount", target_reward);
+        donation.put("cardNo", cardNO);
+        donation.put("holderName", holder);
+        donation.put("expirationDate", expiration);
         donation.put("code", code);
-        donation.put("user_id", userID);
-        donation.put("campaign_id", campaignID);
+        donation.put("userId", userID);
+        donation.put("campaignId", campaignID);
         donation.put("timestamp", new Date());
 
         Task<DocumentReference> documentReferenceTask = db.collection("Donation")

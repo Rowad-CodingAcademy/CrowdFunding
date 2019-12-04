@@ -48,12 +48,12 @@
                     android:text="project name"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:layout_marginBottom="10dp"
-                    android:id="@+id/project_name"/>
+                    android:id="@+id/project_owner_name"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/donation_cost"
+                    android:id="@+id/user_donation_cost"
                     android:text="2000$"
                     android:maxLines="2"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"

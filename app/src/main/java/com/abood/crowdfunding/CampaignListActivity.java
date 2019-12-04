@@ -200,7 +200,7 @@ public class CampaignListActivity extends AppCompatActivity {
             }
 
             if (id == R.id.nav_profile) {
-                Intent i = new Intent(CampaignListActivity.this,ViewNewCampaign.class);
+                Intent i = new Intent(CampaignListActivity.this,ProfileActivity.class);
                 startActivity(i);
             }
 

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -26,6 +27,8 @@ public class UserCampaignsFragments extends Fragment {
 
     RecyclerView popularCampaignsRecyclerView;
     FirebaseFirestore store;
+    FirebaseAuth firebaseAuth;
+
     private FirestoreRecyclerAdapter<Campaigns, PopularCampaignsViewHolder> adapter;
 
     @Override
@@ -38,13 +41,13 @@ public class UserCampaignsFragments extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v =  inflater.inflate(R.layout.fragment_user_campaigns, container, false);
-
+        View v = inflater.inflate(R.layout.fragment_user_campaigns, container, false);
+        firebaseAuth = FirebaseAuth.getInstance();
+        String userID = firebaseAuth.getCurrentUser().getUid();
         popularCampaignsRecyclerView = v.findViewById(R.id.popular_campaign_recycler_view);
         popularCampaignsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         store = FirebaseFirestore.getInstance();
-        Query query = store.collection("Campaigns").whereEqualTo("campaignApprove","1");
+        Query query = store.collection("Campaigns").whereEqualTo("userId", userID);
 
         FirestoreRecyclerOptions<Campaigns> options = new FirestoreRecyclerOptions.Builder<Campaigns>()
                 .setQuery(query, Campaigns.class)
@@ -52,15 +55,14 @@ public class UserCampaignsFragments extends Fragment {
 
         adapter = new FirestoreRecyclerAdapter<Campaigns, PopularCampaignsViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull PopularCampaignsViewHolder holder , final int position, @NonNull Campaigns campaign) {
-                holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage());
+            protected void onBindViewHolder(@NonNull PopularCampaignsViewHolder holder, final int position, @NonNull Campaigns campaign) {
+                holder.setData(campaign.getCampaignTitle(), campaign.getCampaignDescription(), campaign.getCampaignImage());
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v)
-                    {
+                    public void onClick(View v) {
 
-                        Intent i = CampaignDetailsActivity.newIntent(getActivity(),getSnapshots().getSnapshot(position).getId());
+                        Intent i = CampaignDetailsActivity.newIntent(getActivity(), getSnapshots().getSnapshot(position).getId());
                         startActivity(i);
 
                     }
@@ -102,7 +104,7 @@ public class UserCampaignsFragments extends Fragment {
         private View view;
 
         ImageView campaignImage;
-        TextView campaignTitle,campaignDescription;
+        TextView campaignTitle, campaignDescription;
 
 
         public PopularCampaignsViewHolder(@NonNull View itemView) {
@@ -112,7 +114,7 @@ public class UserCampaignsFragments extends Fragment {
 
         }
 
-        void setData(String name, String age , String image ) {
+        void setData(String name, String age, String image) {
 
             campaignImage = itemView.findViewById(R.id.campaign_image);
             campaignTitle = itemView.findViewById(R.id.campaign_title);

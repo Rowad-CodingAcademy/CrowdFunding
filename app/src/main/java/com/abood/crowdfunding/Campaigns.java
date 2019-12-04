@@ -1,13 +1,25 @@
 package com.abood.crowdfunding;
 
 
+import java.util.UUID;
+
 public class Campaigns {
 
+    private UUID campaignID;
     private String campaignTitle;
     private String campaignDescription;
     private String campaignLocation;
     private String campaignCountry;
     private String campaignImage;
+
+    public UUID getCampaignID() {
+        return campaignID;
+    }
+
+    public void setCampaignID(UUID campaignID) {
+        this.campaignID = campaignID;
+    }
+
     private String campaignCost;
 
     public String getCampaignTitle() {

@@ -8,37 +8,43 @@ import java.util.Date;
 import java.util.Map;
 
 public class DonationModel {
-    String donationID;
-    String CampaignID;
-    String amount_reward;
-    String userID;
-    String cardHolder;
-    String securityCode;
+    String targetAmount;
+    String cardNo;
+    String holderName;
+    String expirationDate;
+    String code;
+    String userId;
+    String campaignId;
 
     public DonationModel() {
+
     }
 
-    public String getDonationID() {
-        return donationID;
+    public String getTargetAmount() {
+        return targetAmount;
     }
 
-    public String getCampaignID() {
-        return CampaignID;
+    public String getCardNo() {
+        return cardNo;
     }
 
-    public String getAmount_reward() {
-        return amount_reward;
+    public String getHolderName() {
+        return holderName;
     }
 
-    public String getUserID() {
-        return userID;
+    public String getExpirationDate() {
+        return expirationDate;
     }
 
-    public String getCardHolder() {
-        return cardHolder;
+    public String getCode() {
+        return code;
     }
 
-    public String getSecurityCode() {
-        return securityCode;
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getCampaignId() {
+        return campaignId;
     }
 }

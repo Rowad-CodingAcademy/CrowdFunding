@@ -18,15 +18,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 
 public class UserDonateFragment extends Fragment {
 
-    RecyclerView newestCampaignsRecyclerView;
+    RecyclerView userDonationRecyclerView;
     FirebaseFirestore store;
-    private FirestoreRecyclerAdapter<Campaigns, NewestCampaignsViewHolder> adapter;
+    FirebaseAuth firebaseAuth;
+    private FirestoreRecyclerAdapter<DonationModel, UserDonationViewHolder> adapter;
 
 
     @Override
@@ -38,44 +47,57 @@ public class UserDonateFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v =  inflater.inflate(R.layout.fragment_user_donate, container, false);
+        View v = inflater.inflate(R.layout.fragment_user_donate, container, false);
 
-        newestCampaignsRecyclerView = v.findViewById(R.id.newest_campaign_recycler_view);
-        newestCampaignsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+        userDonationRecyclerView = v.findViewById(R.id.newest_campaign_recycler_view);
+        userDonationRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        firebaseAuth = FirebaseAuth.getInstance();
+        String userID = firebaseAuth.getCurrentUser().getUid();
         store = FirebaseFirestore.getInstance();
-        Query query = store.collection("Campaigns").whereEqualTo("campaignApprove","1");
+        Query query = store.collection("Donation").whereEqualTo("userId", userID);
 
-        FirestoreRecyclerOptions<Campaigns> options = new FirestoreRecyclerOptions.Builder<Campaigns>()
-                .setQuery(query, Campaigns.class)
+        FirestoreRecyclerOptions<DonationModel> options = new FirestoreRecyclerOptions.Builder<DonationModel>()
+                .setQuery(query, DonationModel.class)
                 .build();
 
-        adapter = new FirestoreRecyclerAdapter<Campaigns, NewestCampaignsViewHolder>(options) {
+        adapter = new FirestoreRecyclerAdapter<DonationModel, UserDonationViewHolder>(options) {
+
+
             @Override
-            protected void onBindViewHolder(@NonNull NewestCampaignsViewHolder holder , final int position, @NonNull Campaigns campaign) {
-                holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage());
+            protected void onBindViewHolder(@NonNull final UserDonationViewHolder holder, int position, @NonNull DonationModel model) {
+                holder.userDonationFund.setText(model.getTargetAmount());
+                store.collection("Campaigns").whereEqualTo(store.collection("Campaigns").getId().toString(),model.getCampaignId());
 
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                store.collection("Users").document(model.getCampaignId()).get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    if (task.getResult().exists()) {
 
-                        Intent i = CampaignDetailsActivity.newIntent(getActivity(),getSnapshots().getSnapshot(position).getId());
-                        startActivity(i);
+                                        if (task.getResult().exists())
+                                        {
+                                            holder.campaignTitle.setText(task.getResult().getString("campaignTitle"));
+                                            //Picasso.get().load(task.getResult().getString("campaignImage")).into(holder.campaignImage);
+                                        }
+                                    }
+                                }
+                            }
 
-                    }
-                });
+                        });
 
 
             }
+
 
             @NonNull
             @Override
-            public NewestCampaignsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.campaign_holder, parent, false);
-                return new NewestCampaignsViewHolder(view);
+            public UserDonationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_donation_holder, parent, false);
+                return new UserDonationViewHolder(view);
             }
         };
-        newestCampaignsRecyclerView.setAdapter(adapter);
+        userDonationRecyclerView.setAdapter(adapter);
 
         return v;
 
@@ -97,34 +119,24 @@ public class UserDonateFragment extends Fragment {
     }
 
 
-    public class NewestCampaignsViewHolder extends RecyclerView.ViewHolder {
+    public class UserDonationViewHolder extends RecyclerView.ViewHolder {
 
         private View view;
 
         ImageView campaignImage;
-        TextView campaignTitle,campaignDescription;
+        TextView campaignTitle, campaignOwner, userDonationFund;
 
 
-        public NewestCampaignsViewHolder(@NonNull View itemView) {
+        public UserDonationViewHolder(@NonNull View itemView) {
             super(itemView);
+            campaignImage = itemView.findViewById(R.id.campaign_image);
+            campaignTitle = itemView.findViewById(R.id.project_title);
+            campaignOwner = itemView.findViewById(R.id.project_owner_name);
+            userDonationFund = itemView.findViewById(R.id.user_donation_cost);
 
             view = itemView;
-
         }
 
-        void setData(String name, String age , String image ) {
-
-            campaignImage = itemView.findViewById(R.id.campaign_image);
-            campaignTitle = itemView.findViewById(R.id.campaign_title);
-            campaignDescription = itemView.findViewById(R.id.campaign_description);
-
-            campaignTitle.setText(name);
-            campaignDescription.setText(age);
-//            Picasso.get().load(image).into(userImage);
-            Glide.with(getActivity()).load(image).into(campaignImage);
-
-
-        }
 
     }
 
