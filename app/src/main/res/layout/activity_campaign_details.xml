@@ -298,22 +298,24 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
             <TextView
+                android:id="@+id/campaign_location_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="aaaaaaaaaa"
+                app:layout_constraintStart_toEndOf="@+id/campaign_location_imageView"
+                app:layout_constraintTop_toBottomOf="@+id/campaign_location_textView2" />
+
+            <TextView
                 android:id="@+id/campaign_location_textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                app:layout_constraintStart_toEndOf="@+id/campaign_location_imageView"
-                app:layout_constraintTop_toBottomOf="@+id/campaign_location_textView" />
-
-            <TextView
-                android:id="@+id/campaign_location_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginEnd="40dp"
                 android:text="Location"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/grey_600"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/campaign_daysToGo_textView" />
 
@@ -322,8 +324,8 @@
                 android:layout_width="30dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="10dp"
-                app:layout_constraintEnd_toStartOf="@+id/campaign_location_textView"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/campaign_location_textView2"
                 app:layout_constraintTop_toBottomOf="@+id/campaign_daysToGo_imageView"
                 app:srcCompat="@drawable/ic_location_on_black_24dp" />
 
