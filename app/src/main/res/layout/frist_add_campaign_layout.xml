@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:padding="@dimen/spacing_large"
+                android:scrollbars="none"
+                android:scrollingCache="true"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="@color/grey_40"
+                        android:layout_marginTop="30dp"
+                        android:focusable="true"
+                        android:imeOptions="actionDone">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Title"
+                            android:textColor="@android:color/black"
+                            android:gravity="top"
+                            android:focusable="true"
+                            android:id="@+id/camp_title_edit_text"
+
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/spacing_middle" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/txt_area_dark_yellow"
+                        android:layout_marginTop="30dp"
+                        android:padding="@dimen/spacing_large"
+                        android:textColorHint="@color/grey_40">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:hint="Description"
+                            android:gravity="top"
+                            android:inputType="textMultiLine"
+                            android:maxLines="12"
+                            android:minLines="7"
+                            android:textColor="@android:color/black"
+                            android:focusedByDefault="false"
+                            android:id="@+id/camp_description_edit_text"
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/spacing_middle" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:orientation="vertical"
+                        android:layout_gravity="bottom">
+
+                        <Button
+                            android:id="@+id/start_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Start date"
+                            android:inputType="date"
+                            android:background="@drawable/donate_button"
+                            android:textColor="@android:color/white"/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp" />
+
+                        <Button
+                            android:id="@+id/end_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="End date"
+                            android:inputType="datetime"
+                            android:background="@drawable/donate_button"
+                            android:textColor="@android:color/white" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp" />
+                        <Button
+                            android:id="@+id/next_btn_to_next_page"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Next"
+                            android:background="@drawable/donate_button"
+                            android:textColor="@android:color/white"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </LinearLayout>
+
+
+</LinearLayout>
