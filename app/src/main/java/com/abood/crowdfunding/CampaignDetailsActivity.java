@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -44,7 +45,7 @@ public class CampaignDetailsActivity extends AppCompatActivity
 {
 
     public  static  final String EXTRA_CAMPAIGN_UUID="com.abood.crowdfunding.campaignId";
-    private TextView mTitleTV,ownerNameTV,mDonationRatioTV,mDonorsTV,mDaysToGoTV,mDescriptionTV,mCostTV,mLocationTV;
+    private TextView mTitleTV,ownerNameTV,mDonationRatioTV,mDonorsTV,mDaysToGoTV,mDescriptionTV,mCostTV,mLocationTV,mCategoryTV,mDownloadPdfTV;
     private ViewPager mPhotoViewPager;
     LinearLayout layout_dots;
     Button donateBtn;
@@ -88,6 +89,8 @@ public class CampaignDetailsActivity extends AppCompatActivity
         mCostTV=findViewById(R.id.campaign_cost_textView);
         mLocationTV=findViewById(R.id.campaign_location_textView);
         mDescriptionTV=findViewById(R.id.campaign_description_textView);
+        mCategoryTV=findViewById(R.id.campaign_category_textView);
+        mDownloadPdfTV=findViewById(R.id.download_pdf);
         campaignPhotoes = new ArrayList<>();
 
 
@@ -109,18 +112,23 @@ public class CampaignDetailsActivity extends AppCompatActivity
 
                                 campaigns=new Campaigns();
 
-                                campaigns.setCampaignTitle(task.getResult().getString("campaignTitle"));
-                                campaigns.setCampaignDescription(task.getResult().getString("campaignDescription"));
+                                //campaigns.setCampaignTitle(task.getResult().getString("campaignTitle"));
+                                //campaigns.setCampaignDescription(task.getResult().getString("campaignDescription"));
                                 //campaigns.setCampaignLocation(task.getResult().getString("campaignLocation"));
                                 //campaigns.setCampaignCountry(task.getResult().getString("campaignCountry"));
-                                campaigns.setCampaignImage(task.getResult().getString("campaignImage"));
-                                campaigns.setCampaignCost(task.getResult().getString("campaignCost"));
-                                campaigns.setCampaignLocation(task.getResult().getString("campaignLocation"));
+                                //campaigns.setCampaignImage(task.getResult().getString("campaignImage"));
+                                //campaigns.setCampaignCost(task.getResult().getString("campaignCost"));
+                                //campaigns.setCampaignLocation(task.getResult().getString("campaignLocation"));
 
-                                mTitleTV.setText(campaigns.getCampaignTitle());
+                                mTitleTV.setText(task.getResult().getString("campaignTitle"));
+                                mDescriptionTV.setText(task.getResult().getString("campaignDescription"));
+                                mLocationTV.setText(task.getResult().getString("campaignCountry"));
+                                mCostTV.setText(task.getResult().getString("campaignCost"));
+                                mCategoryTV.setText(task.getResult().getString("campaignCategory"));
+                                mDonorsTV.setText(task.getResult().getString("campaignDonors"));
                                 //campaignPhotoes=campaigns.getCampImageUrl();
 
-                                campaignPhotoes.add(campaigns.getCampaignImage());
+                                campaignPhotoes.add(task.getResult().getString("campaignImage"));
                                 campaignPhotoes.add("https://inteng-storage.s3.amazonaws.com/img/iea/nR6bV9jp6o/sizes/learntocodebundle_resize_md.jpg");
                                 campaignPhotoes.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZhJjWOsPN9z6ADOSviiGDA19FIVaIhsZgI0Sr1vFet5L0mu8Kzg&s");
                                 campaignPhotoes.add("https://www.codingbytes.com/wp-content/uploads/2019/04/Learn-coding-online.jpeg");
@@ -150,19 +158,15 @@ public class CampaignDetailsActivity extends AppCompatActivity
 
                                 ownerNameTV.setText(user.getuName());
 
-                                mDonationRatio=new Integer(String.valueOf(Math.round((0.3*100)/ 3000)));
+                                Double fund=Double.parseDouble(task.getResult().getString("campaignFunds"));
+                                double cost=Double.parseDouble(task.getResult().getString("campaignCost"));
+                                mDonationRatio = new Integer(String.valueOf(Math.round((fund*100)/ cost)));
 
                                 mDonationRatioTV.setText(mDonationRatio+"%");
-
                                 setUpProgressBar();
 
-                                mDonorsTV.setText("3000");
-
-                                mCostTV.setText(campaigns.getCampaignCost()+" $");
-                                mLocationTV.setText(campaigns.getCampaignLocation());
-
                                 //dateDiff=getDateDifference(getFormattedDate(campaigns.getCampEnd()));
-                                dateDiff=getDateDifference("2019-11-18-11-30-10");
+                                /*  dateDiff=getDateDifference("2019-12-30-11-30-10");
 
                                 if(dateDiff.matches("finished"))
                                 {
@@ -174,9 +178,18 @@ public class CampaignDetailsActivity extends AppCompatActivity
                                     mDaysToGoTV.setText(dateDiff);
                                 }
 
+                                 */
+                                mDownloadPdfTV.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+
+                                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.africau.edu/images/default/sample.pdf"));
+                                        startActivity(browserIntent);
+                                    }
+                                });
 
 
-                                mDescriptionTV.setText(campaigns.getCampaignDescription());
+
 
 
 
