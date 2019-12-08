@@ -262,7 +262,7 @@ public class FinalAddCampaign extends AppCompatActivity {
                 progressDialog.dismiss();
 
                 Toast.makeText(FinalAddCampaign.this, "Campaigns Data is Stored Successfully", Toast.LENGTH_LONG).show();
-                Intent mainIntent = new Intent(FinalAddCampaign.this, CampaignListActivity.class);
+                Intent mainIntent = new Intent(FinalAddCampaign.this, CampaignsListActivity.class);
                 startActivity(mainIntent);
                 finish();
             }
