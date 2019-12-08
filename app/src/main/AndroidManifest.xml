@@ -21,7 +21,7 @@
         <activity android:name=".AddCampaignActivity" />
         <activity android:name=".DonationDetailsActivity" />
         <activity android:name=".ViewNewCampaign" />
-        <activity android:name=".CampaignListActivity">
+        <activity android:name=".CampaignsListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".ProfileActivity" >
+        <activity android:name=".UserProfileActivity" >
 
         </activity>
         <activity android:name=".AdminDashboardActivity">

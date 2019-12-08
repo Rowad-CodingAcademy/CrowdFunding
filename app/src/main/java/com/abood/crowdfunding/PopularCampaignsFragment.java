@@ -18,7 +18,6 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.squareup.picasso.Picasso;
 
 
 public class PopularCampaignsFragment extends Fragment {
@@ -81,7 +80,6 @@ public class PopularCampaignsFragment extends Fragment {
 //        };
         popularCampaignsRecyclerView.setAdapter(popularCampaignAdapter);
 
-        ((CampaignListActivity) getActivity()).data("aaaaaaaaaaaaaaa");
 
         return v;
 
