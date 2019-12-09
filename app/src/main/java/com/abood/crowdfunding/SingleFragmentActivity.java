@@ -67,6 +67,26 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
         initToolbar();
         initNavigationMenu();
 
+        name = navigation_header.findViewById(R.id.name);
+        email = navigation_header.findViewById(R.id.email);
+        userPhoto = navigation_header.findViewById(R.id.nav_user_photo);
+        db = FirebaseFirestore.getInstance();
+        Task<QuerySnapshot> query = db.collection("Users").whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                name.setText(document.getString("userName"));
+                                email.setText(firebaseAuth.getCurrentUser().getEmail());
+                                Picasso.get().load(document.getString("userImage")).into(userPhoto);
+
+                            }
+                        } else {
+                        }}
+                });
+
         fragmentManager.beginTransaction().replace(R.id.fragment_container, createFragment()).commit();
 
     }
@@ -112,27 +132,6 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
                 is_account_mode = is_hide;
                 menu_navigation.clear();
                 if (is_hide) {
-
-                    name = navigation_header.findViewById(R.id.name);
-                    email = navigation_header.findViewById(R.id.email);
-                    userPhoto = navigation_header.findViewById(R.id.nav_user_photo);
-                    db = FirebaseFirestore.getInstance();
-                    Task<QuerySnapshot> query = db.collection("Users").whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid())
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                            name.setText(document.getString("userName"));
-                                            email.setText(firebaseAuth.getCurrentUser().getEmail());
-                                            Picasso.get().load(document.getString("userImage")).into(userPhoto);
-
-                                        }
-                                    } else {
-                                    }}
-                                });
-
 
 
 

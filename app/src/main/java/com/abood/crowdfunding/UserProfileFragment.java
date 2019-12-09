@@ -34,7 +34,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -129,27 +131,24 @@ public class UserProfileFragment extends Fragment {
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 int min_height = ViewCompat.getMinimumHeight(collapsing_toolbar) * 2;
                 float scale = (float) (min_height + verticalOffset) / min_height;
-                image.setScaleX(scale >= 0 ? scale : 0);
-                image.setScaleY(scale >= 0 ? scale : 0);
+                //image.setScaleX(scale >= 0 ? scale : 0);
+                //image.setScaleY(scale >= 0 ? scale : 0);
 
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
-                DocumentReference documentReferenceUser = db.collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                documentReferenceUser.get()
-                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                db = FirebaseFirestore.getInstance();
+                Task<QuerySnapshot> query = db.collection("Users").whereEqualTo("userId", FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
-                            public void onSuccess(DocumentSnapshot snapshot) {
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        userName.setText(document.getString("userName"));
+                                        Picasso.get().load(document.getString("userImage")).into(image);
 
-                                if (snapshot.exists()) {
-                                    userName.setText(snapshot.getString("userName"));
+                                    }
                                 } else {
-                                }
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-
-                            }
+                                }}
                         });
 
                 db.collection("Campaigns").whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
