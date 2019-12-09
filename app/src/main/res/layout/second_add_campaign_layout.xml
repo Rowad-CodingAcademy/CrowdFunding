@@ -29,13 +29,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="30dp" />
-                    <Button
-                        android:id="@+id/next_btn_to_last_page"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Next"
-                        android:background="@drawable/donate_button"
-                        android:textColor="@android:color/white"/>
+
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -72,15 +66,6 @@
                                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                                     android:textColor="@color/grey_80" />
 
-                                <ImageButton
-                                    android:id="@+id/target_cost_bt_toggle"
-                                    android:layout_width="?attr/actionBarSize"
-                                    android:layout_height="?attr/actionBarSize"
-                                    android:background="?attr/selectableItemBackgroundBorderless"
-                                    android:tint="@color/grey_80"
-                                    app:srcCompat="@drawable/ic_expand_arrow"
-                                    tools:ignore="VectorDrawableCompat" />
-
                             </LinearLayout>
 
                             <LinearLayout
@@ -105,31 +90,9 @@
 
                                 <View
                                     android:layout_width="match_parent"
-                                    android:layout_height="3dp" />
+                                    android:layout_height="16dp" />
 
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="end"
-                                    android:orientation="horizontal">
 
-                                    <Button
-                                        android:id="@+id/target_cost_bt_hide"
-                                        style="@style/Widget.AppCompat.Button.Borderless"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:text="HIDE" />
-
-                                    <Button
-                                        android:id="@+id/target_cost_bt_save"
-                                        style="@style/Button.Accent.Borderless"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:text="SAVE" />
-
-                                </LinearLayout>
 
                             </LinearLayout>
 
@@ -178,14 +141,7 @@
                                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                                     android:textColor="@color/grey_80" />
 
-                                <ImageButton
-                                    android:id="@+id/location_bt_toggle"
-                                    android:layout_width="?attr/actionBarSize"
-                                    android:layout_height="?attr/actionBarSize"
-                                    android:background="?attr/selectableItemBackgroundBorderless"
-                                    android:tint="@color/grey_80"
-                                    app:srcCompat="@drawable/ic_expand_arrow"
-                                    tools:ignore="VectorDrawableCompat" />
+
 
                             </LinearLayout>
 
@@ -211,31 +167,8 @@
 
                                 <View
                                     android:layout_width="match_parent"
-                                    android:layout_height="3dp" />
+                                    android:layout_height="16dp" />
 
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="end"
-                                    android:orientation="horizontal">
-
-                                    <Button
-                                        android:id="@+id/location_bt_hide"
-                                        style="@style/Widget.AppCompat.Button.Borderless"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:text="HIDE" />
-
-                                    <Button
-                                        android:id="@+id/location_bt_save"
-                                        style="@style/Button.Accent.Borderless"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:text="SAVE" />
-
-                                </LinearLayout>
 
                             </LinearLayout>
 
@@ -284,15 +217,6 @@
                                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                                     android:textColor="@color/grey_80" />
 
-                                <ImageButton
-                                    android:id="@+id/country_bt_toggle"
-                                    android:layout_width="?attr/actionBarSize"
-                                    android:layout_height="?attr/actionBarSize"
-                                    android:background="?attr/selectableItemBackgroundBorderless"
-                                    android:tint="@color/grey_80"
-                                    app:srcCompat="@drawable/ic_expand_arrow"
-                                    tools:ignore="VectorDrawableCompat" />
-
                             </LinearLayout>
 
                             <LinearLayout
@@ -317,31 +241,7 @@
 
                                 <View
                                     android:layout_width="match_parent"
-                                    android:layout_height="3dp" />
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="end"
-                                    android:orientation="horizontal">
-
-                                    <Button
-                                        android:id="@+id/country_bt_hide"
-                                        style="@style/Widget.AppCompat.Button.Borderless"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:text="HIDE" />
-
-                                    <Button
-                                        android:id="@+id/country_bt_save"
-                                        style="@style/Button.Accent.Borderless"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:text="SAVE" />
-
-                                </LinearLayout>
+                                    android:layout_height="16dp" />
 
                             </LinearLayout>
 
@@ -389,14 +289,6 @@
                                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                                     android:textColor="@color/grey_80" />
 
-                                <ImageButton
-                                    android:id="@+id/type_bt_toggle"
-                                    android:layout_width="?attr/actionBarSize"
-                                    android:layout_height="?attr/actionBarSize"
-                                    android:background="?attr/selectableItemBackgroundBorderless"
-                                    android:tint="@color/grey_80"
-                                    app:srcCompat="@drawable/ic_expand_arrow"
-                                    tools:ignore="VectorDrawableCompat" />
 
                             </LinearLayout>
 
@@ -423,7 +315,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_margin="@dimen/spacing_large"
-                                    android:layout_marginTop="@dimen/spacing_medium">
+                                    >
 
                                     <androidx.appcompat.widget.AppCompatRadioButton
                                         android:layout_width="wrap_content"
@@ -437,36 +329,41 @@
 
                                 </RadioGroup>
 
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="@color/grey_10" />
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="end"
-                                    android:orientation="horizontal">
-
-                                    <Button
-                                        android:id="@+id/type_bt_hide"
-                                        style="@style/Widget.AppCompat.Button.Borderless"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:text="HIDE" />
-
-                                    <Button
-                                        android:id="@+id/type_bt_save"
-                                        style="@style/Button.Accent.Borderless"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:text="SAVE" />
-
-                                </LinearLayout>
-
                             </LinearLayout>
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/spacing_mlarge" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_medium"
+                        android:layout_marginLeft="@dimen/spacing_middle"
+                        android:layout_marginRight="@dimen/spacing_middle"
+                        android:layout_marginTop="@dimen/spacing_medium"
+                        android:visibility="visible"
+                        app:cardCornerRadius="2dp"
+                        app:cardElevation="2dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/next_btn_to_last_page"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Next"
+                                android:background="@drawable/donate_button"
+                                android:textColor="@android:color/white"/>
+
 
                         </LinearLayout>
 
