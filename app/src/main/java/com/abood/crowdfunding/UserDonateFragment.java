@@ -66,7 +66,7 @@ public class UserDonateFragment extends Fragment {
 
 
             @Override
-            protected void onBindViewHolder(@NonNull final UserDonationViewHolder holder, int position, @NonNull DonationModel model) {
+            protected void onBindViewHolder(@NonNull final UserDonationViewHolder holder, int position, @NonNull final DonationModel model) {
                 holder.userDonationFund.setText(model.getTargetAmount());
                 DocumentReference documentReference = store.collection("Campaigns").document(model.getCampaignId());
                 documentReference.get()
@@ -100,7 +100,7 @@ public class UserDonateFragment extends Fragment {
 
                                 if (snapshot.exists())
                                 {
-                                    holder.campaignOwner.setText(snapshot.getString("userName").toString());
+                                    holder.campaignOwner.setText(snapshot.getString("userName"));
                                 }
                                 else {}
                             }

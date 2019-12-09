@@ -45,7 +45,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="project name"
+                    android:text="project owner name"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:layout_marginBottom="10dp"
                     android:id="@+id/project_owner_name"/>
