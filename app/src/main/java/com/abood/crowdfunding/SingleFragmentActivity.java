@@ -116,7 +116,7 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
             }
 
             if (id == R.id.nav_start_project) {
-                Intent i = new Intent(SingleFragmentActivity.this,AddCampaignActivity.class);
+                Intent i = new Intent(SingleFragmentActivity.this,FinalAddCampaign.class);
                 startActivity(i);
             }
 
