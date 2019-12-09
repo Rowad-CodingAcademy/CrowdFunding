@@ -63,7 +63,7 @@ public class UserProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v =  inflater.inflate(R.layout.activity_profile, container, false);
+        View v = inflater.inflate(R.layout.activity_profile, container, false);
 
         view = v;
 
@@ -139,11 +139,10 @@ public class UserProfileFragment extends Fragment {
                             @Override
                             public void onSuccess(DocumentSnapshot snapshot) {
 
-                                if (snapshot.exists())
-                                {
-                                   userName.setText(snapshot.getString("userName"));
+                                if (snapshot.exists()) {
+                                    userName.setText(snapshot.getString("userName"));
+                                } else {
                                 }
-                                else {}
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -153,7 +152,7 @@ public class UserProfileFragment extends Fragment {
                             }
                         });
 
-                db.collection("Campaigns").whereEqualTo("userId",FirebaseAuth.getInstance().getUid())
+                db.collection("Campaigns").whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
@@ -162,7 +161,7 @@ public class UserProfileFragment extends Fragment {
                                     int count = 0;
                                     for (DocumentSnapshot document : task.getResult()) {
                                         count++;
-                                        userCampaignNo.setText(String.valueOf(count)+" Campaigns");
+                                        userCampaignNo.setText(String.valueOf(count) + " Campaigns");
                                     }
                                 } else {
                                 }
@@ -170,7 +169,7 @@ public class UserProfileFragment extends Fragment {
                         });
 
 
-                db.collection("Donation").whereEqualTo("userId",FirebaseAuth.getInstance().getUid())
+                db.collection("Donation").whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
@@ -179,7 +178,7 @@ public class UserProfileFragment extends Fragment {
                                     int count = 0;
                                     for (DocumentSnapshot document : task.getResult()) {
                                         count++;
-                                        userDonationNo.setText(String.valueOf(count)+" Donation");
+                                        userDonationNo.setText(String.valueOf(count) + " Donation");
                                     }
                                 } else {
                                 }

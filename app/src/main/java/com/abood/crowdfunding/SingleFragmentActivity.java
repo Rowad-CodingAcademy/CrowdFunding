@@ -87,8 +87,6 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
                 });
 
 
-
-
         fragmentManager.beginTransaction().replace(R.id.fragment_container, createFragment()).commit();
 
     }

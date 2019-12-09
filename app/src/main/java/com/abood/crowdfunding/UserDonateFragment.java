@@ -74,15 +74,14 @@ public class UserDonateFragment extends Fragment {
                             @Override
                             public void onSuccess(DocumentSnapshot snapshot) {
 
-                                if (snapshot.exists())
-                                {
+                                if (snapshot.exists()) {
                                     holder.campaignTitle.setText(snapshot.getString("campaignTitle").toString());
                                     String imgURL = snapshot.getString("campaignImage");
                                     Picasso.get().load(imgURL).into(holder.campaignImage);
 
 
+                                } else {
                                 }
-                                else {}
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -98,11 +97,10 @@ public class UserDonateFragment extends Fragment {
                             @Override
                             public void onSuccess(DocumentSnapshot snapshot) {
 
-                                if (snapshot.exists())
-                                {
+                                if (snapshot.exists()) {
                                     holder.campaignOwner.setText(snapshot.getString("userName"));
+                                } else {
                                 }
-                                else {}
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -111,8 +109,6 @@ public class UserDonateFragment extends Fragment {
 
                             }
                         });
-
-
 
 
             }
