@@ -2,12 +2,12 @@ package com.abood.crowdfunding;
 
 import androidx.fragment.app.Fragment;
 
-public class AdminDashboardActivity extends SingleFragmentActivity  {
+public class CampaignsListActivity extends SingleFragmentActivity  {
 
     @Override
     protected Fragment createFragment() {
 
-        return new AdminDashboardFragment();
+        return new CampaignsListFragment();
 
     }
 

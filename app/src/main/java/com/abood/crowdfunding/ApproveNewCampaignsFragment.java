@@ -93,7 +93,7 @@ public class ApproveNewCampaignsFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-                    updateStatusToReject(position);
+                    updateStatusToAccepted(position);
 
                 }
             });

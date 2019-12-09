@@ -270,11 +270,8 @@
                 android:layout_height="30dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="30dp"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView2"
-                app:layout_constraintVertical_bias="0.0"
                 app:srcCompat="@drawable/ic_monetization_on_black_24dp" />
 
             <TextView
@@ -298,22 +295,23 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
             <TextView
-                android:id="@+id/campaign_location_textView2"
+                android:id="@+id/campaign_location_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 app:layout_constraintStart_toEndOf="@+id/campaign_location_imageView"
-                app:layout_constraintTop_toBottomOf="@+id/campaign_location_textView" />
+                app:layout_constraintTop_toBottomOf="@+id/campaign_location_textView2" />
 
             <TextView
-                android:id="@+id/campaign_location_textView"
+                android:id="@+id/campaign_location_textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginEnd="40dp"
                 android:text="Location"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/grey_600"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/campaign_daysToGo_textView" />
 
@@ -322,21 +320,52 @@
                 android:layout_width="30dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="10dp"
-                app:layout_constraintEnd_toStartOf="@+id/campaign_location_textView"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/campaign_location_textView2"
                 app:layout_constraintTop_toBottomOf="@+id/campaign_daysToGo_imageView"
                 app:srcCompat="@drawable/ic_location_on_black_24dp" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/category"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="Category"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/imageView4"
+                app:layout_constraintTop_toBottomOf="@+id/campaign_cost_textView" />
+
+            <TextView
+                android:id="@+id/campaign_category_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toEndOf="@+id/imageView4"
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
@@ -367,6 +396,30 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView11" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/pdf"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+
+        <TextView
+            android:id="@+id/download_pdf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="31dp"
+            android:text="Feasibility Study pdf file"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/imageView5"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

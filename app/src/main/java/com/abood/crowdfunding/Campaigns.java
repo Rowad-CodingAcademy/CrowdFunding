@@ -3,7 +3,8 @@ package com.abood.crowdfunding;
 
 import java.util.UUID;
 
-public class Campaigns {
+public class Campaigns
+{
 
     private UUID campaignID;
     private String campaignTitle;
