@@ -3,6 +3,7 @@ package com.abood.crowdfunding;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,13 +15,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import android.widget.ImageView;
@@ -56,36 +63,9 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
 
+        firebaseAuth = FirebaseAuth.getInstance();
         initToolbar();
         initNavigationMenu();
-
-        name = navigation_header.findViewById(R.id.name);
-        email = navigation_header.findViewById(R.id.email);
-        userPhoto = navigation_header.findViewById(R.id.nav_user_photo);
-        db = FirebaseFirestore.getInstance();
-        DocumentReference documentReferenceUser = db.collection("Users").document(FirebaseAuth.getInstance().getUid());
-        documentReferenceUser.get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot snapshot) {
-
-                        if (snapshot.exists()) {
-                            userName = snapshot.getString("userName");
-                            name.setText(userName);
-                            email.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-                            userImage = snapshot.getString("userImage");
-                            Picasso.get().load(userImage).into(userPhoto);
-                        } else {
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });
-
 
         fragmentManager.beginTransaction().replace(R.id.fragment_container, createFragment()).commit();
 
@@ -132,7 +112,31 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
                 is_account_mode = is_hide;
                 menu_navigation.clear();
                 if (is_hide) {
-                    menu_navigation.add(1, 1000, 100, FirebaseAuth.getInstance().getCurrentUser().getEmail()).setIcon(R.drawable.ic_account_circle);
+
+                    name = navigation_header.findViewById(R.id.name);
+                    email = navigation_header.findViewById(R.id.email);
+                    userPhoto = navigation_header.findViewById(R.id.nav_user_photo);
+                    db = FirebaseFirestore.getInstance();
+                    Task<QuerySnapshot> query = db.collection("Users").whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid())
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            name.setText(document.getString("userName"));
+                                            email.setText(firebaseAuth.getCurrentUser().getEmail());
+                                            Picasso.get().load(document.getString("userImage")).into(userPhoto);
+
+                                        }
+                                    } else {
+                                    }}
+                                });
+
+
+
+
+                 //   menu_navigation.add(1, 1000, 100, FirebaseAuth.getInstance().getCurrentUser().getEmail()).setIcon(R.drawable.ic_account_circle);
                     //menu_navigation.add(1, 2000, 100, "adams.green@mail.com").setIcon(R.drawable.ic_account_circle);
                     menu_navigation.add(1, 1, 100, "Add account").setIcon(R.drawable.ic_add);
                     menu_navigation.add(1, 2, 100, "Manage accounts").setIcon(R.drawable.ic_settings);
@@ -142,6 +146,8 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 
     private void onItemNavigationClicked(MenuItem item) {
@@ -174,15 +180,11 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case 1000:
-                    name.setText(userName);
+                    name.setText(firebaseAuth.getCurrentUser().getUid());
                     email.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
                     Picasso.get().load(userImage).into(userPhoto);
                     break;
-                case 2000:
-                    name.setText(userName);
-                    email.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-                    Picasso.get().load(userImage).into(userPhoto);
-                    break;
+
                 default:
                     Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
                     break;
