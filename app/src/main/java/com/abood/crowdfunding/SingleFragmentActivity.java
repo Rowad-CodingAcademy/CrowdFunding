@@ -3,7 +3,6 @@ package com.abood.crowdfunding;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,22 +14,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +46,9 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
     private TextView name;
     private TextView email;
     private ImageView userPhoto;
+    LinearLayout user_info_nav,logo_nav;
+
+
 
     protected abstract Fragment createFragment();
 
@@ -71,6 +68,8 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
         email = navigation_header.findViewById(R.id.email);
         userPhoto = navigation_header.findViewById(R.id.nav_user_photo);
         db = FirebaseFirestore.getInstance();
+
+        if(firebaseAuth.getCurrentUser()!=null){
         Task<QuerySnapshot> query = db.collection("Users").whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -84,11 +83,11 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
 
                             }
                         } else {
+
                         }}
                 });
-
+        }
         fragmentManager.beginTransaction().replace(R.id.fragment_container, createFragment()).commit();
-
     }
 
 
@@ -123,8 +122,32 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
 
         menu_navigation = nav_view.getMenu();
 
-        // navigation header
         navigation_header = nav_view.getHeaderView(0);
+        user_info_nav = navigation_header.findViewById(R.id.user_info_nav);
+        logo_nav = navigation_header.findViewById(R.id.logo_nav);
+
+
+        if (firebaseAuth.getCurrentUser()==null) {
+            user_info_nav.setVisibility(View.GONE);
+            logo_nav.setVisibility(View.VISIBLE);
+
+            menu_navigation.setGroupVisible(R.id.grp_1,false);
+            menu_navigation.setGroupVisible(R.id.grp_2,true);
+            menu_navigation.setGroupVisible(R.id.grp_3,true);
+            menu_navigation.setGroupVisible(R.id.grp_4,false);
+        } else {
+            user_info_nav.setVisibility(View.VISIBLE);
+            logo_nav.setVisibility(View.GONE);
+
+            menu_navigation.setGroupVisible(R.id.grp_1,true);
+            menu_navigation.setGroupVisible(R.id.grp_2,false);
+            menu_navigation.setGroupVisible(R.id.grp_3,true);
+            menu_navigation.setGroupVisible(R.id.grp_4,true);
+        }
+
+
+        // navigation header
+
         (navigation_header.findViewById(R.id.bt_account)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,8 +155,6 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
                 is_account_mode = is_hide;
                 menu_navigation.clear();
                 if (is_hide) {
-
-
 
                  //   menu_navigation.add(1, 1000, 100, FirebaseAuth.getInstance().getCurrentUser().getEmail()).setIcon(R.drawable.ic_account_circle);
                     //menu_navigation.add(1, 2000, 100, "adams.green@mail.com").setIcon(R.drawable.ic_account_circle);
@@ -161,9 +182,15 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
             if (id == R.id.nav_log_out) {
                 firebaseAuth = FirebaseAuth.getInstance();
                 firebaseAuth.signOut();
+                Intent i = new Intent(SingleFragmentActivity.this, CampaignsListActivity.class);
+                startActivity(i);
+            }
+
+            if (id == R.id.nav_log_in) {
                 Intent i = new Intent(SingleFragmentActivity.this, LoginActivity.class);
                 startActivity(i);
             }
+
 
             if (id == R.id.nav_start_project) {
                 Intent i = new Intent(SingleFragmentActivity.this, FinalAddCampaign.class);
@@ -176,6 +203,7 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
             }
 
         } else {
+
 
             switch (item.getItemId()) {
                 case 1000:
@@ -204,3 +232,6 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
 
 
 }
+
+
+
