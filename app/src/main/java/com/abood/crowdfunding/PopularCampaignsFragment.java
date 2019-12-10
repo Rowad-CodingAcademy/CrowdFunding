@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -110,7 +111,8 @@ public class PopularCampaignsFragment extends Fragment {
 
         @Override
         protected void onBindViewHolder(@NonNull PopularCampaignsViewHolder holder , final int position, @NonNull Campaigns campaign) {
-            holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage());
+
+            holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage(),campaign.getCampaignCost(),campaign.getCampaignFunds());
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -139,7 +141,9 @@ public class PopularCampaignsFragment extends Fragment {
         private View view;
 
         ImageView campaignImage;
-        TextView campaignTitle,campaignDescription;
+        TextView campaignTitle,campaignDescription,campaignRatio,campaignDoners,campaignDays;
+        private ProgressBar progress_determinate;
+        int mDonationRatio;
 
 
         public PopularCampaignsViewHolder(@NonNull View itemView) {
@@ -149,14 +153,26 @@ public class PopularCampaignsFragment extends Fragment {
 
         }
 
-        void setData(String name, String age , String image ) {
+        void setData(String name, String age , String image, String cost, String fund ) {
 
             campaignImage = itemView.findViewById(R.id.campaign_image);
             campaignTitle = itemView.findViewById(R.id.campaign_title);
             campaignDescription = itemView.findViewById(R.id.campaign_description);
+            campaignRatio = itemView.findViewById(R.id.campaign_ratio_textView);
+            campaignDoners = itemView.findViewById(R.id.campaign_donors_textView);
+            campaignDays = itemView.findViewById(R.id.campaign_daysToGo_textView);
+            progress_determinate = itemView.findViewById(R.id.progress_determinate);
 
             campaignTitle.setText(name);
             campaignDescription.setText(age);
+
+            Double funds = Double.parseDouble(fund);
+            Double costs = Double.parseDouble(cost);
+            mDonationRatio = new Integer(String.valueOf(Math.round((funds*100)/ costs)));
+            campaignRatio.setText(mDonationRatio+"%");
+
+            progress_determinate.setProgress(mDonationRatio);
+
 //            Picasso.get().load(image).into(userImage);
             Glide.with(getActivity()).load(image).into(campaignImage);
 

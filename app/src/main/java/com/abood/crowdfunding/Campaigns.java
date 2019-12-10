@@ -13,6 +13,7 @@ public class Campaigns
     private String campaignCountry;
     private String campaignImage;
     private String campaignCost;
+    private String campaignFunds;
 
     public UUID getCampaignID() {
         return campaignID;
@@ -21,7 +22,6 @@ public class Campaigns
     public void setCampaignID(UUID campaignID) {
         this.campaignID = campaignID;
     }
-
 
     public String getCampaignTitle() {
         return campaignTitle;
@@ -69,5 +69,13 @@ public class Campaigns
 
     public void setCampaignCost(String campaignCost) {
         this.campaignCost = campaignCost;
+    }
+
+    public String getCampaignFunds() {
+        return campaignFunds;
+    }
+
+    public void setCampaignFunds(String campaignFunds) {
+        this.campaignFunds = campaignFunds;
     }
 }
