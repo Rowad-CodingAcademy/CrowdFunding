@@ -142,16 +142,14 @@ public class ManageCampaignsFragment extends Fragment {
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.edit:
-                                    Intent editIntent=new Intent(getActivity(),EditingActivity.class);
-                                    startActivity(editIntent);
+                                    Intent intent=new Intent(getActivity(),EditingActivity.class);
+                                    startActivity(intent);
                                     break;
                                 case R.id.delate:
-                                    Intent deleteIntent=new Intent( getActivity(),DeleteingActivity.class);
-                                    startActivity(deleteIntent);
+                                    Toast.makeText(getContext(), "delating", Toast.LENGTH_SHORT).show();
                                     break;
                                 case R.id.pause:
-                                    Intent pauseIntent=new Intent( getActivity(),PauseActivity.class);
-                                    startActivity(pauseIntent);
+                                    Toast.makeText(getContext(), "pausing", Toast.LENGTH_SHORT).show();
                                     break;
                             }
                             return false;

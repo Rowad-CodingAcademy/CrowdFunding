@@ -15,8 +15,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".PauseActivity"></activity>
-        <activity android:name=".DeleteingActivity" />
         <activity android:name=".EditingActivity" />
         <activity android:name=".UploadPDF" />
         <activity android:name=".CampaignDetailsActivity" />
