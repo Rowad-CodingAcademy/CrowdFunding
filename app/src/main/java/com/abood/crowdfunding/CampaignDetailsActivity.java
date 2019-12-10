@@ -45,7 +45,7 @@ public class CampaignDetailsActivity extends AppCompatActivity
 {
 
     public  static  final String EXTRA_CAMPAIGN_UUID="com.abood.crowdfunding.campaignId";
-    private TextView mTitleTV,ownerNameTV,mDonationRatioTV,mDonorsTV,mDaysToGoTV,mDescriptionTV,mCostTV,mLocationTV,mCategoryTV,mDownloadPdfTV;
+    private TextView mTitleTV,ownerNameTV,mDonationRatioTV,mDonorsTV,mDaysToGoTV,mDescriptionTV,mCostTV,mLocationTV,mCategoryTV,mDownloadPdfTV,mRemainigAmountTV;
     private ViewPager mPhotoViewPager;
     LinearLayout layout_dots;
     Button donateBtn;
@@ -88,6 +88,7 @@ public class CampaignDetailsActivity extends AppCompatActivity
         mDaysToGoImageView=findViewById(R.id.campaign_daysToGo_imageView);
         mCostTV=findViewById(R.id.campaign_cost_textView);
         mLocationTV=findViewById(R.id.campaign_location_textView);
+        mRemainigAmountTV=findViewById(R.id.campaign_remainigAmount_textView);
         mDescriptionTV=findViewById(R.id.campaign_description_textView);
         mCategoryTV=findViewById(R.id.campaign_category_textView);
         mDownloadPdfTV=findViewById(R.id.download_pdf);
@@ -121,11 +122,19 @@ public class CampaignDetailsActivity extends AppCompatActivity
                                 //campaigns.setCampaignLocation(task.getResult().getString("campaignLocation"));
 
                                 mTitleTV.setText(task.getResult().getString("campaignTitle"));
+
+                                Double fund=Double.parseDouble(task.getResult().getString("campaignFunds"));
+                                Double cost=Double.parseDouble(task.getResult().getString("campaignCost"));
+                                mDonationRatio = new Integer(String.valueOf(Math.round((fund*100)/ cost)));
+
+                                mDonationRatioTV.setText(mDonationRatio+"%");
+
                                 mDescriptionTV.setText(task.getResult().getString("campaignDescription"));
                                 mLocationTV.setText(task.getResult().getString("campaignCountry"));
-                                mCostTV.setText(task.getResult().getString("campaignCost"));
+                                mCostTV.setText(task.getResult().getString("campaignCost")+" $");
                                 mCategoryTV.setText(task.getResult().getString("campaignCategory"));
                                 mDonorsTV.setText(task.getResult().getString("campaignDonors"));
+                                mRemainigAmountTV.setText(cost-fund+" $");
                                 //campaignPhotoes=campaigns.getCampImageUrl();
 
                                 campaignPhotoes.add(task.getResult().getString("campaignImage"));
@@ -158,11 +167,7 @@ public class CampaignDetailsActivity extends AppCompatActivity
 
                                 ownerNameTV.setText(user.getuName());
 
-                                Double fund=Double.parseDouble(task.getResult().getString("campaignFunds"));
-                                Double cost=Double.parseDouble(task.getResult().getString("campaignCost"));
-                                mDonationRatio = new Integer(String.valueOf(Math.round((fund*100)/ cost)));
 
-                                mDonationRatioTV.setText(mDonationRatio+"%");
                                 setUpProgressBar();
 
                                 //dateDiff=getDateDifference(getFormattedDate(campaigns.getCampEnd()));
