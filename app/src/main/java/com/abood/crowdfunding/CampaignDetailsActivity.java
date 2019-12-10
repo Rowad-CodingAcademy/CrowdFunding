@@ -159,7 +159,7 @@ public class CampaignDetailsActivity extends AppCompatActivity
                                 ownerNameTV.setText(user.getuName());
 
                                 Double fund=Double.parseDouble(task.getResult().getString("campaignFunds"));
-                                double cost=Double.parseDouble(task.getResult().getString("campaignCost"));
+                                Double cost=Double.parseDouble(task.getResult().getString("campaignCost"));
                                 mDonationRatio = new Integer(String.valueOf(Math.round((fund*100)/ cost)));
 
                                 mDonationRatioTV.setText(mDonationRatio+"%");

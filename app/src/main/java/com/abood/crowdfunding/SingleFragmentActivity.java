@@ -1,20 +1,39 @@
+
 package com.abood.crowdfunding;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
+
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -27,10 +46,16 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
     private DrawerLayout drawer;
     private View navigation_header;
     private boolean is_account_mode = false;
+    private String userName;
+    private String userImage;
+    private FirebaseFirestore db;
+    private TextView name;
+    private TextView email;
+    private ImageView userPhoto;
 
     protected abstract Fragment createFragment();
-    FragmentManager fragmentManager = getSupportFragmentManager();
 
+    FragmentManager fragmentManager = getSupportFragmentManager();
 
 
     @Override
@@ -38,10 +63,31 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
 
+        firebaseAuth = FirebaseAuth.getInstance();
         initToolbar();
         initNavigationMenu();
 
-        fragmentManager.beginTransaction().replace(R.id.fragment_container,createFragment()).commit();
+        name = navigation_header.findViewById(R.id.name);
+        email = navigation_header.findViewById(R.id.email);
+        userPhoto = navigation_header.findViewById(R.id.nav_user_photo);
+        db = FirebaseFirestore.getInstance();
+        Task<QuerySnapshot> query = db.collection("Users").whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                name.setText(document.getString("userName"));
+                                email.setText(firebaseAuth.getCurrentUser().getEmail());
+                                Picasso.get().load(document.getString("userImage")).into(userPhoto);
+
+                            }
+                        } else {
+                        }}
+                });
+
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, createFragment()).commit();
 
     }
 
@@ -75,7 +121,6 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
         });
 
 
-
         menu_navigation = nav_view.getMenu();
 
         // navigation header
@@ -87,8 +132,11 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
                 is_account_mode = is_hide;
                 menu_navigation.clear();
                 if (is_hide) {
-                    menu_navigation.add(1, 1000, 100, "evans.collins@mail.com").setIcon(R.drawable.ic_account_circle);
-                    menu_navigation.add(1, 2000, 100, "adams.green@mail.com").setIcon(R.drawable.ic_account_circle);
+
+
+
+                 //   menu_navigation.add(1, 1000, 100, FirebaseAuth.getInstance().getCurrentUser().getEmail()).setIcon(R.drawable.ic_account_circle);
+                    //menu_navigation.add(1, 2000, 100, "adams.green@mail.com").setIcon(R.drawable.ic_account_circle);
                     menu_navigation.add(1, 1, 100, "Add account").setIcon(R.drawable.ic_add);
                     menu_navigation.add(1, 2, 100, "Manage accounts").setIcon(R.drawable.ic_settings);
                 } else {
@@ -97,6 +145,8 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 
     private void onItemNavigationClicked(MenuItem item) {
@@ -111,12 +161,12 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
             if (id == R.id.nav_log_out) {
                 firebaseAuth = FirebaseAuth.getInstance();
                 firebaseAuth.signOut();
-                Intent i = new Intent(SingleFragmentActivity.this,LoginActivity.class);
+                Intent i = new Intent(SingleFragmentActivity.this, LoginActivity.class);
                 startActivity(i);
             }
 
             if (id == R.id.nav_start_project) {
-                Intent i = new Intent(SingleFragmentActivity.this,AddCampaignActivity.class);
+                Intent i = new Intent(SingleFragmentActivity.this, FinalAddCampaign.class);
                 startActivity(i);
             }
 
@@ -126,20 +176,14 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
             }
 
         } else {
-            TextView name =  navigation_header.findViewById(R.id.name);
-            TextView email =  navigation_header.findViewById(R.id.email);
-            ImageView userPhoto =  navigation_header.findViewById(R.id.nav_user_photo);
+
             switch (item.getItemId()) {
                 case 1000:
-                    name.setText("Evans Collins");
-                    email.setText(item.getTitle().toString());
-                    userPhoto.setImageResource(R.drawable.photo_male_5);
+                    name.setText(firebaseAuth.getCurrentUser().getUid());
+                    email.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                    Picasso.get().load(userImage).into(userPhoto);
                     break;
-                case 2000:
-                    name.setText("Adams Green");
-                    email.setText(item.getTitle().toString());
-                    userPhoto.setImageResource(R.drawable.photo_male_2);
-                    break;
+
                 default:
                     Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
                     break;

@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ public class DonationDetailsActivity extends AppCompatActivity {
 
     ImageView image;
 
+//    ScrollView scrollView;
     EditText targetCostED;
     TextView details;
     EditText cardHolderName;
@@ -57,6 +59,7 @@ public class DonationDetailsActivity extends AppCompatActivity {
         init();
 
 
+
         detailsLyout = findViewById(R.id.details);
         donateBTN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +76,6 @@ public class DonationDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 detailsLyout.setVisibility(View.VISIBLE);
-
             }
         });
 

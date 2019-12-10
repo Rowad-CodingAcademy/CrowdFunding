@@ -19,6 +19,8 @@ import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -64,26 +66,48 @@ public class UserDonateFragment extends Fragment {
 
 
             @Override
-            protected void onBindViewHolder(@NonNull final UserDonationViewHolder holder, int position, @NonNull DonationModel model) {
+            protected void onBindViewHolder(@NonNull final UserDonationViewHolder holder, int position, @NonNull final DonationModel model) {
                 holder.userDonationFund.setText(model.getTargetAmount());
-                store.collection("Campaigns").whereEqualTo(store.collection("Campaigns").getId().toString(),model.getCampaignId());
-
-                store.collection("Users").document(model.getCampaignId()).get()
-                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                DocumentReference documentReference = store.collection("Campaigns").document(model.getCampaignId());
+                documentReference.get()
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    if (task.getResult().exists()) {
+                            public void onSuccess(DocumentSnapshot snapshot) {
 
-                                        if (task.getResult().exists())
-                                        {
-                                            holder.campaignTitle.setText(task.getResult().getString("campaignTitle"));
-                                            //Picasso.get().load(task.getResult().getString("campaignImage")).into(holder.campaignImage);
-                                        }
-                                    }
+                                if (snapshot.exists()) {
+                                    holder.campaignTitle.setText(snapshot.getString("campaignTitle").toString());
+                                    String imgURL = snapshot.getString("campaignImage");
+                                    Picasso.get().load(imgURL).into(holder.campaignImage);
+
+
+                                } else {
                                 }
                             }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
 
+                            }
+                        });
+
+                DocumentReference documentReferenceUser = store.collection("Users").document(model.getUserId());
+                documentReferenceUser.get()
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot snapshot) {
+
+                                if (snapshot.exists()) {
+                                    holder.campaignOwner.setText(snapshot.getString("userName"));
+                                } else {
+                                }
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                            }
                         });
 
 
@@ -129,7 +153,7 @@ public class UserDonateFragment extends Fragment {
 
         public UserDonationViewHolder(@NonNull View itemView) {
             super(itemView);
-            campaignImage = itemView.findViewById(R.id.campaign_image);
+            campaignImage = itemView.findViewById(R.id.project_image);
             campaignTitle = itemView.findViewById(R.id.project_title);
             campaignOwner = itemView.findViewById(R.id.project_owner_name);
             userDonationFund = itemView.findViewById(R.id.user_donation_cost);

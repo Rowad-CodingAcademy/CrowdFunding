@@ -64,6 +64,7 @@
                         app:layout_collapseMode="parallax">
 
                         <TextView
+                            android:id="@+id/user_profile_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Jessica W. Willis"
@@ -81,9 +82,10 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="301 Followers"
+                                android:text="0 Campaign"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                                android:textColor="@color/grey_10" />
+                                android:textColor="@color/grey_10"
+                                android:id="@+id/user_campaign_no"/>
 
                             <ImageView
                                 android:layout_width="@dimen/spacing_medium"
@@ -94,9 +96,10 @@
                                 android:tint="@color/grey_10" />
 
                             <TextView
+                                android:id="@+id/user_donation_no"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="250 Following"
+                                android:layout_height="match_parent"
+                                android:text="0 Donation"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/grey_10"
                                 app:layout_collapseMode="parallax" />
@@ -110,13 +113,13 @@
             </RelativeLayout>
 
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:contentInsetStartWithNavigation="0dp"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+<!--            <androidx.appcompat.widget.Toolbar-->
+<!--                android:id="@+id/toolbar"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="?attr/actionBarSize"-->
+<!--                app:contentInsetStartWithNavigation="0dp"-->
+<!--                app:layout_collapseMode="pin"-->
+<!--                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />-->
 
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>

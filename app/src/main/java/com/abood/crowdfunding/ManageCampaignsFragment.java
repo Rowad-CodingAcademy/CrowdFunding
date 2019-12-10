@@ -1,11 +1,16 @@
 package com.abood.crowdfunding;
 
+
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,131 +20,187 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.squareup.picasso.Picasso;
+
 
 public class ManageCampaignsFragment extends Fragment {
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference campaignRef = db.collection("Campaigns");
-    private ManageNewCampaignAdapter campaignAdapter;
+    RecyclerView popularCampaignsRecyclerView;
+    FirebaseFirestore store;
+    Context mCtx;
+    private PopularCampaignAdapter popularCampaignAdapter;
 
-
-    private Campaigns mCampaign;
+//    private FirestoreRecyclerAdapter<Campaigns, PopularCampaignsViewHolder> adapter;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    @Nullable
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v =  inflater.inflate(R.layout.fragment_manage_new_campaigns, container, false);
+        View v =  inflater.inflate(R.layout.fragment_popular_campaigns, container, false);
 
-        Query query = campaignRef;
+        popularCampaignsRecyclerView = v.findViewById(R.id.popular_campaign_recycler_view);
+        popularCampaignsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        store = FirebaseFirestore.getInstance();
+        Query query = store.collection("Campaigns").whereEqualTo("campaignApprove","1");
+
         FirestoreRecyclerOptions<Campaigns> options = new FirestoreRecyclerOptions.Builder<Campaigns>()
-                .setQuery(query,Campaigns.class)
+                .setQuery(query, Campaigns.class)
                 .build();
 
-        campaignAdapter = new ManageNewCampaignAdapter(options);
+        popularCampaignAdapter = new PopularCampaignAdapter(options);
 
-        RecyclerView recyclerView = v.findViewById(R.id.manage_campaign_recycler_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(campaignAdapter);
+
+
+//        adapter = new FirestoreRecyclerAdapter<Campaigns, PopularCampaignsViewHolder>(options) {
+//            @Override
+//            protected void onBindViewHolder(@NonNull PopularCampaignsViewHolder holder , final int position, @NonNull Campaigns campaign) {
+//                holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage());
+//
+//                holder.itemView.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v)
+//                    {
+//
+//                        Intent i = CampaignDetailsActivity.newIntent(getActivity(),getSnapshots().getSnapshot(position).getId());
+//                        startActivity(i);
+//
+//                    }
+//                });
+//
+//            }
+//
+//            @NonNull
+//            @Override
+//            public PopularCampaignsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+//                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.campaign_holder, parent, false);
+//                return new PopularCampaignsViewHolder(view);
+//            }
+//        };
+        popularCampaignsRecyclerView.setAdapter(popularCampaignAdapter);
+
+
         return v;
 
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
-        campaignAdapter.startListening();
+        popularCampaignAdapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        campaignAdapter.stopListening();
+
+        if (popularCampaignAdapter != null) {
+            popularCampaignAdapter.stopListening();
+        }
     }
 
 
+    class PopularCampaignAdapter extends FirestoreRecyclerAdapter<Campaigns, PopularCampaignsViewHolder> {
 
 
-    class ManageNewCampaignAdapter extends FirestoreRecyclerAdapter<Campaigns, ManageNewCampaignAdapter.CompaignViewHolder> {
-
-
-        public ManageNewCampaignAdapter(@NonNull FirestoreRecyclerOptions<Campaigns> options) {
+        public PopularCampaignAdapter(@NonNull FirestoreRecyclerOptions<Campaigns> options) {
             super(options);
         }
 
         @Override
-        protected void onBindViewHolder(@NonNull CompaignViewHolder holder, final int position, @NonNull Campaigns model) {
+        protected void onBindViewHolder(@NonNull final PopularCampaignsViewHolder holder , final int position, @NonNull Campaigns campaign) {
+            holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage());
 
-            final FirebaseFirestore db = FirebaseFirestore.getInstance();
-            Picasso.get().load(model.getCampaignImage()).into(holder.campaignImage);
-            holder.campaignTitle.setText(model.getCampaignTitle());
-            holder.campaignDescription.setText(model.getCampaignDescription());
-
-            holder.resumeBTN.setOnClickListener(new View.OnClickListener() {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View v)
+                {
 
-                    updateStatusToReject(position);
+                    Intent i = CampaignDetailsActivity.newIntent(getActivity(),getSnapshots().getSnapshot(position).getId());
+                    startActivity(i);
 
                 }
             });
 
-            holder.refuseBTN.setOnClickListener(new View.OnClickListener() {
+            holder.viewOptionTextView.setOnClickListener(new OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View v) {
+                    PopupMenu popup = new PopupMenu(getContext(),holder.viewOptionTextView);
 
-                    updateStatusToReject(position);
+                    popup.inflate(R.menu.manage_admin_dashboared);
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.edit:
+                                    Intent intent=new Intent(getActivity(),EditingActivity.class);
+                                    startActivity(intent);
+                                    break;
+                                case R.id.delate:
+                                    Toast.makeText(getContext(), "delating", Toast.LENGTH_SHORT).show();
+                                    break;
+                                case R.id.pause:
+                                    Toast.makeText(getContext(), "pausing", Toast.LENGTH_SHORT).show();
+                                    break;
+                            }
+                            return false;
+                        }
+                    });
 
+                    popup.show();
                 }
             });
+
         }
-
 
         @NonNull
         @Override
-        public CompaignViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_compaign_to_approve_cardview, parent, false);
-            return new CompaignViewHolder(v);
+        public PopularCampaignsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.admin_management_holder, parent, false);
+            return new PopularCampaignsViewHolder(view);
+        }
+    }
+
+
+    public class PopularCampaignsViewHolder extends RecyclerView.ViewHolder {
+
+        private View view;
+
+        ImageView campaignImage;
+        TextView campaignTitle,campaignDescription,viewOptionTextView;
+
+
+
+        public PopularCampaignsViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            view = itemView;
+
         }
 
+        void setData(String name, String age , String image ) {
 
-        void updateStatusToAccepted(int position) {
-            getSnapshots().getSnapshot(position).getReference().update("campaignApprove", "1");
-        }
+            campaignImage = itemView.findViewById(R.id.campaign_image);
+            campaignTitle = itemView.findViewById(R.id.campaign_title);
+            campaignDescription = itemView.findViewById(R.id.campaign_description);
+            viewOptionTextView=itemView.findViewById(R.id.textViewOptions);
 
-        void updateStatusToReject(int position) {
-            getSnapshots().getSnapshot(position).getReference().update("campaignApprove", "2");
-        }
 
-        public class CompaignViewHolder extends RecyclerView.ViewHolder {
+            campaignTitle.setText(name);
+            campaignDescription.setText(age);
+//            Picasso.get().load(image).into(userImage);
+            Glide.with(getActivity()).load(image).into(campaignImage);
 
-            ImageView campaignImage;
-            TextView campaignTitle, campaignDescription;
-            Button refuseBTN, resumeBTN;
 
-            public CompaignViewHolder(@NonNull View itemView) {
-                super(itemView);
-
-                campaignImage = itemView.findViewById(R.id.new_camp_img);
-                campaignTitle = itemView.findViewById(R.id.new_camp_title);
-                campaignDescription = itemView.findViewById(R.id.new_camp_desc);
-                refuseBTN = itemView.findViewById(R.id.reject_campaign);
-                resumeBTN = itemView.findViewById(R.id.resume_campaign);
-
-            }
         }
     }
 

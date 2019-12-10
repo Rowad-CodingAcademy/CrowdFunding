@@ -15,7 +15,6 @@ public class Campaigns
     private String campaignCost;
     private String campaignFunds;
 
-
     public UUID getCampaignID() {
         return campaignID;
     }

@@ -2,6 +2,7 @@ package com.abood.crowdfunding;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,10 +22,21 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -52,7 +65,7 @@ public class UserProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v =  inflater.inflate(R.layout.activity_profile, container, false);
+        View v = inflater.inflate(R.layout.activity_profile, container, false);
 
         view = v;
 
@@ -107,6 +120,9 @@ public class UserProfileFragment extends Fragment {
     private void initComponent() {
 
         final CircleImageView image = view.findViewById(R.id.image);
+        final TextView userName = view.findViewById(R.id.user_profile_name);
+        final TextView userCampaignNo = view.findViewById(R.id.user_campaign_no);
+        final TextView userDonationNo = view.findViewById(R.id.user_donation_no);
 
         final CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
 
@@ -115,8 +131,58 @@ public class UserProfileFragment extends Fragment {
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 int min_height = ViewCompat.getMinimumHeight(collapsing_toolbar) * 2;
                 float scale = (float) (min_height + verticalOffset) / min_height;
-                image.setScaleX(scale >= 0 ? scale : 0);
-                image.setScaleY(scale >= 0 ? scale : 0);
+                //image.setScaleX(scale >= 0 ? scale : 0);
+                //image.setScaleY(scale >= 0 ? scale : 0);
+
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                db = FirebaseFirestore.getInstance();
+                Task<QuerySnapshot> query = db.collection("Users").whereEqualTo("userId", FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        userName.setText(document.getString("userName"));
+                                        Picasso.get().load(document.getString("userImage")).into(image);
+
+                                    }
+                                } else {
+                                }}
+                        });
+
+                db.collection("Campaigns").whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    int count = 0;
+                                    for (DocumentSnapshot document : task.getResult()) {
+                                        count++;
+                                        userCampaignNo.setText(String.valueOf(count) + " Campaigns");
+                                    }
+                                } else {
+                                }
+                            }
+                        });
+
+
+                db.collection("Donation").whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    int count = 0;
+                                    for (DocumentSnapshot document : task.getResult()) {
+                                        count++;
+                                        userDonationNo.setText(String.valueOf(count) + " Donation");
+                                    }
+                                } else {
+                                }
+                            }
+                        });
 
             }
         });
