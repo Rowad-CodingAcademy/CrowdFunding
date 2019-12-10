@@ -160,7 +160,7 @@
                                     android:layout_marginTop="@dimen/spacing_large"
                                     android:background="@color/grey_5"
                                     android:gravity="center_vertical"
-                                    android:hint="Target Cost"
+                                    android:hint="Location"
                                     android:padding="@dimen/spacing_middle"
                                     android:textColor="@color/grey_60" />
 

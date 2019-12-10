@@ -237,7 +237,7 @@ public class RegisterActivity extends AppCompatActivity
                 progress.dismiss();
 
                 Toast.makeText(RegisterActivity.this, "User Created Successfully", Toast.LENGTH_SHORT).show();
-                intent = new Intent(RegisterActivity.this,LoginActivity.class);
+                intent = new Intent(RegisterActivity.this,CampaignsListActivity.class);
                 startActivity(intent);
 
             }
