@@ -39,6 +39,20 @@
         android:id="@+id/grp_3"
         android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_paused_campaign"
+            android:icon="@drawable/ic_paused"
+            android:title="Paused Campaign" />
+        <item
+            android:id="@+id/nav_closed_campaign"
+            android:icon="@drawable/ic_stop"
+            android:title="Closed Campaign" />
+    </group>
+
+
+    <group
+        android:id="@+id/grp_4"
+        android:checkableBehavior="single">
+        <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings"
             android:title="Settings" />
@@ -49,8 +63,9 @@
     </group>
 
 
+
     <group
-        android:id="@+id/grp_4"
+        android:id="@+id/grp_5"
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_log_out"
