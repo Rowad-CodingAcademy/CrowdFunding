@@ -40,7 +40,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_paused_campaign"
-            android:icon="@drawable/ic_pause"
+            android:icon="@drawable/ic_paused"
             android:title="Paused Campaign" />
         <item
             android:id="@+id/nav_closed_campaign"
