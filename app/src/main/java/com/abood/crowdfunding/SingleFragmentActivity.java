@@ -3,6 +3,7 @@ package com.abood.crowdfunding;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -46,7 +48,9 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
     private TextView name;
     private TextView email;
     private ImageView userPhoto;
-    LinearLayout user_info_nav,logo_nav;
+    LinearLayout user_info_nav, logo_nav;
+    boolean isAdmin=false;
+    String type = null;
 
 
 
@@ -62,31 +66,35 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         initToolbar();
-        initNavigationMenu();
 
-        name = navigation_header.findViewById(R.id.name);
-        email = navigation_header.findViewById(R.id.email);
-        userPhoto = navigation_header.findViewById(R.id.nav_user_photo);
         db = FirebaseFirestore.getInstance();
 
-        if(firebaseAuth.getCurrentUser()!=null){
-        Task<QuerySnapshot> query = db.collection("Users").whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                name.setText(document.getString("userName"));
-                                email.setText(firebaseAuth.getCurrentUser().getEmail());
-                                Picasso.get().load(document.getString("userImage")).into(userPhoto);
+        if (firebaseAuth.getCurrentUser() != null) {
+            Task<QuerySnapshot> query = db.collection("Users").whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
 
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    type = document.getString("userType");
+
+                                    isAdmin=type.equals("0");
+
+                                    initNavigationMenu();
+
+                                    name.setText(document.getString("userName"));
+                                    email.setText(firebaseAuth.getCurrentUser().getEmail());
+                                    Picasso.get().load(document.getString("userImage")).into(userPhoto);
+                                }
                             }
-                        } else {
-
-                        }}
-                });
+                        }
+                    });
+        }else {
+            initNavigationMenu();
         }
+
         fragmentManager.beginTransaction().replace(R.id.fragment_container, createFragment()).commit();
     }
 
@@ -127,22 +135,38 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
         logo_nav = navigation_header.findViewById(R.id.logo_nav);
 
 
-        if (firebaseAuth.getCurrentUser()==null) {
+        name = navigation_header.findViewById(R.id.name);
+        email = navigation_header.findViewById(R.id.email);
+        userPhoto = navigation_header.findViewById(R.id.nav_user_photo);
+
+
+        if (firebaseAuth.getCurrentUser() == null) {
             user_info_nav.setVisibility(View.GONE);
             logo_nav.setVisibility(View.VISIBLE);
 
-            menu_navigation.setGroupVisible(R.id.grp_1,false);
-            menu_navigation.setGroupVisible(R.id.grp_2,true);
-            menu_navigation.setGroupVisible(R.id.grp_3,true);
-            menu_navigation.setGroupVisible(R.id.grp_4,false);
+            menu_navigation.setGroupVisible(R.id.grp_1, false);
+            menu_navigation.setGroupVisible(R.id.grp_2, true);
+            menu_navigation.setGroupVisible(R.id.grp_3, false);
+            menu_navigation.setGroupVisible(R.id.grp_4, true);
+            menu_navigation.setGroupVisible(R.id.grp_5, false);
         } else {
+
             user_info_nav.setVisibility(View.VISIBLE);
             logo_nav.setVisibility(View.GONE);
 
-            menu_navigation.setGroupVisible(R.id.grp_1,true);
-            menu_navigation.setGroupVisible(R.id.grp_2,false);
-            menu_navigation.setGroupVisible(R.id.grp_3,true);
-            menu_navigation.setGroupVisible(R.id.grp_4,true);
+            if (isAdmin) {
+                menu_navigation.setGroupVisible(R.id.grp_1, false);
+                menu_navigation.setGroupVisible(R.id.grp_2, false);
+                menu_navigation.setGroupVisible(R.id.grp_3, true);
+                menu_navigation.setGroupVisible(R.id.grp_4, true);
+                menu_navigation.setGroupVisible(R.id.grp_5, true);
+            } else {
+                menu_navigation.setGroupVisible(R.id.grp_3, false);
+                menu_navigation.setGroupVisible(R.id.grp_1, true);
+                menu_navigation.setGroupVisible(R.id.grp_2, false);
+                menu_navigation.setGroupVisible(R.id.grp_4, true);
+                menu_navigation.setGroupVisible(R.id.grp_5, true);
+            }
         }
 
 
@@ -156,7 +180,7 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
                 menu_navigation.clear();
                 if (is_hide) {
 
-                 //   menu_navigation.add(1, 1000, 100, FirebaseAuth.getInstance().getCurrentUser().getEmail()).setIcon(R.drawable.ic_account_circle);
+                    //menu_navigation.add(1, 1000, 100, FirebaseAuth.getInstance().getCurrentUser().getEmail()).setIcon(R.drawable.ic_account_circle);
                     //menu_navigation.add(1, 2000, 100, "adams.green@mail.com").setIcon(R.drawable.ic_account_circle);
                     menu_navigation.add(1, 1, 100, "Add account").setIcon(R.drawable.ic_add);
                     menu_navigation.add(1, 2, 100, "Manage accounts").setIcon(R.drawable.ic_settings);
@@ -166,7 +190,6 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
                 }
             }
         });
-
 
     }
 
