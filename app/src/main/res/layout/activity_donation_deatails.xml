@@ -274,29 +274,6 @@
                             android:text="$ 1.00 Just Support"
                             android:textColor="@color/grey_90" />
 
-
-                        <TextView
-                            android:id="@+id/project"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/spacing_large"
-                            android:layout_marginRight="@dimen/spacing_large"
-                            android:gravity="center_vertical"
-                            android:padding="@dimen/spacing_middle"
-                            android:text="Project"
-                            android:textColor="@color/grey_90" />
-
-                        <TextView
-                            android:id="@+id/total_amount"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/spacing_large"
-                            android:layout_marginRight="@dimen/spacing_large"
-                            android:gravity="center_vertical"
-                            android:padding="@dimen/spacing_middle"
-                            android:text="Total amount"
-                            android:textColor="@color/grey_90" />
-
                     </LinearLayout>
 
 
@@ -629,11 +606,12 @@
                                     android:id="@+id/donate_btn"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="30dp"
                                     android:layout_marginLeft="@dimen/spacing_large"
                                     android:layout_marginRight="@dimen/spacing_large"
                                     android:background="@color/colorAccent"
                                     android:padding="@dimen/spacing_middle"
-                                    android:text="Next"
+                                    android:text="Donate"
                                     android:textColor="#fff" />
                                 <View
                                     android:layout_width="match_parent"
