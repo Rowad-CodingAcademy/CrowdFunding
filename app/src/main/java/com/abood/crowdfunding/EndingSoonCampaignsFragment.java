@@ -17,8 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 
@@ -52,8 +56,25 @@ public class EndingSoonCampaignsFragment extends Fragment {
 
         adapter = new FirestoreRecyclerAdapter<Campaigns, EndingSoonCampaignsViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull EndingSoonCampaignsViewHolder holder , final int position, @NonNull Campaigns campaign) {
+            protected void onBindViewHolder(@NonNull final EndingSoonCampaignsViewHolder holder , final int position, @NonNull Campaigns campaign) {
                 holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage(),campaign.getCampaignCost(),campaign.getCampaignFunds());
+
+
+                store.collection("Donation").whereEqualTo("campaignId", getSnapshots().getSnapshot(position).getId())
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    int count = 0;
+                                    for (DocumentSnapshot document : task.getResult()) {
+                                        count++;
+                                        holder.campaignDoners.setText(String.valueOf(count));
+                                    }
+                                } else {
+                                }
+                            }
+                        });
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
