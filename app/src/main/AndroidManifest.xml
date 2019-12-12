@@ -20,7 +20,6 @@
         <activity android:name=".CampaignDetailsActivity" />
         <activity android:name=".FinalAddCampaign" />
         <activity android:name=".DonationDetailsActivity" />
-        <activity android:name=".ViewNewCampaign" />
         <activity android:name=".CampaignsListActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -26,12 +26,16 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import static com.abood.crowdfunding.CampaignDetailsActivity.EXTRA_CAMPAIGN_UUID;
+
 
 public class ManageCampaignsFragment extends Fragment {
 
     RecyclerView popularCampaignsRecyclerView;
     FirebaseFirestore store;
     Context mCtx;
+    String campaignId;
+
     private PopularCampaignAdapter popularCampaignAdapter;
 
 //    private FirestoreRecyclerAdapter<Campaigns, PopularCampaignsViewHolder> adapter;
@@ -143,6 +147,7 @@ public class ManageCampaignsFragment extends Fragment {
                             switch (item.getItemId()) {
                                 case R.id.edit:
                                     Intent intent=new Intent(getActivity(),EditingActivity.class);
+                                    intent.putExtra(EXTRA_CAMPAIGN_UUID,  getSnapshots().getSnapshot(position).getId());
                                     startActivity(intent);
                                     break;
                                 case R.id.delate:

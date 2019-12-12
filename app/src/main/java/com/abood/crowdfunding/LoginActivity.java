@@ -20,6 +20,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 public class LoginActivity extends AppCompatActivity
 {
@@ -67,48 +70,38 @@ public class LoginActivity extends AppCompatActivity
 
                       if(task.isSuccessful()) {
 
-//                          firebaseFirestore = FirebaseFirestore.getInstance();
-//                          firebaseFirestore.collection("Users")
-//                                  .whereEqualTo("userId",firebaseAuth.getUid())
-//                                  .whereEqualTo("userType","10000").get()
-//                                  .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//                                      @Override
-//                                      public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//
-////                                          String type = queryDocumentSnapshots.getDocuments().get().getString("userType");
-//                                          Toast.makeText(LoginActivity.this, "True", Toast.LENGTH_SHORT).show();
-//
-//                                      }
-//                                  }).addOnFailureListener(new OnFailureListener() {
-//                              @Override
-//                              public void onFailure(@NonNull Exception e) {
-//
-//                                  Toast.makeText(LoginActivity.this, "False", Toast.LENGTH_SHORT).show();
-//
-//                              }
-//                          });
+                          firebaseFirestore = FirebaseFirestore.getInstance();
 
-//                          firebaseFirestore.collection("Users").document(firebaseAuth.getUid()).get()
-//                                  .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                                      @Override
-//                                      public void onComplete(@NonNull Task<DocumentSnapshot> task)
-//                                      {
-//
-//                                          if(task.isSuccessful()) {
-//
-//                                              if (task.getResult().exists()) {
-//
-//                                                  task.getResult().getReference();
-//                                                  String type = task.getResult().getString("userType");
-//
-//                                              }
-//                                          }
-//
-//                                      }
-//                                  });
-//
-                          Intent afterIntnet=new Intent(LoginActivity.this, CampaignsListActivity.class);
-                          startActivity(afterIntnet);
+                          Task<QuerySnapshot> query = firebaseFirestore.collection("Users").whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid())
+                                  .get()
+                                  .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                      @Override
+                                      public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                          if (task.isSuccessful()) {
+                                              for (QueryDocumentSnapshot document : task.getResult()) {
+
+
+                                                  String type = document.getString("userType");
+
+                                                  if (type.equals("0")){
+
+                                                      Intent intent = new Intent(LoginActivity.this,AdminDashboardActivity.class);
+                                                      startActivity(intent);
+
+                                                  }else if (type.equals("1")){
+
+                                                      Intent intent = new Intent(LoginActivity.this,CampaignsListActivity.class);
+                                                      startActivity(intent);
+
+                                                  }
+
+                                              }
+                                          } else {
+
+                                          }
+                                      }
+                                  });
+
                           progress.dismiss();
                           Toast.makeText(LoginActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
 

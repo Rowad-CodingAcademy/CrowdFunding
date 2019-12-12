@@ -19,6 +19,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.squareup.picasso.Picasso;
 
 
 public class EndingSoonCampaignsFragment extends Fragment {
@@ -134,9 +135,8 @@ public class EndingSoonCampaignsFragment extends Fragment {
 
             progress_determinate.setProgress(mDonationRatio);
 
-//            Picasso.get().load(image).into(userImage);
-            Glide.with(getActivity()).load(image).into(campaignImage);
-
+            Picasso.get().load(image).into(campaignImage);
+//            Glide.with(getActivity()).load(image).into(campaignImage);
 
         }
 
