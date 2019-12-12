@@ -58,7 +58,7 @@ public class FinalAddCampaign extends AppCompatActivity {
     private Bitmap compressed;
     private ProgressDialog progressDialog;
 
-    EditText campaignTitle, campaignCountry, campaignCost, campaignDescription, campaignLocationt,campaignType;
+    EditText campaignTitle, campaignCountry, campaignCost, campaignDescription, campaignLocationt,campaignType,campaignDonationDays ;
     Button campaignStartDateBtn, campaignEndDateBtn, campaignNextBtn,campaignAddBtn,campaignNextBtnToLastPage;
     FloatingActionButton  campaignChooseImageBtn,campaignChooseVideoBtn;
     ImageView campaignImageView;
@@ -84,6 +84,7 @@ public class FinalAddCampaign extends AppCompatActivity {
         campaignCost =findViewById(R.id.camp_target_edit_text);
         campaignDescription =findViewById(R.id.camp_description_edit_text);
         campaignLocationt =findViewById(R.id.camp_location_edit_text);
+        campaignDonationDays =findViewById(R.id.donation_date_edit_text);
         campaignImageView = findViewById(R.id.image_view);
         campaignVideoView = findViewById(R.id.video_view);
         campaignEndDateBtn =findViewById(R.id.comp_end_btn);
@@ -168,6 +169,7 @@ public class FinalAddCampaign extends AppCompatActivity {
                 final String country = campaignCountry.getText().toString();
                 final String cost = campaignCost.getText().toString();
                 final String description = campaignDescription.getText().toString();
+                final String donatioDays = campaignDonationDays.getText().toString();
                 final String type = campaignType.getText().toString();
                 final String location = campaignLocationt.getText().toString();
 
@@ -203,7 +205,7 @@ public class FinalAddCampaign extends AppCompatActivity {
 
                             if (task.isSuccessful()) {
 
-                                storeData(task, title, country, cost, description,location,type);
+                                storeData(task, title, country, cost, description,location,type,donatioDays);
 
                             } else {
 
@@ -221,7 +223,7 @@ public class FinalAddCampaign extends AppCompatActivity {
         });
     }
 
-    private void storeData(Task<UploadTask.TaskSnapshot> task, String title, String country, String cost, String description,String location,String type) {
+    private void storeData(Task<UploadTask.TaskSnapshot> task, String title, String country, String cost, String description,String location,String type,String donation ) {
 
 
         Task<Uri> download_uri;
@@ -247,10 +249,10 @@ public class FinalAddCampaign extends AppCompatActivity {
         campaignData.put("campaignDescription", description);
         campaignData.put("campaignLocation",location);
         campaignData.put("campaignType",type);
+        campaignData.put("campaignDays", donation);
         campaignData.put("campaignApprove", "0");
         campaignData.put("campaignStatus", "1");
         campaignData.put("campaignCategory", "1");
-        campaignData.put("campaignDays", "1");
         campaignData.put("campaignFunds", "0");
         campaignData.put("campaignDonors", "0");
         campaignData.put("campaignImage", url.toString());

@@ -58,7 +58,7 @@ public class NewestCampaignsFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull final NewestCampaignsViewHolder holder , final int position, @NonNull Campaigns campaign) {
 
-                holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage(),campaign.getCampaignCost(),campaign.getCampaignFunds());
+                holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage(),campaign.getCampaignCost(),campaign.getCampaignFunds(), campaign.getCampaignDonationDays());
 
 
                 store.collection("Donation").whereEqualTo("campaignId", getSnapshots().getSnapshot(position).getId())
@@ -136,18 +136,19 @@ public class NewestCampaignsFragment extends Fragment {
 
         }
 
-        void setData(String name, String age , String image, String cost, String fund ) {
+        void setData(String name, String age , String image, String cost, String fund, String donation ) {
 
             campaignImage = itemView.findViewById(R.id.campaign_image);
             campaignTitle = itemView.findViewById(R.id.campaign_title);
             campaignDescription = itemView.findViewById(R.id.campaign_description);
             campaignRatio = itemView.findViewById(R.id.campaign_ratio_textView);
-            campaignDoners = itemView.findViewById(R.id.campaign_donors_textView);
+            campaignDoners = itemView.findViewById(R.id.campaign_daysToGo_textView);
             campaignDays = itemView.findViewById(R.id.campaign_daysToGo_textView);
             progress_determinate = itemView.findViewById(R.id.progress_determinate);
 
             campaignTitle.setText(name);
             campaignDescription.setText(age);
+            campaignDoners.setText(donation);
 
             Double funds = Double.parseDouble(fund);
             Double costs = Double.parseDouble(cost);
