@@ -86,9 +86,80 @@
                         android:orientation="vertical"
                         android:layout_gravity="bottom">
 
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="30dp" />
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/spacing_medium"
+                            android:layout_marginTop="@dimen/spacing_medium"
+                            android:visibility="visible"
+                            app:cardCornerRadius="2dp"
+                            app:cardElevation="2dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@android:color/white"
+                                    android:gravity="center_vertical"
+                                    android:minHeight="?attr/actionBarSize"
+                                    android:orientation="horizontal">
+
+                                    <View
+                                        android:layout_width="@dimen/spacing_large"
+                                        android:layout_height="wrap_content" />
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="Days for donation"
+                                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                        android:textColor="@color/grey_80" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/camp_target_layout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <EditText
+                                        android:id="@+id/donation_date_edit_text"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="50dp"
+                                        android:layout_marginLeft="@dimen/spacing_large"
+                                        android:layout_marginRight="@dimen/spacing_large"
+                                        android:layout_marginTop="@dimen/spacing_large"
+                                        android:background="@color/grey_5"
+                                        android:gravity="center_vertical"
+                                        android:hint="Days for donation"
+                                        android:padding="@dimen/spacing_middle"
+                                        android:textColor="@color/grey_60" />
+
+
+                                    <View
+                                        android:layout_width="match_parent"
+                                        android:layout_height="16dp" />
+
+
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+
 
                         <View
                             android:layout_width="match_parent"
@@ -101,6 +172,8 @@
                             android:background="@drawable/donate_button"
                             android:textColor="@android:color/white"/>
                     </LinearLayout>
+
+
 
                 </LinearLayout>
 
