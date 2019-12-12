@@ -229,7 +229,6 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
 
         } else {
 
-
             switch (item.getItemId()) {
                 case 1000:
                     name.setText(firebaseAuth.getCurrentUser().getUid());

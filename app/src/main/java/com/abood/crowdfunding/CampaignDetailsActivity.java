@@ -31,6 +31,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -62,6 +63,7 @@ public class CampaignDetailsActivity extends AppCompatActivity
     private ArrayList<String> campaignPhotoes;
     private ProgressDialog progressDialog;
     private FirebaseFirestore firebaseFirestore;
+    FirebaseAuth firebaseAuth;
     String title;
 
 
@@ -218,10 +220,22 @@ public class CampaignDetailsActivity extends AppCompatActivity
         donateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(CampaignDetailsActivity.this,DonationDetailsActivity.class);
-                i.putExtra("campaignID",campaignId);
-                i.putExtra("campaignTitle",title);
-                startActivity(i);
+
+                firebaseAuth = FirebaseAuth.getInstance();
+
+                if (firebaseAuth.getCurrentUser() != null) {
+
+                    Intent i = new Intent(CampaignDetailsActivity.this, DonationDetailsActivity.class);
+                    i.putExtra("campaignID", campaignId);
+                    i.putExtra("campaignTitle", title);
+                    startActivity(i);
+                }
+                else {
+
+                    Intent i = new Intent(CampaignDetailsActivity.this, LoginActivity.class);
+                    startActivity(i);
+
+                }
             }
         });
 
