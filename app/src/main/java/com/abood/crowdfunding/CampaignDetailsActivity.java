@@ -34,6 +34,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -138,7 +139,24 @@ public class CampaignDetailsActivity extends AppCompatActivity
                                 mLocationTV.setText(task.getResult().getString("campaignCountry"));
                                 mCostTV.setText(task.getResult().getString("campaignCost")+" $");
                                 mCategoryTV.setText(task.getResult().getString("campaignCategory"));
-                                mDonorsTV.setText(task.getResult().getString("campaignDonors"));
+                                mDaysToGoTV.setText(task.getResult().getString("campaignDonationDays"));
+
+                                firebaseFirestore.collection("Donation").whereEqualTo("campaignId", campaignId)
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    int count = 0;
+                                                    for (DocumentSnapshot document : task.getResult()) {
+                                                        count++;
+                                                        mDonorsTV.setText(String.valueOf(count));
+                                                    }
+                                                } else {
+                                                }
+                                            }
+                                        });
+
                                 mRemainigAmountTV.setText(cost-fund+" $");
                                 //campaignPhotoes=campaigns.getCampImageUrl();
 
