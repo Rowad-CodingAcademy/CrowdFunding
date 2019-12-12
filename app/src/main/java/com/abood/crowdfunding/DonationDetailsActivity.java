@@ -1,6 +1,8 @@
 package com.abood.crowdfunding;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,13 +15,20 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firestore.v1.DocumentTransform;
 
@@ -32,22 +41,17 @@ public class DonationDetailsActivity extends AppCompatActivity {
     ImageView image;
 
 //    ScrollView scrollView;
-    EditText targetCostED;
-    TextView details;
-    EditText cardHolderName;
-    EditText expirationDate;
-    EditText cardNumber;
-    TextView cardName;
-    EditText securityCode;
+    EditText targetCostED, cardHolderName, expirationDate, cardNumber, securityCode;
+    TextView details, cardNamep, projectTitle, projectDonate;
     public String target_reward;
     public String cardNO;
     public String holder;
     public String expiration;
     public String code;
-    Button nextBTN;
-    Button donateBTN;
+    Button nextBTN, donateBTN;
     FirebaseAuth firebaseAuth;
-
+    private FirebaseFirestore firebaseFirestore;
+    String current;
     LinearLayout detailsLyout;
 
     boolean show = false;
@@ -61,6 +65,9 @@ public class DonationDetailsActivity extends AppCompatActivity {
 
 
         detailsLyout = findViewById(R.id.details);
+        projectTitle = findViewById(R.id.project_title2);
+        projectDonate = findViewById(R.id.pledge2);
+
         donateBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +83,8 @@ public class DonationDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 detailsLyout.setVisibility(View.VISIBLE);
+                projectTitle.setText( getIntent().getStringExtra("campaignTitle"));
+                projectDonate.setText(targetCostED.getText().toString() );
             }
         });
 
@@ -90,7 +99,7 @@ public class DonationDetailsActivity extends AppCompatActivity {
         }
         firebaseAuth = FirebaseAuth.getInstance();
         String userID = firebaseAuth.getCurrentUser().getUid();
-        String campaignID = getIntent().getStringExtra("campaignID");
+        final String campaignID = getIntent().getStringExtra("campaignID");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> donation = new HashMap<>();
         donation.put("targetAmount", target_reward);
@@ -108,6 +117,39 @@ public class DonationDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Toast.makeText(DonationDetailsActivity.this, "Donation has added successfully", Toast.LENGTH_SHORT).show();
+
+                        firebaseFirestore = FirebaseFirestore.getInstance();
+
+                        firebaseFirestore.collection("Campaigns").document(campaignID).get()
+                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>()
+                                {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task)
+                                    {
+
+                                  if(task.isSuccessful()) {
+
+
+                                      if (task.getResult().exists())
+                                      {
+
+                                          String fund = task.getResult().getString("campaignFunds");
+                                          current = String.valueOf(Double.parseDouble(fund) + Double.parseDouble(target_reward));
+                                          firebaseFirestore.collection("Campaigns").document(campaignID).update("campaignFunds",current );
+
+                                          Intent intent = new Intent(DonationDetailsActivity.this,CampaignsListActivity.class);
+                                          startActivity(intent);
+
+                                      } else {
+                                          Toast.makeText(DonationDetailsActivity.this, "Error" + task.getException(), Toast.LENGTH_SHORT).show();
+                                      }
+
+                                        }
+
+                                    }
+                                });
+
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

@@ -62,6 +62,7 @@ public class CampaignDetailsActivity extends AppCompatActivity
     private ArrayList<String> campaignPhotoes;
     private ProgressDialog progressDialog;
     private FirebaseFirestore firebaseFirestore;
+    String title;
 
 
     @Override
@@ -121,7 +122,9 @@ public class CampaignDetailsActivity extends AppCompatActivity
                                 //campaigns.setCampaignCost(task.getResult().getString("campaignCost"));
                                 //campaigns.setCampaignLocation(task.getResult().getString("campaignLocation"));
 
-                                mTitleTV.setText(task.getResult().getString("campaignTitle"));
+                                title = task.getResult().getString("campaignTitle");
+
+                                mTitleTV.setText(title);
 
                                 Double fund=Double.parseDouble(task.getResult().getString("campaignFunds"));
                                 Double cost=Double.parseDouble(task.getResult().getString("campaignCost"));
@@ -217,6 +220,7 @@ public class CampaignDetailsActivity extends AppCompatActivity
             public void onClick(View view) {
                 Intent i = new Intent(CampaignDetailsActivity.this,DonationDetailsActivity.class);
                 i.putExtra("campaignID",campaignId);
+                i.putExtra("campaignTitle",title);
                 startActivity(i);
             }
         });
