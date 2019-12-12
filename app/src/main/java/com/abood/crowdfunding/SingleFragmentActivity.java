@@ -109,6 +109,7 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
     }
 
     private void initNavigationMenu() {
+
         final NavigationView nav_view = findViewById(R.id.nav_view);
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
@@ -186,6 +187,7 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
                     menu_navigation.add(1, 2, 100, "Manage accounts").setIcon(R.drawable.ic_settings);
                 } else {
                     nav_view.inflateMenu(R.menu.activity_campaign_list_drawer);
+                    initNavigationMenu();
 
                 }
             }
