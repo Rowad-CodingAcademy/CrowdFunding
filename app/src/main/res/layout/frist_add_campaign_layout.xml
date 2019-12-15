@@ -164,13 +164,13 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="30dp" />
-                        <Button
-                            android:id="@+id/next_btn_to_next_page"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Next"
-                            android:background="@drawable/donate_button"
-                            android:textColor="@android:color/white"/>
+<!--                        <Button-->
+<!--                            android:id="@+id/next_btn_to_next_page"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="Next"-->
+<!--                            android:background="@drawable/donate_button"-->
+<!--                            android:textColor="@android:color/white"/>-->
                     </LinearLayout>
 
 

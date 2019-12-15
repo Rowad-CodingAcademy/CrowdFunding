@@ -96,21 +96,21 @@ public class FinalAddCampaign extends AppCompatActivity {
         campaignChooseImageBtn =findViewById(R.id.upload_new_photo);
         campaignChooseVideoBtn =findViewById(R.id.upload_new_video);
         mViewFlipper=findViewById(R.id.viewFlipper);
-        campaignNextBtnToLastPage=findViewById(R.id.next_btn_to_last_page);
-        campaignNextBtnToLastPage.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                moveToView2();
-            }
-        });
-        campaignNextBtn=findViewById(R.id.next_btn_to_next_page);
-        campaignNextBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                moveToView2();
-            }
-        });
+//        campaignNextBtnToLastPage=findViewById(R.id.next_btn_to_last_page);
+//        campaignNextBtnToLastPage.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                moveToView2();
+//            }
+//        });
+//        campaignNextBtn=findViewById(R.id.next_btn_to_next_page);
+//        campaignNextBtn.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                moveToView2();
+//            }
+//        });
 
 
         campaignChooseImageBtn.setOnClickListener(new OnClickListener() {
@@ -359,10 +359,10 @@ public class FinalAddCampaign extends AppCompatActivity {
         currentSignUpViewNumber++;
     }
 
-    @Override
-    public void onBackPressed() {
-        moveToView1();
-//        super.onBackPressed();
-//        mViewFlipper.showPrevious();
-    }
+//    @Override
+//    public void onBackPressed() {
+//        moveToView1();
+////        super.onBackPressed();
+////        mViewFlipper.showPrevious();
+//    }
 }

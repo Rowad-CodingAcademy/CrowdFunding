@@ -19,6 +19,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -72,6 +73,7 @@ public class EditingActivity extends AppCompatActivity {
     FloatingActionButton campaignChooseImageBtn,campaignChooseVideoBtn;
     ImageView campaignImageView;
     VideoView campaignVideoView;
+    ImageButton nextBTN,prevBTN;
 
     ViewFlipper mViewFlipper;
     private int currentSignUpViewNumber = 1;
@@ -107,7 +109,25 @@ public class EditingActivity extends AppCompatActivity {
         campaignChooseImageBtn =findViewById(R.id.upload_new_photo);
         campaignChooseVideoBtn =findViewById(R.id.upload_new_video);
         mViewFlipper=findViewById(R.id.viewFlipper);
-        campaignNextBtnToLastPage=findViewById(R.id.next_btn_to_last_page);
+       // campaignNextBtnToLastPage=findViewById(R.id.next_btn_to_last_page);
+        nextBTN = findViewById(R.id.btn_next);
+        prevBTN = findViewById(R.id.btn_previous);
+
+
+        nextBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moveToView2();
+            }
+        });
+
+
+        prevBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moveToView1();
+            }
+        });
 
 
 
@@ -145,21 +165,21 @@ public class EditingActivity extends AppCompatActivity {
 
 
 
-
-        campaignNextBtnToLastPage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                moveToView2();
-            }
-        });
-        campaignNextBtn=findViewById(R.id.next_btn_to_next_page);
-        campaignNextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                moveToView2();
-            }
-        });
+//
+//        campaignNextBtnToLastPage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                moveToView2();
+//            }
+//        });
+//        campaignNextBtn=findViewById(R.id.next_btn_to_next_page);
+//        campaignNextBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                moveToView2();
+//            }
+//        });
 
 
         campaignChooseImageBtn.setOnClickListener(new View.OnClickListener() {
