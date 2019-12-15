@@ -16,7 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".EditingActivity" />
-        <activity android:name=".UploadPDF" />
+        <activity android:name=".UploadPDF" >
+        </activity>
         <activity android:name=".CampaignDetailsActivity" />
         <activity android:name=".FinalAddCampaign" />
         <activity android:name=".DonationDetailsActivity" />
