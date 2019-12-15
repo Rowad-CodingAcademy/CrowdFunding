@@ -1,7 +1,9 @@
 package com.abood.crowdfunding;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -29,6 +31,8 @@ public class LoginActivity extends AppCompatActivity
 
     EditText userEmail,userPassword;
     Button loginBtn,signupBtn;
+    private ActionBar actionBar;
+    private Toolbar toolbar;
     FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
     ProgressDialog progress;
@@ -38,6 +42,8 @@ public class LoginActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        initToolbar();
 
         userEmail = findViewById(R.id.user_email);
         userPassword = findViewById(R.id.user_password);
@@ -95,15 +101,16 @@ public class LoginActivity extends AppCompatActivity
 
                                                   }
 
+                                                  progress.dismiss();
+
                                               }
                                           } else {
+
+                                              Toast.makeText(LoginActivity.this, "Error AAA", Toast.LENGTH_SHORT).show();
 
                                           }
                                       }
                                   });
-
-                          progress.dismiss();
-                          Toast.makeText(LoginActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
 
                       }
                       else {
@@ -142,6 +149,15 @@ public class LoginActivity extends AppCompatActivity
 
             }
         });
+    }
+
+    private void initToolbar() {
+        toolbar = findViewById(R.id.toolbar);
+//        toolbar.setBackgroundColor(getResources().getColor(R.color.pink_600));
+        setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
+//        actionBar.setDisplayHomeAsUpEnabled(true);
+//        actionBar.setHomeButtonEnabled(true);
     }
 
     private TextWatcher mTextWatcher = new TextWatcher()

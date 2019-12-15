@@ -21,18 +21,19 @@
         <activity android:name=".FinalAddCampaign" />
         <activity android:name=".DonationDetailsActivity" />
         <activity android:name=".CampaignsListActivity" >
+
+        </activity>
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".UserProfileActivity" />
+        <activity android:name=".AdminDashboardActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".UserProfileActivity" />
-        <activity android:name=".AdminDashboardActivity">
-
-        </activity>
         <activity android:name=".ClosedCampaignsActivity" />
+        <activity android:name=".PausedCampaignsActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".SplashScreenActivity" />
         <activity

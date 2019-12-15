@@ -100,8 +100,8 @@ public class EditingActivity extends AppCompatActivity {
         campaignLocationt =findViewById(R.id.camp_location_edit_text);
         campaignImageView = findViewById(R.id.image_view);
         campaignVideoView = findViewById(R.id.video_view);
-        campaignEndDateBtn =findViewById(R.id.comp_end_btn);
-        campaignStartDateBtn =findViewById(R.id.comp_start_date_btn);
+//        campaignEndDateBtn =findViewById(R.id.comp_end_btn);
+//        campaignStartDateBtn =findViewById(R.id.comp_start_date_btn);
         campaignType=findViewById(R.id.camp_type_edit_text);
         campaignAddBtn =findViewById(R.id.add_campaign_btn);
         campaignChooseImageBtn =findViewById(R.id.upload_new_photo);

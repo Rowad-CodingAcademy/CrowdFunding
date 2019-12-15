@@ -1,5 +1,6 @@
 package com.abood.crowdfunding;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,6 +90,18 @@ public class ApproveNewCampaignsFragment extends Fragment {
             Picasso.get().load(model.getCampaignImage()).into(holder.campaignImage);
             holder.campaignTitle.setText(model.getCampaignTitle());
             holder.campaignDescription.setText(model.getCampaignDescription());
+            holder.campaignCost.setText(model.getCampaignCost());
+            holder.campaignDays.setText(model.getCampaignDonationDays());
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent i = CampaignDetailsActivity.newIntent(getActivity(),getSnapshots().getSnapshot(position).getId());
+                    startActivity(i);
+
+                }
+            });
 
             holder.resumeBTN.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -134,7 +147,7 @@ public class ApproveNewCampaignsFragment extends Fragment {
         public class CompaignViewHolder extends RecyclerView.ViewHolder {
 
             ImageView campaignImage;
-            TextView campaignTitle, campaignDescription;
+            TextView campaignTitle, campaignDescription, campaignCost, campaignDays;
             Button refuseBTN, resumeBTN;
 
             public CompaignViewHolder(@NonNull View itemView) {
@@ -143,6 +156,8 @@ public class ApproveNewCampaignsFragment extends Fragment {
                 campaignImage = itemView.findViewById(R.id.new_camp_img);
                 campaignTitle = itemView.findViewById(R.id.new_camp_title);
                 campaignDescription = itemView.findViewById(R.id.new_camp_desc);
+                campaignCost = itemView.findViewById(R.id.campaign_cost);
+                campaignDays = itemView.findViewById(R.id.campaign_days);
                 refuseBTN = itemView.findViewById(R.id.reject_campaign);
                 resumeBTN = itemView.findViewById(R.id.resume_campaign);
 

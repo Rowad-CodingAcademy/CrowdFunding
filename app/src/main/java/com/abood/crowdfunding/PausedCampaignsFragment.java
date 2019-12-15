@@ -6,20 +6,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.bumptech.glide.Glide;
+
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -27,17 +28,18 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 
-public class PopularCampaignsFragment extends Fragment {
+public class PausedCampaignsFragment extends Fragment {
 
-    RecyclerView popularCampaignsRecyclerView;
+    RecyclerView pausedCampaignsRecyclerView;
     FirebaseFirestore store;
-    private PopularCampaignAdapter popularCampaignAdapter;
+    private PausedCampaignsAdapter pausedCampaignsAdapter;
 
 //    private FirestoreRecyclerAdapter<Campaigns, PopularCampaignsViewHolder> adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
 
@@ -46,17 +48,17 @@ public class PopularCampaignsFragment extends Fragment {
 
         View v =  inflater.inflate(R.layout.fragment_popular_campaigns, container, false);
 
-        popularCampaignsRecyclerView = v.findViewById(R.id.popular_campaign_recycler_view);
-        popularCampaignsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        pausedCampaignsRecyclerView = v.findViewById(R.id.popular_campaign_recycler_view);
+        pausedCampaignsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         store = FirebaseFirestore.getInstance();
-        Query query = store.collection("Campaigns").whereEqualTo("campaignApprove","1").whereEqualTo("campaignStatus","0");
+        Query query = store.collection("Campaigns").whereEqualTo("campaignStatus","1");
 
         FirestoreRecyclerOptions<Campaigns> options = new FirestoreRecyclerOptions.Builder<Campaigns>()
                 .setQuery(query, Campaigns.class)
                 .build();
 
-        popularCampaignAdapter = new PopularCampaignAdapter(options);
+        pausedCampaignsAdapter = new PausedCampaignsAdapter(options);
 
 
 
@@ -85,7 +87,7 @@ public class PopularCampaignsFragment extends Fragment {
 //                return new PopularCampaignsViewHolder(view);
 //            }
 //        };
-        popularCampaignsRecyclerView.setAdapter(popularCampaignAdapter);
+        pausedCampaignsRecyclerView.setAdapter(pausedCampaignsAdapter);
 
 
         return v;
@@ -95,28 +97,28 @@ public class PopularCampaignsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        popularCampaignAdapter.startListening();
+        pausedCampaignsAdapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
-        if (popularCampaignAdapter != null) {
-            popularCampaignAdapter.stopListening();
+        if (pausedCampaignsAdapter != null) {
+            pausedCampaignsAdapter.stopListening();
         }
     }
 
 
-    class PopularCampaignAdapter extends FirestoreRecyclerAdapter<Campaigns, PopularCampaignsViewHolder> {
+    class PausedCampaignsAdapter extends FirestoreRecyclerAdapter<Campaigns, PausedCampaignsViewHolder> {
 
 
-        public PopularCampaignAdapter(@NonNull FirestoreRecyclerOptions<Campaigns> options) {
+        public PausedCampaignsAdapter(@NonNull FirestoreRecyclerOptions<Campaigns> options) {
             super(options);
         }
 
         @Override
-        protected void onBindViewHolder(@NonNull final PopularCampaignsViewHolder holder , final int position, @NonNull Campaigns campaign) {
+        protected void onBindViewHolder(@NonNull final PausedCampaignsViewHolder holder , final int position, @NonNull Campaigns campaign) {
 
             holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage(),campaign.getCampaignCost(),campaign.getCampaignFunds(), campaign.getCampaignDonationDays());
 
@@ -136,13 +138,13 @@ public class PopularCampaignsFragment extends Fragment {
                         }
                     });
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            holder.activeCampaign.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v)
                 {
 
-                    Intent i = CampaignDetailsActivity.newIntent(getActivity(),getSnapshots().getSnapshot(position).getId());
-                    startActivity(i);
+                    getSnapshots().getSnapshot(position).getReference().update("campaignStatus", "0");
+
 
                 }
             });
@@ -151,27 +153,29 @@ public class PopularCampaignsFragment extends Fragment {
 
         @NonNull
         @Override
-        public PopularCampaignsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.campaign_holder, parent, false);
-            return new PopularCampaignsViewHolder(view);
+        public PausedCampaignsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.paused_campaign_holder, parent, false);
+            return new PausedCampaignsViewHolder(view);
         }
     }
 
 
-    public class PopularCampaignsViewHolder extends RecyclerView.ViewHolder {
+    public class PausedCampaignsViewHolder extends RecyclerView.ViewHolder {
 
         private View view;
 
         ImageView campaignImage;
         TextView campaignTitle,campaignDescription,campaignRatio,campaignDoners,campaignDays;
+        Button activeCampaign;
         private ProgressBar progress_determinate;
         int mDonationRatio;
 
 
-        public PopularCampaignsViewHolder(@NonNull View itemView) {
+        public PausedCampaignsViewHolder(@NonNull View itemView) {
             super(itemView);
 
             view = itemView;
+            activeCampaign = itemView.findViewById(R.id.active_campaign);
 
         }
 

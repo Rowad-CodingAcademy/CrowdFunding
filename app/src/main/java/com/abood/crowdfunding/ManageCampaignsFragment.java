@@ -25,6 +25,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.squareup.picasso.Picasso;
 
 import static com.abood.crowdfunding.CampaignDetailsActivity.EXTRA_CAMPAIGN_UUID;
 
@@ -202,8 +203,8 @@ public class ManageCampaignsFragment extends Fragment {
 
             campaignTitle.setText(name);
             campaignDescription.setText(age);
-//            Picasso.get().load(image).into(userImage);
-            Glide.with(getActivity()).load(image).into(campaignImage);
+            Picasso.get().load(image).into(campaignImage);
+//            Glide.with(getActivity()).load(image).into(campaignImage);
 
 
         }
