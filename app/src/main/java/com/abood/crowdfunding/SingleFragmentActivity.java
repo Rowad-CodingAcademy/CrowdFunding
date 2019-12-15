@@ -2,6 +2,8 @@
 package com.abood.crowdfunding;
 
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -49,53 +51,59 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
     private TextView email;
     private ImageView userPhoto;
     LinearLayout user_info_nav, logo_nav;
-    boolean isAdmin=false;
+    boolean isAdmin = false;
     String type = null;
-
 
 
     protected abstract Fragment createFragment();
 
     FragmentManager fragmentManager = getSupportFragmentManager();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        initToolbar();
+        if (haveNetwork()) {
 
-        db = FirebaseFirestore.getInstance();
+            firebaseAuth = FirebaseAuth.getInstance();
+            initToolbar();
 
-        if (firebaseAuth.getCurrentUser() != null) {
-            Task<QuerySnapshot> query = db.collection("Users").whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid())
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
+            db = FirebaseFirestore.getInstance();
 
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    type = document.getString("userType");
+            if (firebaseAuth.getCurrentUser() != null) {
+                Task<QuerySnapshot> query = db.collection("Users").whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid())
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
 
-                                    isAdmin=type.equals("0");
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        type = document.getString("userType");
 
-                                    initNavigationMenu();
+                                        isAdmin = type.equals("0");
 
-                                    name.setText(document.getString("userName"));
-                                    email.setText(firebaseAuth.getCurrentUser().getEmail());
-                                    Picasso.get().load(document.getString("userImage")).into(userPhoto);
+                                        initNavigationMenu();
+
+                                        name.setText(document.getString("userName"));
+                                        email.setText(firebaseAuth.getCurrentUser().getEmail());
+                                        Picasso.get().load(document.getString("userImage")).into(userPhoto);
+                                    }
                                 }
                             }
-                        }
-                    });
-        }else {
-            initNavigationMenu();
+                        });
+            } else {
+                initNavigationMenu();
+            }
+
+            fragmentManager.beginTransaction().replace(R.id.fragment_container, createFragment()).commit();
+
+        } else if (!haveNetwork()) {
+            Intent i = new Intent(SingleFragmentActivity.this, NoItemInternetImage.class);
+            startActivity(i);
         }
 
-        fragmentManager.beginTransaction().replace(R.id.fragment_container, createFragment()).commit();
     }
 
 
@@ -252,6 +260,21 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
             view.animate().setDuration(200).rotation(0);
             return false;
         }
+    }
+
+
+    private boolean haveNetwork() {
+        boolean have_WIFI = false;
+        boolean have_MobileData = false;
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo[] networkInfos = connectivityManager.getAllNetworkInfo();
+        for (NetworkInfo info : networkInfos) {
+            if (info.getTypeName().equalsIgnoreCase("WIFI"))
+                if (info.isConnected()) have_WIFI = true;
+            if (info.getTypeName().equalsIgnoreCase("MOBILE DATA"))
+                if (info.isConnected()) have_MobileData = true;
+        }
+        return have_WIFI || have_MobileData;
     }
 
 
