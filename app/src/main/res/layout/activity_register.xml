@@ -6,10 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
-    <include
-        layout="@layout/app_bar_single_fragment_activity"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -21,7 +18,12 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
+
+            <include
+                layout="@layout/app_bar_single_fragment_activity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -96,7 +98,7 @@
                 app:layout_constraintHorizontal_bias="0.505"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/new_user_password"
-                app:layout_constraintVertical_bias="0.857" />
+                app:layout_constraintVertical_bias="0.194" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

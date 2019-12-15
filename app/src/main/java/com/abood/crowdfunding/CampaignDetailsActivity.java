@@ -105,7 +105,7 @@ public class CampaignDetailsActivity extends AppCompatActivity
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>()
                 {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task)
+                    public void onComplete(@NonNull final Task<DocumentSnapshot> task)
                     {
 
                         if(task.isSuccessful()) {
@@ -211,19 +211,17 @@ public class CampaignDetailsActivity extends AppCompatActivity
                                     @Override
                                     public void onClick(View view) {
 
-                                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.africau.edu/images/default/sample.pdf"));
+                                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(task.getResult().getString("campaignPdf")));
                                         startActivity(browserIntent);
                                     }
                                 });
 
 
-
-
-
-
                             } else {
                                 Toast.makeText(CampaignDetailsActivity.this, "Error" + task.getException(), Toast.LENGTH_SHORT).show();
                             }
+                        }else {
+                            Toast.makeText(CampaignDetailsActivity.this, "Error Data" + task.getException(), Toast.LENGTH_SHORT).show();
                         }
 
                     }

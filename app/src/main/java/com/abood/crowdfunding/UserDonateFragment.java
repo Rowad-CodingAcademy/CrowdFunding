@@ -2,20 +2,27 @@ package com.abood.crowdfunding;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,6 +45,7 @@ public class UserDonateFragment extends Fragment {
     FirebaseFirestore store;
     FirebaseAuth firebaseAuth;
     private FirestoreRecyclerAdapter<DonationModel, UserDonationViewHolder> adapter;
+    String userId;
 
 
     @Override
@@ -54,7 +62,7 @@ public class UserDonateFragment extends Fragment {
         userDonationRecyclerView = v.findViewById(R.id.newest_campaign_recycler_view);
         userDonationRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         firebaseAuth = FirebaseAuth.getInstance();
-        String userID = firebaseAuth.getCurrentUser().getUid();
+        final String userID = firebaseAuth.getCurrentUser().getUid();
         store = FirebaseFirestore.getInstance();
         Query query = store.collection("Donation").whereEqualTo("userId", userID);
 
@@ -75,8 +83,9 @@ public class UserDonateFragment extends Fragment {
                             public void onSuccess(DocumentSnapshot snapshot) {
 
                                 if (snapshot.exists()) {
-                                    holder.campaignTitle.setText(snapshot.getString("campaignTitle").toString());
+                                    holder.campaignTitle.setText(snapshot.getString("campaignTitle"));
                                     String imgURL = snapshot.getString("campaignImage");
+                                    userId = snapshot.getString("userId");
                                     Picasso.get().load(imgURL).into(holder.campaignImage);
 
 
@@ -91,24 +100,42 @@ public class UserDonateFragment extends Fragment {
                             }
                         });
 
-                DocumentReference documentReferenceUser = store.collection("Users").document(model.getUserId());
-                documentReferenceUser.get()
-                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                store.collection("Users").whereEqualTo("userId", userId)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
-                            public void onSuccess(DocumentSnapshot snapshot) {
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
 
-                                if (snapshot.exists()) {
-                                    holder.campaignOwner.setText(snapshot.getString("userName"));
+                                    for (DocumentSnapshot document : task.getResult()) {
+
+                                        holder.campaignOwner.setText(document.getString("userName"));
+
+                                    }
                                 } else {
                                 }
                             }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-
-                            }
                         });
+
+
+//                DocumentReference documentReferenceUser = store.collection("Users").document("z5MDbhjeMlfNoFI3lQ0H");
+//                documentReferenceUser.get()
+//                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//                            @Override
+//                            public void onSuccess(DocumentSnapshot snapshot) {
+//
+//                                if (snapshot.exists()) {
+//                                    holder.campaignOwner.setText(snapshot.getString("userName"));
+//                                } else {
+//                                }
+//                            }
+//                        })
+//                        .addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//
+//                            }
+//                        });
 
 
             }

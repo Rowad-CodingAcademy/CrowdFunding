@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 import android.widget.ViewFlipper;
@@ -34,6 +35,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -54,10 +56,14 @@ public class FinalAddCampaign extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     private StorageReference storageReference;
+    FirebaseStorage storage;
     private FirebaseFirestore firebaseFirestore;
     private String user_id;
     private Bitmap compressed;
     private ProgressDialog progressDialog;
+    Button selectFile,upload;
+    TextView notification;
+    Uri pdfURi;
 
     EditText campaignTitle, campaignCountry, campaignCost, campaignDescription, campaignLocationt,campaignType,campaignDonationDays ;
     Button campaignStartDateBtn, campaignEndDateBtn, campaignNextBtn,campaignAddBtn,campaignNextBtnToLastPage;
@@ -79,6 +85,7 @@ public class FinalAddCampaign extends AppCompatActivity {
         user_id = firebaseAuth.getCurrentUser().getUid();
         firebaseFirestore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
+        storage= FirebaseStorage.getInstance();
 
         setContentView(R.layout.activity_final_add_campaign);
         campaignTitle =findViewById(R.id.camp_title_edit_text);
@@ -97,6 +104,9 @@ public class FinalAddCampaign extends AppCompatActivity {
         campaignChooseVideoBtn =findViewById(R.id.upload_new_video);
         mViewFlipper=findViewById(R.id.viewFlipper);
         campaignNextBtnToLastPage=findViewById(R.id.next_btn_to_last_page);
+        notification=findViewById(R.id.notification);
+        selectFile=findViewById(R.id.select_file);
+        upload =  findViewById(R.id.upload);
         campaignNextBtnToLastPage.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -176,9 +186,10 @@ public class FinalAddCampaign extends AppCompatActivity {
                 final String location = campaignLocationt.getText().toString();
 
 
-                if(!TextUtils.isEmpty(title)&&!TextUtils.isEmpty(country)&&!TextUtils.isEmpty(cost)&&imageUri!=null){
+                if(!TextUtils.isEmpty(title)&&!TextUtils.isEmpty(country)&&!TextUtils.isEmpty(cost)&&imageUri!=null&&pdfURi!=null){
 
                     File newFile = new File(imageUri.getPath());
+                    File newPdf = new File(pdfURi.getPath());
 
 
                     try {
@@ -203,11 +214,32 @@ public class FinalAddCampaign extends AppCompatActivity {
 
 
                         @Override
-                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        public void onComplete(@NonNull final Task<UploadTask.TaskSnapshot> task) {
 
                             if (task.isSuccessful()) {
 
-                                storeData(task, title, country, cost, description,location,type,donatioDays);
+                                String fileName=System.currentTimeMillis()+"";
+                                StorageReference storageReference = storage.getReference();//returns root path
+                                storageReference.child("campaignsPDF").child(fileName).putFile(pdfURi)
+                                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                            @Override
+                                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                                                storeData(task, taskSnapshot, title, country, cost, description,location,type,donatioDays);
+
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(FinalAddCampaign.this, "not Uploaded", Toast.LENGTH_SHORT).show();
+                                    }
+                                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+
+
+                                    }
+                                });
 
                             } else {
 
@@ -220,10 +252,25 @@ public class FinalAddCampaign extends AppCompatActivity {
 
                         }
                     });
+
                 }
             }
         });
 
+        campaignChooseVideoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+
+                if(ContextCompat.checkSelfPermission(FinalAddCampaign.this, Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED)
+                {
+                    selectPDF();
+                }
+                else
+                {
+                    ActivityCompat.requestPermissions(FinalAddCampaign.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},9);
+                }
+            }
+        });
 
         nextBTN = findViewById(R.id.btn_next);
         prevBTN = findViewById(R.id.btn_previous);
@@ -248,21 +295,29 @@ public class FinalAddCampaign extends AppCompatActivity {
 
     }
 
-    private void storeData(Task<UploadTask.TaskSnapshot> task, String title, String country, String cost, String description,String location,String type,String donation ) {
+    private void storeData(Task<UploadTask.TaskSnapshot> task, UploadTask.TaskSnapshot taskSnapshot, String title, String country, String cost, String description, String location, String type, String donation) {
 
 
         Task<Uri> download_uri;
         Uri url = null;
 
-        if (task != null) {
+        Task<Uri> pdf_download_uri;
+        Uri pdf_url_ = null;
+
+        if (task != null && taskSnapshot != null) {
 
             download_uri = task.getResult().getMetadata().getReference().getDownloadUrl();
             while (!download_uri.isComplete()) ;
             url = download_uri.getResult();
 
+            pdf_download_uri = taskSnapshot.getMetadata().getReference().getDownloadUrl();
+            while (!pdf_download_uri.isComplete()) ;
+            pdf_url_ = pdf_download_uri.getResult();
+
         } else {
 
             download_uri = null;
+            pdf_download_uri = null;
 
         }
 
@@ -281,6 +336,7 @@ public class FinalAddCampaign extends AppCompatActivity {
         campaignData.put("campaignFunds", "0");
         campaignData.put("campaignDonors", "0");
         campaignData.put("campaignImage", url.toString());
+        campaignData.put("campaignPdf", pdf_url_.toString());
 
         firebaseFirestore.collection("Campaigns").add(campaignData).addOnSuccessListener(FinalAddCampaign.this, new OnSuccessListener<DocumentReference>() {
 
@@ -318,6 +374,50 @@ public class FinalAddCampaign extends AppCompatActivity {
         startActivityForResult(intent, PICK_VIDEO_REQUEST);
     }
 
+    private void uploadFile(Uri pdfURi) {
+        String fileName=System.currentTimeMillis()+"";
+        StorageReference storageReference = storage.getReference();//returns root path
+        storageReference.child("campaignsPDF").child(fileName).putFile(pdfURi)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(FinalAddCampaign.this, "Uploaded", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(FinalAddCampaign.this, "not Uploaded", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+
+
+            }
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode==9&&grantResults[0]== PackageManager.PERMISSION_GRANTED)
+        {
+            selectPDF();
+        }
+        else
+        {
+            Toast.makeText(this, "please,provide permission", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private void selectPDF()
+    {
+        Intent intent = new Intent();
+        intent.setType("application/pdf");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select PDF"), 1);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -342,6 +442,15 @@ public class FinalAddCampaign extends AppCompatActivity {
 
             // Picasso.with().load(mImageUri).into(mImageView);
             campaignVideoView.setVideoURI(mVideoUri);
+        }
+
+        if (requestCode == 1&&resultCode==RESULT_OK&&data!=null) {
+
+            pdfURi = data.getData();
+        }
+        else
+        {
+            Toast.makeText(this, "filed", Toast.LENGTH_SHORT).show();
         }
 
     }

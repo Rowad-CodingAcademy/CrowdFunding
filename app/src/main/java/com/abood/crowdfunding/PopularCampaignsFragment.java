@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -33,7 +35,6 @@ public class PopularCampaignsFragment extends Fragment {
     FirebaseFirestore store;
     private PopularCampaignAdapter popularCampaignAdapter;
 
-//    private FirestoreRecyclerAdapter<Campaigns, PopularCampaignsViewHolder> adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,36 +58,7 @@ public class PopularCampaignsFragment extends Fragment {
                 .build();
 
         popularCampaignAdapter = new PopularCampaignAdapter(options);
-
-
-
-//        adapter = new FirestoreRecyclerAdapter<Campaigns, PopularCampaignsViewHolder>(options) {
-//            @Override
-//            protected void onBindViewHolder(@NonNull PopularCampaignsViewHolder holder , final int position, @NonNull Campaigns campaign) {
-//                holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage());
-//
-//                holder.itemView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v)
-//                    {
-//
-//                        Intent i = CampaignDetailsActivity.newIntent(getActivity(),getSnapshots().getSnapshot(position).getId());
-//                        startActivity(i);
-//
-//                    }
-//                });
-//
-//            }
-//
-//            @NonNull
-//            @Override
-//            public PopularCampaignsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.campaign_holder, parent, false);
-//                return new PopularCampaignsViewHolder(view);
-//            }
-//        };
         popularCampaignsRecyclerView.setAdapter(popularCampaignAdapter);
-
 
         return v;
 
@@ -132,6 +104,7 @@ public class PopularCampaignsFragment extends Fragment {
                                     holder.campaignDoners.setText(String.valueOf(count));
                                 }
                             } else {
+                                Toast.makeText(getActivity(), task.getException()+"", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
