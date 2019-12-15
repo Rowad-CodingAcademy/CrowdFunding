@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -63,6 +64,7 @@ public class FinalAddCampaign extends AppCompatActivity {
     FloatingActionButton  campaignChooseImageBtn,campaignChooseVideoBtn;
     ImageView campaignImageView;
     VideoView campaignVideoView;
+    ImageButton nextBTN,prevBTN;
 
     ViewFlipper mViewFlipper;
     private int currentSignUpViewNumber = 1;
@@ -221,6 +223,29 @@ public class FinalAddCampaign extends AppCompatActivity {
                 }
             }
         });
+
+
+        nextBTN = findViewById(R.id.btn_next);
+        prevBTN = findViewById(R.id.btn_previous);
+
+
+        nextBTN.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moveToView2();
+            }
+        });
+
+
+        prevBTN.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moveToView1();
+            }
+        });
+
+
+
     }
 
     private void storeData(Task<UploadTask.TaskSnapshot> task, String title, String country, String cost, String description,String location,String type,String donation ) {
@@ -332,5 +357,12 @@ public class FinalAddCampaign extends AppCompatActivity {
         mViewFlipper.setOutAnimation(this, R.anim.slide_out_left);
         mViewFlipper.showNext();
         currentSignUpViewNumber++;
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveToView1();
+//        super.onBackPressed();
+//        mViewFlipper.showPrevious();
     }
 }
