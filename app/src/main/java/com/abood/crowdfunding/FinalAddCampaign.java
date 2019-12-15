@@ -89,8 +89,8 @@ public class FinalAddCampaign extends AppCompatActivity {
         campaignDonationDays =findViewById(R.id.donation_date_edit_text);
         campaignImageView = findViewById(R.id.image_view);
         campaignVideoView = findViewById(R.id.video_view);
-        campaignEndDateBtn =findViewById(R.id.comp_end_btn);
-        campaignStartDateBtn =findViewById(R.id.comp_start_date_btn);
+//        campaignEndDateBtn =findViewById(R.id.comp_end_btn);
+//        campaignStartDateBtn =findViewById(R.id.comp_start_date_btn);
         campaignType=findViewById(R.id.camp_type_edit_text);
         campaignAddBtn =findViewById(R.id.add_campaign_btn);
         campaignChooseImageBtn =findViewById(R.id.upload_new_photo);
@@ -274,10 +274,10 @@ public class FinalAddCampaign extends AppCompatActivity {
         campaignData.put("campaignDescription", description);
         campaignData.put("campaignLocation",location);
         campaignData.put("campaignType",type);
-        campaignData.put("campaignDays", donation);
+        campaignData.put("campaignDonationDays", donation);
         campaignData.put("campaignApprove", "0");
-        campaignData.put("campaignStatus", "1");
-        campaignData.put("campaignCategory", "1");
+        campaignData.put("campaignStatus", "0");
+        campaignData.put("campaignCategory", "0");
         campaignData.put("campaignFunds", "0");
         campaignData.put("campaignDonors", "0");
         campaignData.put("campaignImage", url.toString());

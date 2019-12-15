@@ -235,6 +235,16 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
                 startActivity(i);
             }
 
+            if (id == R.id.nav_closed_campaign) {
+                Intent i = new Intent(SingleFragmentActivity.this, ClosedCampaignsActivity.class);
+                startActivity(i);
+            }
+
+            if (id == R.id.nav_paused_campaign) {
+                Intent i = new Intent(SingleFragmentActivity.this, PausedCampaignsActivity.class);
+                startActivity(i);
+            }
+
         } else {
 
             switch (item.getItemId()) {
