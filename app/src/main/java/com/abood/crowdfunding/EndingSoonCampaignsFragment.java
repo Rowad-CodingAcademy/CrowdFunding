@@ -48,7 +48,7 @@ public class EndingSoonCampaignsFragment extends Fragment {
         endingSoonCampaignsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         store = FirebaseFirestore.getInstance();
-        Query query = store.collection("Campaigns").whereEqualTo("campaignApprove","1");
+        Query query = store.collection("Campaigns").whereEqualTo("campaignApprove","1").whereEqualTo("campaignStatus","0");
 
         FirestoreRecyclerOptions<Campaigns> options = new FirestoreRecyclerOptions.Builder<Campaigns>()
                 .setQuery(query, Campaigns.class)
@@ -142,13 +142,13 @@ public class EndingSoonCampaignsFragment extends Fragment {
             campaignTitle = itemView.findViewById(R.id.campaign_title);
             campaignDescription = itemView.findViewById(R.id.campaign_description);
             campaignRatio = itemView.findViewById(R.id.campaign_ratio_textView);
-            campaignDoners = itemView.findViewById(R.id.campaign_daysToGo_textView);
+            campaignDoners = itemView.findViewById(R.id.campaign_donors_textView);
             campaignDays = itemView.findViewById(R.id.campaign_daysToGo_textView);
             progress_determinate = itemView.findViewById(R.id.progress_determinate);
 
             campaignTitle.setText(name);
             campaignDescription.setText(age);
-            campaignDoners.setText(donation);
+            campaignDays.setText(donation);
 
             Double funds = Double.parseDouble(fund);
             Double costs = Double.parseDouble(cost);

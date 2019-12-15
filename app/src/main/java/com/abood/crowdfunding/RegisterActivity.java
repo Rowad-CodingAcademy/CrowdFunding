@@ -1,7 +1,9 @@
 package com.abood.crowdfunding;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -51,6 +53,8 @@ public class RegisterActivity extends AppCompatActivity
     ImageView newUserProfile;
     EditText newUserName, newUserEmail,newUserPassword;
     Button signupBtn;
+    private ActionBar actionBar;
+    private Toolbar toolbar;
     ProgressDialog progress;
     Intent intent;
 
@@ -65,6 +69,8 @@ public class RegisterActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        initToolbar();
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -196,6 +202,15 @@ public class RegisterActivity extends AppCompatActivity
             }
         });
 }
+
+    private void initToolbar() {
+        toolbar = findViewById(R.id.toolbar);
+//        toolbar.setBackgroundColor(getResources().getColor(R.color.pink_600));
+        setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+    }
 
 
     private void choseImage() {
