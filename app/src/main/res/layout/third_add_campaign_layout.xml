@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/grey_100">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -65,30 +66,38 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/video_view_card_view"
                     android:layout_width="match_parent"
-                    android:layout_height="260dp">
+                    android:layout_height="wrap_content">
 
-                    <com.google.android.material.appbar.CollapsingToolbarLayout
-                        android:id="@+id/collapsing_toolbar"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:contentScrim="?attr/colorPrimary"
-                        app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Headline"
-                        app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                        app:titleEnabled="false">
+                        android:layout_height="wrap_content">
 
 
-                        <VideoView
-                            android:id="@+id/video_view"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            app:layout_collapseMode="parallax"
-                            android:scaleType="centerCrop"
-                            android:background="@drawable/video_bg"/>
+                        <ImageView
+                            android:id="@+id/imageView5"
+                            android:layout_width="30dp"
+                            android:layout_height="50dp"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:src="@drawable/pdf_icon"
+                            />
+
+                        <TextView
+                            android:id="@+id/upload_pdf_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="31dp"
+                            android:text="Upload Feasibility Study pdf file"
+                            android:textColor="@color/colorAccent"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toEndOf="@+id/imageView5"
+                            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
 
 
-
-                    </com.google.android.material.appbar.CollapsingToolbarLayout>
+                    </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
 
@@ -104,6 +113,7 @@
                     android:layout_gravity="bottom"
                     android:layout_marginTop="30dp"
                     android:background="@drawable/donate_button"
+                    android:layout_margin="@dimen/spacing_middle"
                     android:text="Add campaign"
                     android:textColor="@android:color/white" />
 
@@ -127,12 +137,12 @@
                 app:layout_anchorGravity="bottom|right|end" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/upload_new_video"
+                android:id="@+id/upload_pdf_file"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/spacing_mlarge"
                 android:clickable="true"
-                android:src="@drawable/ic_video"
+                android:src="@drawable/pdf_icon"
                 android:tint="@android:color/white"
                 app:backgroundTint="@color/colorAccent"
                 app:fabSize="normal"

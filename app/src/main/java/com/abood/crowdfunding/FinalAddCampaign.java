@@ -10,7 +10,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.location.Address;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -88,13 +87,12 @@ public class FinalAddCampaign extends AppCompatActivity {
         campaignLocationt =findViewById(R.id.camp_location_edit_text);
         campaignDonationDays =findViewById(R.id.donation_date_edit_text);
         campaignImageView = findViewById(R.id.image_view);
-        campaignVideoView = findViewById(R.id.video_view);
 //        campaignEndDateBtn =findViewById(R.id.comp_end_btn);
 //        campaignStartDateBtn =findViewById(R.id.comp_start_date_btn);
         campaignType=findViewById(R.id.camp_type_edit_text);
         campaignAddBtn =findViewById(R.id.add_campaign_btn);
         campaignChooseImageBtn =findViewById(R.id.upload_new_photo);
-        campaignChooseVideoBtn =findViewById(R.id.upload_new_video);
+        campaignChooseVideoBtn =findViewById(R.id.upload_pdf_file);
         mViewFlipper=findViewById(R.id.viewFlipper);
 //        campaignNextBtnToLastPage=findViewById(R.id.next_btn_to_last_page);
 //        campaignNextBtnToLastPage.setOnClickListener(new OnClickListener() {
