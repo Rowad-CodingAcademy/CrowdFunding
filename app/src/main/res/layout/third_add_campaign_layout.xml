@@ -61,7 +61,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="40dp" />
+                    android:layout_height="50dp" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/video_view_card_view"
@@ -70,7 +70,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="100dp">
 
 
                         <ImageView
@@ -78,18 +78,18 @@
                             android:layout_width="30dp"
                             android:layout_height="50dp"
                             android:layout_marginStart="24dp"
-                            android:layout_marginTop="16dp"
+                            android:layout_marginTop="27dp"
                             android:layout_marginBottom="16dp"
                             android:src="@drawable/pdf_icon"
                             />
 
                         <TextView
                             android:id="@+id/upload_pdf_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="300dp"
+                            android:layout_height="30dp"
                             android:layout_marginStart="8dp"
-                            android:layout_marginTop="31dp"
-                            android:text="Upload Feasibility Study pdf file"
+                            android:layout_marginTop="37dp"
+                            android:text="Upload PDF"
                             android:textColor="@color/colorAccent"
                             android:textStyle="bold"
                             app:layout_constraintStart_toEndOf="@+id/imageView5"
@@ -103,7 +103,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="50dp" />
+                    android:layout_height="70dp" />
 
 
                 <Button

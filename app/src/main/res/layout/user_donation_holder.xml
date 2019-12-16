@@ -1,162 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/lyt_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    android:orientation="vertical">
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="10dp"
+    android:background="#fff">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/white"
-        android:gravity="center_vertical"
-        android:minHeight="?attr/actionBarSize"
-        android:orientation="horizontal">
+    <ImageView
+        android:id="@+id/project_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_launcher_foreground" />
 
-        <View
-            android:layout_width="@dimen/spacing_large"
-            android:layout_height="wrap_content" />
-
-        <ImageView
-            android:id="@+id/project_image"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/image_12" />
-
-        <View
-            android:layout_width="@dimen/spacing_large"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/project_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Item Title"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/grey_80" />
-
-        <TextView
-            android:id="@+id/user_donation_cost"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Item Title"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/grey_80" />
-
-        <View
-            android:layout_width="@dimen/spacing_large"
-            android:layout_height="wrap_content" />
-
-        <ImageButton
-            android:id="@+id/bt_expand"
-            android:layout_width="?attr/actionBarSize"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:tint="@color/grey_60"
-            app:srcCompat="@drawable/ic_expand_arrow" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lyt_expand"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/project_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/grey_3"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/project_image"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/project_owner_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_large"
-            android:text="hhhhhhhhhhhhhhhhhhhhhhhhhhhh" />
+    <TextView
+        android:id="@+id/project_owner_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="13dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/project_image"
+        app:layout_constraintTop_toBottomOf="@+id/project_title" />
 
-    </LinearLayout>
-
-</LinearLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:orientation="vertical"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    android:layout_marginTop="10dp"-->
-<!--    android:layout_marginLeft="5dp"-->
-<!--    android:layout_marginRight="10dp"-->
-<!--    android:background="#fff">-->
-
-<!--    <ImageView-->
-<!--        android:id="@+id/project_image"-->
-<!--        android:layout_width="100dp"-->
-<!--        android:layout_height="100dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:srcCompat="@drawable/image_12" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/project_title"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="16dp"-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        android:text="TextView"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/project_image"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/project_owner_name"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="16dp"-->
-<!--        android:layout_marginTop="13dp"-->
-<!--        android:text="TextView"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/project_image"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/project_title" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/user_donation_cost"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="16dp"-->
-<!--        android:layout_marginTop="13dp"-->
-<!--        android:text="TextView"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/project_image"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/project_owner_name" />-->
-<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+    <TextView
+        android:id="@+id/user_donation_cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="13dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/project_image"
+        app:layout_constraintTop_toBottomOf="@+id/project_owner_name" />
+</androidx.constraintlayout.widget.ConstraintLayout>

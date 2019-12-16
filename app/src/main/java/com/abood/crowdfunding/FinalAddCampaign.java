@@ -62,11 +62,11 @@ public class FinalAddCampaign extends AppCompatActivity {
     private Bitmap compressed;
     private ProgressDialog progressDialog;
     Button selectFile,upload;
-    TextView notification;
+    TextView notification , pdfName;
     Uri pdfURi;
 
     EditText campaignTitle, campaignCountry, campaignCost, campaignDescription, campaignLocationt,campaignType,campaignDonationDays ;
-    Button campaignStartDateBtn, campaignEndDateBtn, campaignNextBtn,campaignAddBtn,campaignNextBtnToLastPage;
+    Button campaignAddBtn;
     FloatingActionButton  campaignChooseImageBtn,campaignChooseVideoBtn;
     ImageView campaignImageView;
     VideoView campaignVideoView;
@@ -102,6 +102,7 @@ public class FinalAddCampaign extends AppCompatActivity {
         mViewFlipper=findViewById(R.id.viewFlipper);
         notification=findViewById(R.id.notification);
         selectFile=findViewById(R.id.select_file);
+        pdfName=findViewById(R.id.upload_pdf_tv);
         upload =  findViewById(R.id.upload);
 //        campaignNextBtnToLastPage.setOnClickListener(new OnClickListener() {
 //            @Override
@@ -392,7 +393,14 @@ public class FinalAddCampaign extends AppCompatActivity {
 
         if (requestCode == 1&&resultCode==RESULT_OK&&data!=null) {
 
+
             pdfURi = data.getData();
+            String uriString = pdfURi.toString();
+            File myFile = new File(uriString);
+            String name = myFile.getName();
+            pdfName.setText(name);
+            Toast.makeText(FinalAddCampaign.this, "PDF Uploaded Successfully", Toast.LENGTH_SHORT).show();
+
         }
         else
         {

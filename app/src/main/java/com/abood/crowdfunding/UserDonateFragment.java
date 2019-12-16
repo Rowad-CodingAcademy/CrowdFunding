@@ -1,28 +1,19 @@
 package com.abood.crowdfunding;
 
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -100,22 +91,38 @@ public class UserDonateFragment extends Fragment {
                             }
                         });
 
-                store.collection("Users").whereEqualTo("userId", userId)
+                Task<QuerySnapshot> query = store.collection("Users").whereEqualTo("userId", userId)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
 
-                                    for (DocumentSnapshot document : task.getResult()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
 
                                         holder.campaignOwner.setText(document.getString("userName"));
 
                                     }
-                                } else {
                                 }
                             }
                         });
+
+//                store.collection("Users").whereEqualTo("userId", userId)
+//                        .get()
+//                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                                if (task.isSuccessful()) {
+//
+//                                    for (DocumentSnapshot document : task.getResult()) {
+//
+//                                        holder.campaignOwner.setText(document.getString("userName"));
+//
+//                                    }
+//                                } else {
+//                                }
+//                            }
+//                        });
 
 
 //                DocumentReference documentReferenceUser = store.collection("Users").document("z5MDbhjeMlfNoFI3lQ0H");
@@ -190,14 +197,5 @@ public class UserDonateFragment extends Fragment {
 
 
     }
-
-
-
-
-
-
-
-
-
 
 }

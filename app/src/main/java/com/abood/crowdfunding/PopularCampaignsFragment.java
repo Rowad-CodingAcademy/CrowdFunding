@@ -51,7 +51,8 @@ public class PopularCampaignsFragment extends Fragment {
         popularCampaignsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         store = FirebaseFirestore.getInstance();
-        Query query = store.collection("Campaigns").whereEqualTo("campaignApprove","1").whereEqualTo("campaignStatus","0");
+        Query query = store.collection("Campaigns").whereEqualTo("campaignApprove","1")
+                .whereEqualTo("campaignStatus","0").whereGreaterThanOrEqualTo("campaignCost","5000");
 
         FirestoreRecyclerOptions<Campaigns> options = new FirestoreRecyclerOptions.Builder<Campaigns>()
                 .setQuery(query, Campaigns.class)

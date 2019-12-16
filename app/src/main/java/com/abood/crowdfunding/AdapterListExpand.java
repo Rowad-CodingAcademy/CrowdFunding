@@ -66,7 +66,7 @@ public class AdapterListExpand extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder vh;
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_donation_holder, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_donation_holder2, parent, false);
         vh = new OriginalViewHolder(v);
         return vh;
     }
