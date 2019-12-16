@@ -15,6 +15,7 @@ public class DonationModel {
     String code;
     String userId;
     String campaignId;
+    public boolean expanded = false;
 
     public DonationModel() {
 

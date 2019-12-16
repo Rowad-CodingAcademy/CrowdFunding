@@ -31,6 +31,11 @@ public class ViewAnimation {
         v.startAnimation(a);
     }
 
+    public static void expand(final View v) {
+        Animation a = expandAction(v);
+        v.startAnimation(a);
+    }
+
     private static Animation expandAction(final View v) {
         v.measure(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         final int targtetHeight = v.getMeasuredHeight();

@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -19,14 +17,13 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.VideoView;
 import android.widget.ViewFlipper;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -72,6 +69,7 @@ public class EditingActivity extends AppCompatActivity {
     FloatingActionButton campaignChooseImageBtn,campaignChooseVideoBtn;
     ImageView campaignImageView;
     VideoView campaignVideoView;
+    ImageButton nextBTN,prevBTN;
 
     ViewFlipper mViewFlipper;
     private int currentSignUpViewNumber = 1;
@@ -99,15 +97,32 @@ public class EditingActivity extends AppCompatActivity {
         campaignDescription =findViewById(R.id.camp_description_edit_text);
         campaignLocationt =findViewById(R.id.camp_location_edit_text);
         campaignImageView = findViewById(R.id.image_view);
-        campaignVideoView = findViewById(R.id.video_view);
 //        campaignEndDateBtn =findViewById(R.id.comp_end_btn);
 //        campaignStartDateBtn =findViewById(R.id.comp_start_date_btn);
         campaignType=findViewById(R.id.camp_type_edit_text);
         campaignAddBtn =findViewById(R.id.add_campaign_btn);
         campaignChooseImageBtn =findViewById(R.id.upload_new_photo);
-        campaignChooseVideoBtn =findViewById(R.id.upload_new_video);
+        campaignChooseVideoBtn =findViewById(R.id.upload_pdf_file);
         mViewFlipper=findViewById(R.id.viewFlipper);
-        campaignNextBtnToLastPage=findViewById(R.id.next_btn_to_last_page);
+       // campaignNextBtnToLastPage=findViewById(R.id.next_btn_to_last_page);
+        nextBTN = findViewById(R.id.btn_next);
+        prevBTN = findViewById(R.id.btn_previous);
+
+
+        nextBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moveToView2();
+            }
+        });
+
+
+        prevBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moveToView1();
+            }
+        });
 
 
 
@@ -145,21 +160,21 @@ public class EditingActivity extends AppCompatActivity {
 
 
 
-
-        campaignNextBtnToLastPage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                moveToView2();
-            }
-        });
-        campaignNextBtn=findViewById(R.id.next_btn_to_next_page);
-        campaignNextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                moveToView2();
-            }
-        });
+//
+//        campaignNextBtnToLastPage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                moveToView2();
+//            }
+//        });
+//        campaignNextBtn=findViewById(R.id.next_btn_to_next_page);
+//        campaignNextBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                moveToView2();
+//            }
+//        });
 
 
         campaignChooseImageBtn.setOnClickListener(new View.OnClickListener() {

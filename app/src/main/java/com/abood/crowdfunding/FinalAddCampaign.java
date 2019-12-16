@@ -95,32 +95,27 @@ public class FinalAddCampaign extends AppCompatActivity {
         campaignLocationt =findViewById(R.id.camp_location_edit_text);
         campaignDonationDays =findViewById(R.id.donation_date_edit_text);
         campaignImageView = findViewById(R.id.image_view);
-        campaignVideoView = findViewById(R.id.video_view);
-//        campaignEndDateBtn =findViewById(R.id.comp_end_btn);
-//        campaignStartDateBtn =findViewById(R.id.comp_start_date_btn);
         campaignType=findViewById(R.id.camp_type_edit_text);
         campaignAddBtn =findViewById(R.id.add_campaign_btn);
         campaignChooseImageBtn =findViewById(R.id.upload_new_photo);
-        campaignChooseVideoBtn =findViewById(R.id.upload_new_video);
+        campaignChooseVideoBtn =findViewById(R.id.upload_pdf_file);
         mViewFlipper=findViewById(R.id.viewFlipper);
-        campaignNextBtnToLastPage=findViewById(R.id.next_btn_to_last_page);
         notification=findViewById(R.id.notification);
         selectFile=findViewById(R.id.select_file);
         upload =  findViewById(R.id.upload);
-        campaignNextBtnToLastPage.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                moveToView2();
-            }
-        });
-        campaignNextBtn=findViewById(R.id.next_btn_to_next_page);
-        campaignNextBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                moveToView2();
-            }
-        });
+//        campaignNextBtnToLastPage.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                moveToView2();
+//            }
+//        });
+//        campaignNextBtn.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                moveToView2();
+//            }
+//        });
 
 
         campaignChooseImageBtn.setOnClickListener(new OnClickListener() {
@@ -147,26 +142,17 @@ public class FinalAddCampaign extends AppCompatActivity {
             }
         });
 
-        campaignChooseVideoBtn.setOnClickListener(new OnClickListener() {
+        campaignChooseVideoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            public void onClick(View arg0) {
 
-                    if (ContextCompat.checkSelfPermission(FinalAddCampaign.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
-                        Toast.makeText(FinalAddCampaign.this, "Permission Denied", Toast.LENGTH_LONG).show();
-                        ActivityCompat.requestPermissions(FinalAddCampaign.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-
-                    } else {
-
-                       chooseVideo();
-
-                    }
-
-                } else {
-
-                    chooseVideo();
-
+                if(ContextCompat.checkSelfPermission(FinalAddCampaign.this, Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED)
+                {
+                    selectPDF();
+                }
+                else
+                {
+                    ActivityCompat.requestPermissions(FinalAddCampaign.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},9);
                 }
             }
         });
@@ -189,8 +175,6 @@ public class FinalAddCampaign extends AppCompatActivity {
                 if(!TextUtils.isEmpty(title)&&!TextUtils.isEmpty(country)&&!TextUtils.isEmpty(cost)&&imageUri!=null&&pdfURi!=null){
 
                     File newFile = new File(imageUri.getPath());
-                    File newPdf = new File(pdfURi.getPath());
-
 
                     try {
 
@@ -253,21 +237,6 @@ public class FinalAddCampaign extends AppCompatActivity {
                         }
                     });
 
-                }
-            }
-        });
-
-        campaignChooseVideoBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-
-                if(ContextCompat.checkSelfPermission(FinalAddCampaign.this, Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED)
-                {
-                    selectPDF();
-                }
-                else
-                {
-                    ActivityCompat.requestPermissions(FinalAddCampaign.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},9);
                 }
             }
         });
@@ -374,29 +343,6 @@ public class FinalAddCampaign extends AppCompatActivity {
         startActivityForResult(intent, PICK_VIDEO_REQUEST);
     }
 
-    private void uploadFile(Uri pdfURi) {
-        String fileName=System.currentTimeMillis()+"";
-        StorageReference storageReference = storage.getReference();//returns root path
-        storageReference.child("campaignsPDF").child(fileName).putFile(pdfURi)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(FinalAddCampaign.this, "Uploaded", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(FinalAddCampaign.this, "not Uploaded", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-
-
-            }
-        });
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode==9&&grantResults[0]== PackageManager.PERMISSION_GRANTED)
@@ -468,10 +414,5 @@ public class FinalAddCampaign extends AppCompatActivity {
         currentSignUpViewNumber++;
     }
 
-    @Override
-    public void onBackPressed() {
-        moveToView1();
-//        super.onBackPressed();
-//        mViewFlipper.showPrevious();
-    }
+
 }
