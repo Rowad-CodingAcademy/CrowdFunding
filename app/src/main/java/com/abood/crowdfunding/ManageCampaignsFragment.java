@@ -152,10 +152,10 @@ public class ManageCampaignsFragment extends Fragment {
                                     startActivity(intent);
                                     break;
                                 case R.id.delate:
-                                    Toast.makeText(getContext(), "delating", Toast.LENGTH_SHORT).show();
+                                    getSnapshots().getSnapshot(position).getReference().delete();
                                     break;
                                 case R.id.pause:
-                                    Toast.makeText(getContext(), "pausing", Toast.LENGTH_SHORT).show();
+                                    getSnapshots().getSnapshot(position).getReference().update("campaignStatus", "1");
                                     break;
                             }
                             return false;
