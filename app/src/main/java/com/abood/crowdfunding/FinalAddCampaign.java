@@ -159,8 +159,7 @@ public class FinalAddCampaign extends AppCompatActivity {
         campaignAddBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog.setMessage("Storing Data...");
-                progressDialog.show();
+
 
                 final String title = campaignTitle.getText().toString();
                 final String country = campaignCountry.getText().toString();
@@ -172,6 +171,9 @@ public class FinalAddCampaign extends AppCompatActivity {
 
 
                 if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(country) && !TextUtils.isEmpty(cost) && imageUri != null && pdfURi != null) {
+
+                    progressDialog.setMessage("Storing Data...");
+                    progressDialog.show();
 
                     File newFile = new File(imageUri.getPath());
 
@@ -236,6 +238,11 @@ public class FinalAddCampaign extends AppCompatActivity {
                         }
                     });
 
+                } else {
+                    if (imageUri == null)
+                        showMessage("Please select image");
+                    else
+                        showMessage("Please select pdf file");
                 }
             }
         });
@@ -251,7 +258,7 @@ public class FinalAddCampaign extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(currentSignUpViewNumber==1) {
+                if (currentSignUpViewNumber == 1) {
                     final String title = campaignTitle.getText().toString();
                     final String desc = campaignDescription.getText().toString();
                     final String days = campaignDonationDays.getText().toString();
@@ -262,7 +269,7 @@ public class FinalAddCampaign extends AppCompatActivity {
                     }
                 }
 
-                if(currentSignUpViewNumber==2) {
+                if (currentSignUpViewNumber == 2) {
                     final String cost = campaignCost.getText().toString();
                     final String type = campaignType.getText().toString();
                     final String location = campaignLocationt.getText().toString();
@@ -464,8 +471,8 @@ public class FinalAddCampaign extends AppCompatActivity {
 
 
     private void hideKeybaord(View v) {
-        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(v.getApplicationWindowToken(),0);
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
     }
 
 
