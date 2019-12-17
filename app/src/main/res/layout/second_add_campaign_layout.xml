@@ -84,8 +84,7 @@
                                     android:background="@color/grey_5"
                                     android:gravity="center_vertical"
                                     android:hint="Target Cost"
-                                    android:padding="@dimen/spacing_middle"
-                                    android:textColor="@color/grey_60" />
+                                    android:padding="@dimen/spacing_middle" />
 
 
                                 <View
@@ -161,8 +160,7 @@
                                     android:background="@color/grey_5"
                                     android:gravity="center_vertical"
                                     android:hint="Location"
-                                    android:padding="@dimen/spacing_middle"
-                                    android:textColor="@color/grey_60" />
+                                    android:padding="@dimen/spacing_middle"/>
 
 
                                 <View
@@ -235,8 +233,7 @@
                                     android:background="@color/grey_5"
                                     android:gravity="center_vertical"
                                     android:hint="Country"
-                                    android:padding="@dimen/spacing_middle"
-                                    android:textColor="@color/grey_60" />
+                                    android:padding="@dimen/spacing_middle"/>
 
 
                                 <View
@@ -308,8 +305,7 @@
                                     android:background="@color/grey_5"
                                     android:gravity="center_vertical"
                                     android:hint="Write your own Type"
-                                    android:padding="@dimen/spacing_middle"
-                                    android:textColor="@color/grey_60" />
+                                    android:padding="@dimen/spacing_middle"/>
 
                                 <RadioGroup
                                     android:layout_width="wrap_content"

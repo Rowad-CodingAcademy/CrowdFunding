@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/grey_100">
+    android:background="@color/grey_100"
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -49,8 +49,8 @@
                             android:id="@+id/image_view"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
                             android:background="@drawable/photo_bg"
+                            android:scaleType="centerCrop"
                             app:layout_collapseMode="parallax" />
 
                     </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -64,7 +64,7 @@
                     android:layout_height="50dp" />
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/video_view_card_view"
+                    android:id="@+id/pdf_view_card_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -77,24 +77,19 @@
                             android:id="@+id/imageView5"
                             android:layout_width="30dp"
                             android:layout_height="50dp"
+                            android:layout_gravity="center_vertical"
                             android:layout_marginStart="24dp"
-                            android:layout_marginTop="27dp"
-                            android:layout_marginBottom="16dp"
-                            android:src="@drawable/pdf_icon"
-                            />
+                            android:src="@drawable/pdf_icon" />
 
                         <TextView
                             android:id="@+id/upload_pdf_tv"
                             android:layout_width="300dp"
-                            android:layout_height="30dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_marginStart="8dp"
-                            android:layout_marginTop="37dp"
                             android:text="Upload PDF"
                             android:textColor="@color/colorAccent"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toEndOf="@+id/imageView5"
-                            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
-
+                            android:textStyle="bold" />
 
 
                     </LinearLayout>
@@ -103,7 +98,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="70dp" />
+                    android:layout_height="50dp" />
 
 
                 <Button
@@ -111,9 +106,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
+                    android:layout_margin="@dimen/spacing_middle"
                     android:layout_marginTop="30dp"
                     android:background="@drawable/donate_button"
-                    android:layout_margin="@dimen/spacing_middle"
                     android:text="Add campaign"
                     android:textColor="@android:color/white" />
 
@@ -146,7 +141,7 @@
                 android:tint="@android:color/white"
                 app:backgroundTint="@color/colorAccent"
                 app:fabSize="normal"
-                app:layout_anchor="@id/video_view_card_view"
+                app:layout_anchor="@id/pdf_view_card_view"
                 app:layout_anchorGravity="bottom|right|end" />
 
 

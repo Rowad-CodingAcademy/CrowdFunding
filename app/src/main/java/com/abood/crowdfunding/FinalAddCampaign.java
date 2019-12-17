@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -61,16 +62,16 @@ public class FinalAddCampaign extends AppCompatActivity {
     private String user_id;
     private Bitmap compressed;
     private ProgressDialog progressDialog;
-    Button selectFile,upload;
-    TextView notification , pdfName;
+    Button selectFile, upload;
+    TextView notification, pdfName;
     Uri pdfURi;
 
-    EditText campaignTitle, campaignCountry, campaignCost, campaignDescription, campaignLocationt,campaignType,campaignDonationDays ;
+    EditText campaignTitle, campaignCountry, campaignCost, campaignDescription, campaignLocationt, campaignType, campaignDonationDays;
     Button campaignAddBtn;
-    FloatingActionButton  campaignChooseImageBtn,campaignChooseVideoBtn;
+    FloatingActionButton campaignChooseImageBtn, campaignChooseVideoBtn;
     ImageView campaignImageView;
     VideoView campaignVideoView;
-    ImageButton nextBTN,prevBTN;
+    ImageButton nextBTN, prevBTN;
 
     ViewFlipper mViewFlipper;
     private int currentSignUpViewNumber = 1;
@@ -85,25 +86,25 @@ public class FinalAddCampaign extends AppCompatActivity {
         user_id = firebaseAuth.getCurrentUser().getUid();
         firebaseFirestore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
-        storage= FirebaseStorage.getInstance();
+        storage = FirebaseStorage.getInstance();
 
         setContentView(R.layout.activity_final_add_campaign);
-        campaignTitle =findViewById(R.id.camp_title_edit_text);
-        campaignCountry =findViewById(R.id.camp_country_edit_text);
-        campaignCost =findViewById(R.id.camp_target_edit_text);
-        campaignDescription =findViewById(R.id.camp_description_edit_text);
-        campaignLocationt =findViewById(R.id.camp_location_edit_text);
-        campaignDonationDays =findViewById(R.id.donation_date_edit_text);
+        campaignTitle = findViewById(R.id.camp_title_edit_text);
+        campaignCountry = findViewById(R.id.camp_country_edit_text);
+        campaignCost = findViewById(R.id.camp_target_edit_text);
+        campaignDescription = findViewById(R.id.camp_description_edit_text);
+        campaignLocationt = findViewById(R.id.camp_location_edit_text);
+        campaignDonationDays = findViewById(R.id.donation_date_edit_text);
         campaignImageView = findViewById(R.id.image_view);
-        campaignType=findViewById(R.id.camp_type_edit_text);
-        campaignAddBtn =findViewById(R.id.add_campaign_btn);
-        campaignChooseImageBtn =findViewById(R.id.upload_new_photo);
-        campaignChooseVideoBtn =findViewById(R.id.upload_pdf_file);
-        mViewFlipper=findViewById(R.id.viewFlipper);
-        notification=findViewById(R.id.notification);
-        selectFile=findViewById(R.id.select_file);
-        pdfName=findViewById(R.id.upload_pdf_tv);
-        upload =  findViewById(R.id.upload);
+        campaignType = findViewById(R.id.camp_type_edit_text);
+        campaignAddBtn = findViewById(R.id.add_campaign_btn);
+        campaignChooseImageBtn = findViewById(R.id.upload_new_photo);
+        campaignChooseVideoBtn = findViewById(R.id.upload_pdf_file);
+        mViewFlipper = findViewById(R.id.viewFlipper);
+        notification = findViewById(R.id.notification);
+        selectFile = findViewById(R.id.select_file);
+        pdfName = findViewById(R.id.upload_pdf_tv);
+        upload = findViewById(R.id.upload);
 //        campaignNextBtnToLastPage.setOnClickListener(new OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -147,13 +148,10 @@ public class FinalAddCampaign extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
 
-                if(ContextCompat.checkSelfPermission(FinalAddCampaign.this, Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED)
-                {
+                if (ContextCompat.checkSelfPermission(FinalAddCampaign.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     selectPDF();
-                }
-                else
-                {
-                    ActivityCompat.requestPermissions(FinalAddCampaign.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},9);
+                } else {
+                    ActivityCompat.requestPermissions(FinalAddCampaign.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 9);
                 }
             }
         });
@@ -173,7 +171,7 @@ public class FinalAddCampaign extends AppCompatActivity {
                 final String location = campaignLocationt.getText().toString();
 
 
-                if(!TextUtils.isEmpty(title)&&!TextUtils.isEmpty(country)&&!TextUtils.isEmpty(cost)&&imageUri!=null&&pdfURi!=null){
+                if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(country) && !TextUtils.isEmpty(cost) && imageUri != null && pdfURi != null) {
 
                     File newFile = new File(imageUri.getPath());
 
@@ -203,14 +201,14 @@ public class FinalAddCampaign extends AppCompatActivity {
 
                             if (task.isSuccessful()) {
 
-                                String fileName=System.currentTimeMillis()+"";
+                                String fileName = System.currentTimeMillis() + "";
                                 StorageReference storageReference = storage.getReference();//returns root path
                                 storageReference.child("campaignsPDF").child(fileName).putFile(pdfURi)
                                         .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                             @Override
                                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                                                storeData(task, taskSnapshot, title, country, cost, description,location,type,donatioDays);
+                                                storeData(task, taskSnapshot, title, country, cost, description, location, type, donatioDays);
 
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
@@ -243,24 +241,64 @@ public class FinalAddCampaign extends AppCompatActivity {
         });
 
         nextBTN = findViewById(R.id.btn_next);
+
         prevBTN = findViewById(R.id.btn_previous);
 
+
+        prevBTN.setVisibility(View.INVISIBLE);
 
         nextBTN.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if(currentSignUpViewNumber==1) {
+                    final String title = campaignTitle.getText().toString();
+                    final String desc = campaignDescription.getText().toString();
+                    final String days = campaignDonationDays.getText().toString();
+
+                    if (title.isEmpty() || desc.isEmpty() || days.isEmpty()) {
+                        showMessage("Please Verify All Field");
+                        return;
+                    }
+                }
+
+                if(currentSignUpViewNumber==2) {
+                    final String cost = campaignCost.getText().toString();
+                    final String type = campaignType.getText().toString();
+                    final String location = campaignLocationt.getText().toString();
+
+                    if (cost.isEmpty() || type.isEmpty() || location.isEmpty()) {
+                        showMessage("Please Verify All Field");
+                        return;
+                    }
+                }
+
+                prevBTN.setVisibility(View.VISIBLE);
                 moveToView2();
+
+                if (currentSignUpViewNumber == 3) {
+                    nextBTN.setVisibility(View.INVISIBLE);
+                    prevBTN.setVisibility(View.VISIBLE);
+                    hideKeybaord(view);
+
+                }
             }
+
         });
 
 
         prevBTN.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                nextBTN.setVisibility(View.VISIBLE);
                 moveToView1();
+                if (currentSignUpViewNumber == 1) {
+                    nextBTN.setVisibility(View.VISIBLE);
+                    prevBTN.setVisibility(View.INVISIBLE);
+                }
+
             }
         });
-
 
 
     }
@@ -297,8 +335,8 @@ public class FinalAddCampaign extends AppCompatActivity {
         campaignData.put("campaignCountry", country);
         campaignData.put("campaignCost", cost);
         campaignData.put("campaignDescription", description);
-        campaignData.put("campaignLocation",location);
-        campaignData.put("campaignType",type);
+        campaignData.put("campaignLocation", location);
+        campaignData.put("campaignType", type);
         campaignData.put("campaignDonationDays", donation);
         campaignData.put("campaignApprove", "0");
         campaignData.put("campaignStatus", "0");
@@ -328,7 +366,6 @@ public class FinalAddCampaign extends AppCompatActivity {
         });
 
         progressDialog.dismiss();
-
     }
 
     private void choseImage() {
@@ -337,6 +374,7 @@ public class FinalAddCampaign extends AppCompatActivity {
                 .setAspectRatio(1, 1)
                 .start(FinalAddCampaign.this);
     }
+
     private void chooseVideo() {
         Intent intent = new Intent();
         intent.setType("video/*");
@@ -346,19 +384,15 @@ public class FinalAddCampaign extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode==9&&grantResults[0]== PackageManager.PERMISSION_GRANTED)
-        {
+        if (requestCode == 9 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             selectPDF();
-        }
-        else
-        {
+        } else {
             Toast.makeText(this, "please,provide permission", Toast.LENGTH_SHORT).show();
         }
 
     }
 
-    private void selectPDF()
-    {
+    private void selectPDF() {
         Intent intent = new Intent();
         intent.setType("application/pdf");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -382,8 +416,7 @@ public class FinalAddCampaign extends AppCompatActivity {
                 Exception error = result.getError();
 
             }
-        }
-        else if (requestCode == PICK_VIDEO_REQUEST && resultCode == RESULT_OK
+        } else if (requestCode == PICK_VIDEO_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             mVideoUri = data.getData();
 
@@ -391,7 +424,7 @@ public class FinalAddCampaign extends AppCompatActivity {
             campaignVideoView.setVideoURI(mVideoUri);
         }
 
-        if (requestCode == 1&&resultCode==RESULT_OK&&data!=null) {
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
 
 
             pdfURi = data.getData();
@@ -401,25 +434,38 @@ public class FinalAddCampaign extends AppCompatActivity {
             pdfName.setText(name);
             Toast.makeText(FinalAddCampaign.this, "PDF Uploaded Successfully", Toast.LENGTH_SHORT).show();
 
-        }
-        else
-        {
+        } else {
             Toast.makeText(this, "filed", Toast.LENGTH_SHORT).show();
         }
 
     }
 
     private void moveToView1() {
+
         mViewFlipper.setInAnimation(this, android.R.anim.slide_in_left);
         mViewFlipper.setOutAnimation(this, android.R.anim.slide_out_right);
         mViewFlipper.showPrevious();
         currentSignUpViewNumber--;
+
     }
+
     private void moveToView2() {
+
         mViewFlipper.setInAnimation(this, R.anim.slide_in_right);
         mViewFlipper.setOutAnimation(this, R.anim.slide_out_left);
         mViewFlipper.showNext();
         currentSignUpViewNumber++;
+
+    }
+
+    private void showMessage(String text) {
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
+    }
+
+
+    private void hideKeybaord(View v) {
+        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(v.getApplicationWindowToken(),0);
     }
 
 
