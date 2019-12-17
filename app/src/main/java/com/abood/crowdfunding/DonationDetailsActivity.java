@@ -82,9 +82,17 @@ public class DonationDetailsActivity extends AppCompatActivity {
         nextBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                detailsLyout.setVisibility(View.VISIBLE);
-                projectTitle.setText( getIntent().getStringExtra("campaignTitle"));
-                projectDonate.setText(targetCostED.getText().toString() );
+
+                target_reward = targetCostED.getText().toString();
+
+                if (target_reward.trim().isEmpty()){
+                    Toast.makeText(DonationDetailsActivity.this, "Enter Donation Amount", Toast.LENGTH_LONG).show();
+                } else {
+
+                    detailsLyout.setVisibility(View.VISIBLE);
+                    projectTitle.setText(getIntent().getStringExtra("campaignTitle"));
+                    projectDonate.setText("$ "+targetCostED.getText().toString());
+                }
             }
         });
 

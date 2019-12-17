@@ -298,7 +298,7 @@
                 android:id="@+id/campaign_location_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="10dp"
                 app:layout_constraintStart_toEndOf="@+id/campaign_location_imageView"
                 app:layout_constraintTop_toBottomOf="@+id/campaign_location_textView2" />
 
@@ -307,7 +307,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="40dp"
+                android:layout_marginEnd="36dp"
                 android:text="Location"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/colorAccent"
@@ -319,8 +319,8 @@
                 android:id="@+id/campaign_location_imageView"
                 android:layout_width="30dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="10dp"
                 app:layout_constraintEnd_toStartOf="@+id/campaign_location_textView2"
                 app:layout_constraintTop_toBottomOf="@+id/campaign_daysToGo_imageView"
                 app:srcCompat="@drawable/ic_location_on_black_24dp" />
@@ -332,7 +332,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="16dp"
-                android:src="@drawable/category"
+                android:src="@drawable/ic_category_24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView3" />
@@ -358,35 +358,35 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
             <TextView
-                android:id="@+id/campaign_remainigAmount_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView8"
-                app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-            <TextView
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="4dp"
                 android:text="Remaining Amount"
                 android:textColor="@color/colorAccent"
+                android:textSize="10sp"
                 android:textStyle="bold"
-                android:textSize="9sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/campaign_location_textView" />
+
+            <TextView
+                android:id="@+id/campaign_remainigAmount_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView8"
+                app:layout_constraintTop_toBottomOf="@+id/textView6"
+                app:layout_constraintVertical_bias="0.0" />
 
             <ImageView
                 android:id="@+id/imageView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
                 app:layout_constraintEnd_toStartOf="@+id/textView6"
                 app:layout_constraintTop_toBottomOf="@+id/campaign_location_imageView"
                 app:srcCompat="@drawable/ic_money_off_black_24dp" />

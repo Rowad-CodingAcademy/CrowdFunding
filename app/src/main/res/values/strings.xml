@@ -4,6 +4,11 @@
     <string name="tab2">NEWEST</string>
     <string name="tab3">ENDING SOON</string>
 
+    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="fcm_message">FCM Message</string>
+
+
     <string name="usertab1">CAMPAIGN</string>
     <string name="usertab2">DONATE</string>
 

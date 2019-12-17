@@ -7,7 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,9 +20,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 
@@ -56,8 +62,26 @@ public class UserCampaignsFragments extends Fragment {
 
         adapter = new FirestoreRecyclerAdapter<Campaigns, PopularCampaignsViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull PopularCampaignsViewHolder holder, final int position, @NonNull Campaigns campaign) {
-                holder.setData(campaign.getCampaignTitle(), campaign.getCampaignDescription(), campaign.getCampaignImage());
+            protected void onBindViewHolder(@NonNull final PopularCampaignsViewHolder holder, final int position, @NonNull Campaigns campaign) {
+                holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage(),campaign.getCampaignCost(),campaign.getCampaignFunds(), campaign.getCampaignDonationDays());
+
+
+                store.collection("Donation").whereEqualTo("campaignId", getSnapshots().getSnapshot(position).getId())
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    int count = 0;
+                                    for (DocumentSnapshot document : task.getResult()) {
+                                        count++;
+                                        holder.campaignDoners.setText(String.valueOf(count));
+                                    }
+                                } else {
+                                    Toast.makeText(getActivity(), task.getException()+"", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -105,7 +129,9 @@ public class UserCampaignsFragments extends Fragment {
         private View view;
 
         ImageView campaignImage;
-        TextView campaignTitle, campaignDescription;
+        TextView campaignTitle,campaignDescription,campaignRatio,campaignDoners,campaignDays;
+        private ProgressBar progress_determinate;
+        int mDonationRatio;
 
 
         public PopularCampaignsViewHolder(@NonNull View itemView) {
@@ -115,16 +141,30 @@ public class UserCampaignsFragments extends Fragment {
 
         }
 
-        void setData(String name, String age, String image) {
+        void setData(String name, String age , String image, String cost, String fund, String donation ) {
 
             campaignImage = itemView.findViewById(R.id.campaign_image);
             campaignTitle = itemView.findViewById(R.id.campaign_title);
             campaignDescription = itemView.findViewById(R.id.campaign_description);
+            campaignRatio = itemView.findViewById(R.id.campaign_ratio_textView);
+            campaignDoners = itemView.findViewById(R.id.campaign_donors_textView);
+            campaignDays = itemView.findViewById(R.id.campaign_daysToGo_textView);
+            progress_determinate = itemView.findViewById(R.id.progress_determinate);
 
             campaignTitle.setText(name);
             campaignDescription.setText(age);
+            campaignDays.setText(donation);
+
+            Double funds = Double.parseDouble(fund);
+            Double costs = Double.parseDouble(cost);
+            mDonationRatio = new Integer(String.valueOf(Math.round((funds*100)/ costs)));
+            campaignRatio.setText(mDonationRatio+"%");
+
+            progress_determinate.setProgress(mDonationRatio);
+
             Picasso.get().load(image).into(campaignImage);
 //            Glide.with(getActivity()).load(image).into(campaignImage);
+
 
 
         }

@@ -7,33 +7,37 @@
     android:orientation="vertical"
     android:layout_marginTop="10dp"
     >
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="30dp"
-       android:orientation="vertical"
-       android:background="#fff"
-       android:layout_marginLeft="10dp"
-       android:layout_marginRight="14dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="14dp"
+        android:background="#fff"
+        android:orientation="vertical">
 
 
-       <TextView
-           android:id="@+id/textViewOptions"
-           android:layout_width="33dp"
-           android:layout_height="wrap_content"
-           android:layout_alignParentTop="true"
-           android:layout_alignParentRight="true"
-           android:paddingLeft="@dimen/activity_horizontal_margin"
-           android:text="&#8942;"
-           android:textAppearance="?android:textAppearanceLarge"
-           app:layout_constraintBottom_toBottomOf="@+id/campaign_image"
-           app:layout_constraintEnd_toEndOf="@+id/campaign_image"
-           app:layout_constraintHorizontal_bias="0.956"
-           app:layout_constraintStart_toStartOf="@+id/campaign_image"
-           app:layout_constraintTop_toTopOf="@+id/campaign_image"
-           app:layout_constraintVertical_bias="0.0"
-           android:layout_gravity="right"/>
-   </LinearLayout>
-<androidx.constraintlayout.widget.ConstraintLayout
+        <TextView
+            android:id="@+id/textViewOptions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:text="&#8942;"
+            android:textAppearance="?android:textAppearanceLarge"
+            app:layout_constraintBottom_toBottomOf="@+id/campaign_image"
+            app:layout_constraintEnd_toEndOf="@+id/campaign_image"
+            app:layout_constraintHorizontal_bias="0.956"
+            app:layout_constraintStart_toStartOf="@+id/campaign_image"
+            app:layout_constraintTop_toTopOf="@+id/campaign_image"
+            app:layout_constraintVertical_bias="0.0" />
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="0dp"

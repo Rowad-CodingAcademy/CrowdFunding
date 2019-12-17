@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -65,7 +66,7 @@ public class UserDonateFragment extends Fragment {
 
 
             @Override
-            protected void onBindViewHolder(@NonNull final UserDonationViewHolder holder, int position, @NonNull final DonationModel model) {
+            protected void onBindViewHolder(@NonNull final UserDonationViewHolder holder, final int position, @NonNull final DonationModel model) {
                 holder.userDonationFund.setText(model.getTargetAmount());
                 DocumentReference documentReference = store.collection("Campaigns").document(model.getCampaignId());
                 documentReference.get()
@@ -91,38 +92,40 @@ public class UserDonateFragment extends Fragment {
                             }
                         });
 
-                Task<QuerySnapshot> query = store.collection("Users").whereEqualTo("userId", userId)
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-
-                                        holder.campaignOwner.setText(document.getString("userName"));
-
-                                    }
-                                }
-                            }
-                        });
-
-//                store.collection("Users").whereEqualTo("userId", userId)
+//                Task<QuerySnapshot> query = store.collection("Users").whereEqualTo("userId", model.getUserId())
 //                        .get()
 //                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 //                            @Override
 //                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
 //                                if (task.isSuccessful()) {
 //
-//                                    for (DocumentSnapshot document : task.getResult()) {
+//                                    for (QueryDocumentSnapshot document : task.getResult()) {
 //
 //                                        holder.campaignOwner.setText(document.getString("userName"));
 //
 //                                    }
-//                                } else {
 //                                }
 //                            }
 //                        });
+
+                store.collection("Users").whereEqualTo("userId", model.getUserId())
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+
+//                                    holder.campaignOwner.setText(task.getResult().getDocuments().get(position).getString("userName"));
+
+                                    for (DocumentSnapshot document : task.getResult()) {
+
+                                        holder.campaignOwner.setText(document.getString("userName"));
+
+                                    }
+                                } else {
+                                }
+                            }
+                        });
 
 
 //                DocumentReference documentReferenceUser = store.collection("Users").document("z5MDbhjeMlfNoFI3lQ0H");

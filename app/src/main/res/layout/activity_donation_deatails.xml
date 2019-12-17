@@ -161,6 +161,7 @@
                                 android:background="@color/grey_5"
                                 android:drawableStart="@drawable/ic_dollar_sign"
                                 android:gravity="center_vertical"
+                                android:inputType="number"
                                 android:padding="@dimen/spacing_middle"
                                 android:textColor="@color/grey_60" />
 
@@ -366,6 +367,7 @@
                                     android:orientation="vertical">
 
                                     <EditText
+                                        android:id="@+id/card_no"
                                         android:layout_width="match_parent"
                                         android:layout_height="50dp"
                                         android:layout_marginLeft="@dimen/spacing_large"
@@ -373,9 +375,9 @@
                                         android:background="@color/grey_5"
                                         android:gravity="center_vertical"
                                         android:hint="Card Number"
+                                        android:inputType="number"
                                         android:padding="@dimen/spacing_middle"
-                                        android:textColor="@color/grey_60"
-                                        android:id="@+id/card_no"/>
+                                        android:textColor="@color/grey_60" />
 
                                     <View
                                         android:layout_width="match_parent"
@@ -446,6 +448,7 @@
                                         android:background="@color/grey_5"
                                         android:gravity="center_vertical"
                                         android:hint="Cardholder Name"
+                                        android:inputType="text"
                                         android:padding="@dimen/spacing_middle"
                                         android:textColor="@color/grey_60" />
 
@@ -517,6 +520,7 @@
                                         android:background="@color/grey_5"
                                         android:gravity="center_vertical"
                                         android:hint="Expiration Date"
+                                        android:inputType="text"
                                         android:padding="@dimen/spacing_middle"
                                         android:textColor="@color/grey_60" />
 
@@ -588,6 +592,7 @@
                                         android:background="@color/grey_5"
                                         android:gravity="center_vertical"
                                         android:hint="Security Code"
+                                        android:inputType="text"
                                         android:padding="@dimen/spacing_middle"
                                         android:textColor="@color/grey_60" />
 

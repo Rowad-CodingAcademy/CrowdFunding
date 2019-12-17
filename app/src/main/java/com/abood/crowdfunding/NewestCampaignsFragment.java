@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -60,7 +62,6 @@ public class NewestCampaignsFragment extends Fragment {
 
                 holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage(),campaign.getCampaignCost(),campaign.getCampaignFunds(), campaign.getCampaignDonationDays());
 
-
                 store.collection("Donation").whereEqualTo("campaignId", getSnapshots().getSnapshot(position).getId())
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -73,6 +74,7 @@ public class NewestCampaignsFragment extends Fragment {
                                         holder.campaignDoners.setText(String.valueOf(count));
                                     }
                                 } else {
+                                    Toast.makeText(getActivity(), task.getException()+"", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

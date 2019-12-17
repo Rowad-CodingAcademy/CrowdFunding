@@ -1,13 +1,23 @@
 package com.abood.crowdfunding;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class CampaignsListFragment extends Fragment {
 
@@ -22,6 +32,27 @@ public class CampaignsListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
+
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("aaa", "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        String token = task.getResult().getToken();
+
+                        // Log and toast
+                        String msg = getString(R.string.msg_token_fmt, token);
+                        Log.d("aaa", msg);
+                        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
 
     }
 

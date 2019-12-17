@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -73,6 +75,7 @@ public class EndingSoonCampaignsFragment extends Fragment {
                                         holder.campaignDoners.setText(String.valueOf(count));
                                     }
                                 } else {
+                                    Toast.makeText(getActivity(), task.getException()+"", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
