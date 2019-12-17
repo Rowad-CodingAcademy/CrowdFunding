@@ -112,7 +112,7 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
 //        toolbar.setBackgroundColor(getResources().getColor(R.color.pink_600));
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+//        actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
 
