@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +25,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -153,28 +151,48 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
             user_info_nav.setVisibility(View.GONE);
             logo_nav.setVisibility(View.VISIBLE);
 
-            menu_navigation.setGroupVisible(R.id.grp_1, false);
+            menu_navigation.findItem(R.id.nav_home).setVisible(false);
+
+            menu_navigation.findItem(R.id.nav_profile).setVisible(false);
+            menu_navigation.findItem(R.id.nav_start_project).setVisible(false);
+
+
             menu_navigation.setGroupVisible(R.id.grp_2, true);
-            menu_navigation.setGroupVisible(R.id.grp_3, false);
-            menu_navigation.setGroupVisible(R.id.grp_4, true);
-            menu_navigation.setGroupVisible(R.id.grp_5, false);
+
+            menu_navigation.findItem(R.id.nav_paused_campaign).setVisible(false);
+            menu_navigation.findItem(R.id.nav_closed_campaign).setVisible(false);
+
+
+            menu_navigation.setGroupVisible(R.id.grp_3, true);
+            menu_navigation.setGroupVisible(R.id.grp_4, false);
         } else {
 
             user_info_nav.setVisibility(View.VISIBLE);
             logo_nav.setVisibility(View.GONE);
 
             if (isAdmin) {
-                menu_navigation.setGroupVisible(R.id.grp_1, false);
+
+                menu_navigation.findItem(R.id.nav_home).setVisible(true);
+                menu_navigation.findItem(R.id.nav_profile).setVisible(false);
+                menu_navigation.findItem(R.id.nav_start_project).setVisible(false);
+                menu_navigation.findItem(R.id.nav_paused_campaign).setVisible(true);
+                menu_navigation.findItem(R.id.nav_closed_campaign).setVisible(true);
+
+                menu_navigation.setGroupVisible(R.id.grp_2, false);
+
+                menu_navigation.setGroupVisible(R.id.grp_3, true);
+                menu_navigation.setGroupVisible(R.id.grp_4, true);
+            } else {
+                menu_navigation.findItem(R.id.nav_home).setVisible(true);
+                menu_navigation.findItem(R.id.nav_paused_campaign).setVisible(false);
+                menu_navigation.findItem(R.id.nav_closed_campaign).setVisible(false);
+
+                menu_navigation.findItem(R.id.nav_profile).setVisible(true);
+                menu_navigation.setGroupVisible(R.id.nav_start_project, true);
+
                 menu_navigation.setGroupVisible(R.id.grp_2, false);
                 menu_navigation.setGroupVisible(R.id.grp_3, true);
                 menu_navigation.setGroupVisible(R.id.grp_4, true);
-                menu_navigation.setGroupVisible(R.id.grp_5, true);
-            } else {
-                menu_navigation.setGroupVisible(R.id.grp_3, false);
-                menu_navigation.setGroupVisible(R.id.grp_1, true);
-                menu_navigation.setGroupVisible(R.id.grp_2, false);
-                menu_navigation.setGroupVisible(R.id.grp_4, true);
-                menu_navigation.setGroupVisible(R.id.grp_5, true);
             }
         }
 
@@ -211,6 +229,17 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
 
             // Handle navigation view item clicks here.
             int id = item.getItemId();
+
+            if (id == R.id.nav_home) {
+                if (isAdmin) {
+                    Intent i = new Intent(SingleFragmentActivity.this, AdminDashboardActivity.class);
+                    startActivity(i);
+                } else {
+                    Intent i = new Intent(SingleFragmentActivity.this, CampaignsListActivity.class);
+                    startActivity(i);
+                }
+
+            }
 
             if (id == R.id.nav_log_out) {
                 firebaseAuth = FirebaseAuth.getInstance();
