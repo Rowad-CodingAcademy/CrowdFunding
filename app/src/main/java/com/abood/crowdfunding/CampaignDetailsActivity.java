@@ -35,6 +35,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -66,6 +67,7 @@ public class CampaignDetailsActivity extends AppCompatActivity
     private FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth;
     String title;
+    String userImage;
 
 
     @Override
@@ -137,7 +139,7 @@ public class CampaignDetailsActivity extends AppCompatActivity
 
                                 mDescriptionTV.setText(task.getResult().getString("campaignDescription"));
                                 mLocationTV.setText(task.getResult().getString("campaignCountry"));
-                                mCostTV.setText(task.getResult().getString("campaignCost")+" $");
+                                mCostTV.setText(task.getResult().getString("campaignCost"));
                                 mCategoryTV.setText(task.getResult().getString("campaignCategory"));
                                 mDaysToGoTV.setText(task.getResult().getString("campaignDonationDays"));
 
@@ -157,7 +159,11 @@ public class CampaignDetailsActivity extends AppCompatActivity
                                             }
                                         });
 
-                                mRemainigAmountTV.setText(cost-fund+" $");
+                                if (fund >= cost){
+                                    mRemainigAmountTV.setText("0");
+                                }else {
+                                    mRemainigAmountTV.setText(cost - fund + "");
+                                }
                                 //campaignPhotoes=campaigns.getCampImageUrl();
 
                                 campaignPhotoes.add(task.getResult().getString("campaignImage"));
@@ -187,8 +193,25 @@ public class CampaignDetailsActivity extends AppCompatActivity
                                         });
 
 
+                            firebaseFirestore.collection("Users").whereEqualTo("userId", task.getResult().getString("userId"))
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                          if (task.isSuccessful()) {
 
-                                ownerNameTV.setText(user.getuName());
+
+                                              for (DocumentSnapshot document : task.getResult()) {
+
+                                                  userImage = document.getString("userImage");
+                                                  Picasso.get().load(userImage).into(ownerPhotoImageView);
+                                                  ownerNameTV.setText(document.getString("userName"));
+
+                                              }
+                                                } else {
+                                                }
+                                            }
+                                        });
 
 
                                 setUpProgressBar();
@@ -226,11 +249,6 @@ public class CampaignDetailsActivity extends AppCompatActivity
 
                     }
                 });
-
-
-
-
-
 
 
         donateBtn.setOnClickListener(new View.OnClickListener() {

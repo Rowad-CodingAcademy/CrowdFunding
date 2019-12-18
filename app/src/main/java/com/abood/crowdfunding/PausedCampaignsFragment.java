@@ -162,11 +162,12 @@ public class PausedCampaignsFragment extends Fragment {
 
     public class PausedCampaignsViewHolder extends RecyclerView.ViewHolder {
 
+
         private View view;
 
         ImageView campaignImage;
-        TextView campaignTitle,campaignDescription,campaignRatio,campaignDoners,campaignDays;
         Button activeCampaign;
+        TextView campaignTitle,campaignDescription,campaignRatio,campaignDoners,campaignDays;
         private ProgressBar progress_determinate;
         int mDonationRatio;
 

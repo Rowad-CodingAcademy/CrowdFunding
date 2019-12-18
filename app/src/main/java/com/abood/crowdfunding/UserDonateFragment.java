@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
@@ -107,7 +109,9 @@ public class UserDonateFragment extends Fragment {
 
         @Override
         protected void onBindViewHolder(@NonNull final UserDonationViewHolder holder, final int position, @NonNull final DonationModel model) {
+
             holder.userDonationFund.setText(model.getTargetAmount());
+
             DocumentReference documentReference = store.collection("Campaigns").document(model.getCampaignId());
             documentReference.get()
                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -120,6 +124,10 @@ public class UserDonateFragment extends Fragment {
                                 userId = snapshot.getString("userId");
                                 Picasso.get().load(imgURL).into(holder.campaignImage);
 
+                                holder.setData(snapshot.getString("campaignCost"),snapshot.getString("campaignFunds")
+                                        , snapshot.getString("campaignDonationDays"), snapshot.getString("campaignLocation")
+                                        ,snapshot.getString("campaignCategory"));
+
 
                             } else {
                             }
@@ -129,6 +137,23 @@ public class UserDonateFragment extends Fragment {
                         @Override
                         public void onFailure(@NonNull Exception e) {
 
+                        }
+                    });
+
+            store.collection("Donation").whereEqualTo("campaignId", model.getCampaignId())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                int count = 0;
+                                for (DocumentSnapshot document : task.getResult()) {
+                                    count++;
+                                    holder.campaignDoners.setText(String.valueOf(count));
+                                }
+                            } else {
+                                Toast.makeText(getActivity(), task.getException()+"", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
 
@@ -159,7 +184,7 @@ public class UserDonateFragment extends Fragment {
 
                                 for (DocumentSnapshot document : task.getResult()) {
 
-                                    holder.campaignOwner.setText(document.getString("userName"));
+//                                    holder.campaignOwner.setText(document.getString("userName"));
 
                                 }
                             } else {
@@ -207,7 +232,7 @@ public class UserDonateFragment extends Fragment {
         @NonNull
         @Override
         public UserDonationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_donation_holder2, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_donation_holder, parent, false);
             return new UserDonationViewHolder(view);
         }
 
@@ -256,7 +281,9 @@ public class UserDonateFragment extends Fragment {
         private View view;
 
         ImageView campaignImage;
-        TextView campaignTitle, campaignOwner, userDonationFund;
+        TextView campaignTitle, campaignOwner, campaignRemainAmount, campaignCost, campaignLocation, campaignCategory, userDonationFund, campaignRatio,campaignDoners,campaignDays;
+        private ProgressBar progress_determinate;
+        int mDonationRatio;
         public ImageButton bt_expand;
         public View lyt_expand;
         public View lyt_parent;
@@ -266,12 +293,46 @@ public class UserDonateFragment extends Fragment {
             super(itemView);
             campaignImage = itemView.findViewById(R.id.project_image);
             campaignTitle = itemView.findViewById(R.id.project_title);
-            campaignOwner = itemView.findViewById(R.id.project_owner_name);
+            campaignDoners = itemView.findViewById(R.id.campaign_donors_textView);
             userDonationFund = itemView.findViewById(R.id.user_donation_cost);
             bt_expand =  itemView.findViewById(R.id.bt_expand);
             lyt_expand =  itemView.findViewById(R.id.lyt_expand);
             lyt_parent = itemView.findViewById(R.id.lyt_parent);
             view = itemView;
+        }
+
+        void setData(String cost, String fund, String donation, String location, String category ) {
+
+            campaignRatio = itemView.findViewById(R.id.campaign_ratio_textView);
+            campaignDays = itemView.findViewById(R.id.campaign_daysToGo_textView);
+            campaignCost = itemView.findViewById(R.id.campaign_cost_textView);
+            campaignLocation = itemView.findViewById(R.id.campaign_location_textView);
+            campaignCategory = itemView.findViewById(R.id.campaign_category_textView);
+            campaignRemainAmount = itemView.findViewById(R.id.campaign_remainigAmount_textView);
+            progress_determinate = itemView.findViewById(R.id.progress_determinate);
+
+
+            campaignDays.setText(donation);
+            campaignCost.setText(cost);
+            campaignLocation.setText(location);
+            campaignCategory.setText(category);
+
+
+
+            Double funds = Double.parseDouble(fund);
+            Double costs = Double.parseDouble(cost);
+            mDonationRatio = new Integer(String.valueOf(Math.round((funds*100)/ costs)));
+            campaignRatio.setText(mDonationRatio+"%");
+
+            progress_determinate.setProgress(mDonationRatio);
+
+            if (funds >= costs){
+                campaignRemainAmount.setText("0");
+            }else {
+                campaignRemainAmount.setText(costs - funds + "");
+            }
+
+
         }
 
 

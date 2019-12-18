@@ -56,7 +56,6 @@ public class AdapterListExpand extends RecyclerView.Adapter<RecyclerView.ViewHol
             project_image =  v.findViewById(R.id.project_image);
             project_title =  v.findViewById(R.id.project_title);
             user_donation_cost =  v.findViewById(R.id.user_donation_cost);
-            project_owner_name =  v.findViewById(R.id.project_owner_name);
             bt_expand =  v.findViewById(R.id.bt_expand);
             lyt_expand =  v.findViewById(R.id.lyt_expand);
             lyt_parent = v.findViewById(R.id.lyt_parent);
@@ -66,7 +65,7 @@ public class AdapterListExpand extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder vh;
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_donation_holder2, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_donation_holder, parent, false);
         vh = new OriginalViewHolder(v);
         return vh;
     }

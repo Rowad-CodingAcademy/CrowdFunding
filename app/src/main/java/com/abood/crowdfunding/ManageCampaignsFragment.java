@@ -11,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,7 +57,8 @@ public class ManageCampaignsFragment extends Fragment {
         popularCampaignsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         store = FirebaseFirestore.getInstance();
-        Query query = store.collection("Campaigns").whereEqualTo("campaignApprove","1");
+        Query query = store.collection("Campaigns").whereEqualTo("campaignApprove","1")
+                .whereEqualTo("campaignStatus","0");
 
         FirestoreRecyclerOptions<Campaigns> options = new FirestoreRecyclerOptions.Builder<Campaigns>()
                 .setQuery(query, Campaigns.class)
@@ -123,7 +125,8 @@ public class ManageCampaignsFragment extends Fragment {
 
         @Override
         protected void onBindViewHolder(@NonNull final PopularCampaignsViewHolder holder , final int position, @NonNull Campaigns campaign) {
-            holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage());
+
+            holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage(),campaign.getCampaignCost(),campaign.getCampaignFunds(), campaign.getCampaignDonationDays());
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -182,8 +185,9 @@ public class ManageCampaignsFragment extends Fragment {
         private View view;
 
         ImageView campaignImage;
-        TextView campaignTitle,campaignDescription,viewOptionTextView;
-
+        TextView campaignTitle,campaignDescription,campaignRatio,campaignDoners,campaignDays,viewOptionTextView;
+        private ProgressBar progress_determinate;
+        int mDonationRatio;
 
 
         public PopularCampaignsViewHolder(@NonNull View itemView) {
@@ -193,18 +197,31 @@ public class ManageCampaignsFragment extends Fragment {
 
         }
 
-        void setData(String name, String age , String image ) {
+        void setData(String name, String age , String image, String cost, String fund, String donation ) {
 
             campaignImage = itemView.findViewById(R.id.campaign_image);
             campaignTitle = itemView.findViewById(R.id.campaign_title);
             campaignDescription = itemView.findViewById(R.id.campaign_description);
-            viewOptionTextView=itemView.findViewById(R.id.textViewOptions);
-
+            campaignRatio = itemView.findViewById(R.id.campaign_ratio_textView);
+            campaignDoners = itemView.findViewById(R.id.campaign_donors_textView);
+            campaignDays = itemView.findViewById(R.id.campaign_daysToGo_textView);
+            viewOptionTextView = itemView.findViewById(R.id.textViewOptions);
+            progress_determinate = itemView.findViewById(R.id.progress_determinate);
 
             campaignTitle.setText(name);
             campaignDescription.setText(age);
+            campaignDays.setText(donation);
+
+            Double funds = Double.parseDouble(fund);
+            Double costs = Double.parseDouble(cost);
+            mDonationRatio = new Integer(String.valueOf(Math.round((funds*100)/ costs)));
+            campaignRatio.setText(mDonationRatio+"%");
+
+            progress_determinate.setProgress(mDonationRatio);
+
             Picasso.get().load(image).into(campaignImage);
 //            Glide.with(getActivity()).load(image).into(campaignImage);
+
 
 
         }

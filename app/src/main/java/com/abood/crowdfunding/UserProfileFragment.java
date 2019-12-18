@@ -47,6 +47,8 @@ public class UserProfileFragment extends Fragment {
     CampaignPagerAdapter adapter;
     private TabLayout tabLayout;
 
+    FirebaseAuth firebaseAuth;
+
     UserCampaignsFragments userCampaignsFragments;
     UserDonateFragment userDonateFragment;
 
@@ -134,55 +136,60 @@ public class UserProfileFragment extends Fragment {
                 //image.setScaleX(scale >= 0 ? scale : 0);
                 //image.setScaleY(scale >= 0 ? scale : 0);
 
+                firebaseAuth = FirebaseAuth.getInstance();
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
-                db = FirebaseFirestore.getInstance();
-                Task<QuerySnapshot> query = db.collection("Users").whereEqualTo("userId", FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        userName.setText(document.getString("userName"));
-                                        Picasso.get().load(document.getString("userImage")).into(image);
 
-                                    }
-                                } else {
-                                }}
-                        });
+                if (firebaseAuth.getCurrentUser() != null){
 
-                db.collection("Campaigns").whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    int count = 0;
-                                    for (DocumentSnapshot document : task.getResult()) {
-                                        count++;
-                                        userCampaignNo.setText(String.valueOf(count) + " Campaigns");
+                    Task<QuerySnapshot> query = db.collection("Users").whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid())
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            userName.setText(document.getString("userName"));
+                                            Picasso.get().load(document.getString("userImage")).into(image);
+
+                                        }
+                                    } else {
+                                    }}
+                            });
+
+                    db.collection("Campaigns").whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid())
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        int count = 0;
+                                        for (DocumentSnapshot document : task.getResult()) {
+                                            count++;
+                                            userCampaignNo.setText(String.valueOf(count) + " Campaigns");
+                                        }
+                                    } else {
                                     }
-                                } else {
                                 }
-                            }
-                        });
+                            });
 
 
-                db.collection("Donation").whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    int count = 0;
-                                    for (DocumentSnapshot document : task.getResult()) {
-                                        count++;
-                                        userDonationNo.setText(String.valueOf(count) + " Donation");
+                    db.collection("Donation").whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid())
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        int count = 0;
+                                        for (DocumentSnapshot document : task.getResult()) {
+                                            count++;
+                                            userDonationNo.setText(String.valueOf(count) + " Donation");
+                                        }
+                                    } else {
                                     }
-                                } else {
                                 }
-                            }
-                        });
+                            });
+
+                }
 
             }
         });
