@@ -84,7 +84,7 @@ public class ApproveNewCampaignsFragment extends Fragment {
         }
 
         @Override
-        protected void onBindViewHolder(@NonNull CompaignViewHolder holder, final int position, @NonNull Campaigns model) {
+        protected void onBindViewHolder(@NonNull final CompaignViewHolder holder, final int position, @NonNull Campaigns model) {
 
             final FirebaseFirestore db = FirebaseFirestore.getInstance();
             Picasso.get().load(model.getCampaignImage()).into(holder.campaignImage);
@@ -107,7 +107,7 @@ public class ApproveNewCampaignsFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-                    updateStatusToAccepted(position);
+                    updateStatusToAccepted(holder.getAdapterPosition());
 
                 }
             });
@@ -116,7 +116,7 @@ public class ApproveNewCampaignsFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-                    updateStatusToReject(position);
+                    updateStatusToReject(holder.getAdapterPosition());
 
                 }
             });

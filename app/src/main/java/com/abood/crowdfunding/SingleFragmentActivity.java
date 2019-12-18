@@ -223,7 +223,7 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
 
     private void onItemNavigationClicked(MenuItem item) {
         if (!is_account_mode) {
-            Toast.makeText(getApplicationContext(), item.getTitle() + " Selected", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), item.getTitle() + " Selected", Toast.LENGTH_SHORT).show();
             actionBar.setTitle(item.getTitle());
             drawer.closeDrawers();
 

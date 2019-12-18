@@ -18,7 +18,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +28,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -50,7 +50,8 @@ import id.zelory.compressor.Compressor;
 public class RegisterActivity extends AppCompatActivity
 {
 
-    ImageView newUserProfile;
+    ImageView userProfile;
+    FloatingActionButton newUserProfile;
     EditText newUserName, newUserEmail,newUserPassword;
     Button signupBtn;
     private ActionBar actionBar;
@@ -77,6 +78,7 @@ public class RegisterActivity extends AppCompatActivity
         storageReference = FirebaseStorage.getInstance().getReference();
 
         newUserProfile = findViewById(R.id.user_profile);
+        userProfile = findViewById(R.id.upload_new_photo);
         newUserName = findViewById(R.id.new_user_name);
         newUserEmail = findViewById(R.id.new_user_email);
         newUserPassword = findViewById(R.id.new_user_password);
@@ -203,6 +205,26 @@ public class RegisterActivity extends AppCompatActivity
         });
 }
 
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.game_menu, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle item selection
+//        switch (item.getItemId()) {
+//            case R.id.btn:
+//                newGame();
+//                return true;
+//
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
+
     private void initToolbar() {
         toolbar = findViewById(R.id.toolbar);
 //        toolbar.setBackgroundColor(getResources().getColor(R.color.pink_600));
@@ -210,6 +232,15 @@ public class RegisterActivity extends AppCompatActivity
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
     }
 
 
@@ -279,7 +310,7 @@ public class RegisterActivity extends AppCompatActivity
             if (resultCode == RESULT_OK) {
 
                 imageUri = result.getUri();
-                newUserProfile.setImageURI(imageUri);
+                userProfile.setImageURI(imageUri);
 
 
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
@@ -311,7 +342,7 @@ public class RegisterActivity extends AppCompatActivity
 
     private void checkFieldsForEmptyValues()
     {
-        if(!newUserEmail.getText().toString().equals("") && !newUserPassword.getText().toString().equals(""))
+        if(!newUserName.getText().toString().equals("") && !newUserEmail.getText().toString().equals("") && !newUserPassword.getText().toString().equals("") && imageUri != null)
         {
             signupBtn.setEnabled(true);
             signupBtn.setTextColor(getResources().getColor(R.color.enabledButtonTextColor));

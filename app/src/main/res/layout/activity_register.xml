@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
-
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,13 +19,14 @@
             android:layout_height="wrap_content">
 
             <include
+                android:id="@+id/include2"
                 layout="@layout/app_bar_single_fragment_activity"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/user_profile"
+                android:id="@+id/upload_new_photo"
                 android:layout_width="130dp"
                 android:layout_height="130dp"
                 android:layout_marginTop="116dp"
@@ -38,6 +37,26 @@
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/user_profile"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="@dimen/spacing_mlarge"
+                android:clickable="true"
+                android:src="@drawable/ic_add_a_photo_black_24dp"
+                android:tint="@android:color/white"
+                app:backgroundTint="@color/colorAccent"
+                app:fabSize="mini"
+                app:layout_anchor="@id/upload_new_photo"
+                app:layout_anchorGravity="bottom|right|end"
+                app:layout_constraintBottom_toTopOf="@+id/new_user_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.654"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/upload_new_photo"
+                app:layout_constraintVertical_bias="0.629" />
 
             <EditText
                 android:id="@+id/new_user_name"
@@ -52,7 +71,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.494"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/user_profile" />
+                app:layout_constraintTop_toBottomOf="@+id/upload_new_photo" />
 
             <EditText
                 android:id="@+id/new_user_email"

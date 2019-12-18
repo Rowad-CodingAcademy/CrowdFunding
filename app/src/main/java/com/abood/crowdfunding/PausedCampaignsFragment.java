@@ -143,7 +143,7 @@ public class PausedCampaignsFragment extends Fragment {
                 public void onClick(View v)
                 {
 
-                    getSnapshots().getSnapshot(position).getReference().update("campaignStatus", "0");
+                    getSnapshots().getSnapshot(holder.getAdapterPosition()).getReference().update("campaignStatus", "0");
 
 
                 }

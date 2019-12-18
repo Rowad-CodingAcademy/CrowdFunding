@@ -24,8 +24,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import static com.abood.crowdfunding.CampaignDetailsActivity.EXTRA_CAMPAIGN_UUID;
@@ -65,34 +69,6 @@ public class ManageCampaignsFragment extends Fragment {
                 .build();
 
         popularCampaignAdapter = new PopularCampaignAdapter(options);
-
-
-
-//        adapter = new FirestoreRecyclerAdapter<Campaigns, PopularCampaignsViewHolder>(options) {
-//            @Override
-//            protected void onBindViewHolder(@NonNull PopularCampaignsViewHolder holder , final int position, @NonNull Campaigns campaign) {
-//                holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage());
-//
-//                holder.itemView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v)
-//                    {
-//
-//                        Intent i = CampaignDetailsActivity.newIntent(getActivity(),getSnapshots().getSnapshot(position).getId());
-//                        startActivity(i);
-//
-//                    }
-//                });
-//
-//            }
-//
-//            @NonNull
-//            @Override
-//            public PopularCampaignsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.campaign_holder, parent, false);
-//                return new PopularCampaignsViewHolder(view);
-//            }
-//        };
         popularCampaignsRecyclerView.setAdapter(popularCampaignAdapter);
 
 
@@ -128,6 +104,22 @@ public class ManageCampaignsFragment extends Fragment {
 
             holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage(),campaign.getCampaignCost(),campaign.getCampaignFunds(), campaign.getCampaignDonationDays());
 
+            store.collection("Donation").whereEqualTo("campaignId", getSnapshots().getSnapshot(position).getId())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                int count = 0;
+                                for (DocumentSnapshot document : task.getResult()) {
+                                    count++;
+                                    holder.campaignDoners.setText(String.valueOf(count));
+                                }
+                            } else {
+                            }
+                        }
+                    });
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v)
@@ -155,10 +147,10 @@ public class ManageCampaignsFragment extends Fragment {
                                     startActivity(intent);
                                     break;
                                 case R.id.delate:
-                                    getSnapshots().getSnapshot(position).getReference().delete();
+                                    getSnapshots().getSnapshot(holder.getAdapterPosition()).getReference().delete();
                                     break;
                                 case R.id.pause:
-                                    getSnapshots().getSnapshot(position).getReference().update("campaignStatus", "1");
+                                    getSnapshots().getSnapshot(holder.getAdapterPosition()).getReference().update("campaignStatus", "1");
                                     break;
                             }
                             return false;
@@ -184,8 +176,8 @@ public class ManageCampaignsFragment extends Fragment {
 
         private View view;
 
-        ImageView campaignImage;
-        TextView campaignTitle,campaignDescription,campaignRatio,campaignDoners,campaignDays,viewOptionTextView;
+        ImageView campaignImage, viewOptionTextView;
+        TextView campaignTitle,campaignDescription,campaignRatio,campaignDoners,campaignDays;
         private ProgressBar progress_determinate;
         int mDonationRatio;
 
