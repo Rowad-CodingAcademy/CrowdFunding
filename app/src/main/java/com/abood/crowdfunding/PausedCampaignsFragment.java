@@ -1,6 +1,8 @@
 package com.abood.crowdfunding;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -27,12 +29,16 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
+import static com.abood.crowdfunding.CampaignDetailsActivity.EXTRA_CAMPAIGN_UUID;
+
 
 public class PausedCampaignsFragment extends Fragment {
 
     RecyclerView pausedCampaignsRecyclerView;
     FirebaseFirestore store;
     private PausedCampaignsAdapter pausedCampaignsAdapter;
+    AlertDialog.Builder builder ;
+
 
 //    private FirestoreRecyclerAdapter<Campaigns, PopularCampaignsViewHolder> adapter;
 
@@ -138,12 +144,31 @@ public class PausedCampaignsFragment extends Fragment {
                         }
                     });
 
+            builder =new AlertDialog.Builder(getActivity());
+
             holder.activeCampaign.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v)
                 {
 
-                    getSnapshots().getSnapshot(holder.getAdapterPosition()).getReference().update("campaignStatus", "0");
+                    builder.setTitle("Are you sure you want to active this campaign ?")
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // FIRE ZE MISSILES!
+
+                                    getSnapshots().getSnapshot(holder.getAdapterPosition()).getReference().update("campaignStatus", "0");
+
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // User cancelled the dialog
+                                }
+                            });
+                    // Create the AlertDialog object and return it
+                    builder.create();
+                    builder.show();
+
 
 
                 }

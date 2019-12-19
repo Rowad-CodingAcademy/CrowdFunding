@@ -1,7 +1,9 @@
 package com.abood.crowdfunding;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,6 +45,8 @@ public class ManageCampaignsFragment extends Fragment {
     String campaignId;
 
     private PopularCampaignAdapter popularCampaignAdapter;
+
+    AlertDialog.Builder builder ;
 
 //    private FirestoreRecyclerAdapter<Campaigns, PopularCampaignsViewHolder> adapter;
 
@@ -68,6 +74,7 @@ public class ManageCampaignsFragment extends Fragment {
 
         popularCampaignAdapter = new PopularCampaignAdapter(options);
         popularCampaignsRecyclerView.setAdapter(popularCampaignAdapter);
+
 
 
         return v;
@@ -135,20 +142,77 @@ public class ManageCampaignsFragment extends Fragment {
                     PopupMenu popup = new PopupMenu(getContext(),holder.viewOptionTextView);
 
                     popup.inflate(R.menu.manage_admin_dashboared);
+                    builder =new AlertDialog.Builder(getActivity());
                     popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.edit:
-                                    Intent intent=new Intent(getActivity(), EditingActivity.class);
-                                    intent.putExtra(EXTRA_CAMPAIGN_UUID,  getSnapshots().getSnapshot(position).getId());
-                                    startActivity(intent);
+
+                                    builder.setTitle("Are you sure you want to edit this campaign ?")
+                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    // FIRE ZE MISSILES!
+
+                                                    Intent intent=new Intent(getActivity(),EditingActivity.class);
+                                                    intent.putExtra(EXTRA_CAMPAIGN_UUID,  getSnapshots().getSnapshot(position).getId());
+                                                    startActivity(intent);
+
+                                                }
+                                            })
+                                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    // User cancelled the dialog
+                                                }
+                                            });
+                                    // Create the AlertDialog object and return it
+                                    builder.create();
+                                    builder.show();
+
+
                                     break;
                                 case R.id.delate:
-                                    getSnapshots().getSnapshot(holder.getAdapterPosition()).getReference().delete();
+
+                                    builder.setTitle("Are you sure you want to delete this campaign ?")
+                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    // FIRE ZE MISSILES!
+                                                    getSnapshots().getSnapshot(holder.getAdapterPosition()).getReference().delete();
+
+
+                                                }
+                                            })
+                                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    // User cancelled the dialog
+                                                }
+                                            });
+                                    // Create the AlertDialog object and return it
+                                    builder.create();
+                                    builder.show();
+
                                     break;
                                 case R.id.pause:
-                                    getSnapshots().getSnapshot(holder.getAdapterPosition()).getReference().update("campaignStatus", "1");
+
+                                    builder.setTitle("Are you sure you want to pause this campaign ?")
+                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    // FIRE ZE MISSILES!
+                                                    getSnapshots().getSnapshot(holder.getAdapterPosition()).getReference().update("campaignStatus", "1");
+
+
+                                                }
+                                            })
+                                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    // User cancelled the dialog
+                                                }
+                                            });
+                                    // Create the AlertDialog object and return it
+                                    builder.create();
+                                    builder.show();
+
+
                                     break;
                             }
                             return false;

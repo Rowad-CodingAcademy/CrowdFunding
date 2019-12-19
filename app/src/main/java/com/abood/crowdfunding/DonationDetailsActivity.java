@@ -1,5 +1,9 @@
 package com.abood.crowdfunding;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -53,6 +57,7 @@ public class DonationDetailsActivity extends AppCompatActivity {
     private FirebaseFirestore firebaseFirestore;
     String current;
     LinearLayout detailsLyout;
+    AlertDialog.Builder builder ;
 
     boolean show = false;
 
@@ -71,11 +76,6 @@ public class DonationDetailsActivity extends AppCompatActivity {
         donateBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                target_reward = targetCostED.getText().toString();
-                cardNO = cardNumber.getText().toString();
-                holder = cardHolderName.getText().toString();
-                expiration = expirationDate.getText().toString();
-                code = securityCode.getText().toString();
                 addDonation();
             }
         });
@@ -98,74 +98,103 @@ public class DonationDetailsActivity extends AppCompatActivity {
 
     }
 
-    private void addDonation() {
+    private void addDonation()
+    {
+
+        target_reward = targetCostED.getText().toString();
+        cardNO = cardNumber.getText().toString();
+        holder = cardHolderName.getText().toString();
+        expiration = expirationDate.getText().toString();
+        code = securityCode.getText().toString();
 
         if(target_reward.trim().isEmpty() || holder.trim().isEmpty() || cardNO.trim().isEmpty() || expiration.trim().isEmpty() || code.trim().isEmpty())
         {
             Toast.makeText(this, "Fill all fields !", Toast.LENGTH_LONG).show();
             return;
         }
-        firebaseAuth = FirebaseAuth.getInstance();
-        String userID = firebaseAuth.getCurrentUser().getUid();
-        final String campaignID = getIntent().getStringExtra("campaignID");
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Map<String, Object> donation = new HashMap<>();
-        donation.put("targetAmount", target_reward);
-        donation.put("cardNo", cardNO);
-        donation.put("holderName", holder);
-        donation.put("expirationDate", expiration);
-        donation.put("code", code);
-        donation.put("userId", userID);
-        donation.put("campaignId", campaignID);
-        donation.put("timestamp", new Date());
 
-        Task<DocumentReference> documentReferenceTask = db.collection("Donation")
-                .add(donation)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(DonationDetailsActivity.this, "Donation has added successfully", Toast.LENGTH_SHORT).show();
+        builder =new AlertDialog.Builder(DonationDetailsActivity.this);
 
-                        firebaseFirestore = FirebaseFirestore.getInstance();
+        builder.setTitle("Are you sure you want to continue ?");
 
-                        firebaseFirestore.collection("Campaigns").document(campaignID).get()
-                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>()
-                                {
+        builder.setMessage("You will donate : "+target_reward+" $\nTo campaign : "+getIntent().getStringExtra("campaignTitle"))
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // FIRE ZE MISSILES!
+
+                        firebaseAuth = FirebaseAuth.getInstance();
+                        String userID = firebaseAuth.getCurrentUser().getUid();
+                        final String campaignID = getIntent().getStringExtra("campaignID");
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        Map<String, Object> donation = new HashMap<>();
+                        donation.put("targetAmount", target_reward);
+                        donation.put("cardNo", cardNO);
+                        donation.put("holderName", holder);
+                        donation.put("expirationDate", expiration);
+                        donation.put("code", code);
+                        donation.put("userId", userID);
+                        donation.put("campaignId", campaignID);
+                        donation.put("timestamp", new Date());
+
+                        Task<DocumentReference> documentReferenceTask = db.collection("Donation")
+                                .add(donation)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                     @Override
-                                    public void onComplete(@NonNull Task<DocumentSnapshot> task)
-                                    {
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        Toast.makeText(DonationDetailsActivity.this, "Donation has added successfully", Toast.LENGTH_SHORT).show();
 
-                                  if(task.isSuccessful()) {
+                                        firebaseFirestore = FirebaseFirestore.getInstance();
+
+                                        firebaseFirestore.collection("Campaigns").document(campaignID).get()
+                                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>()
+                                                {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task)
+                                                    {
+
+                                                        if(task.isSuccessful()) {
 
 
-                                      if (task.getResult().exists())
-                                      {
+                                                            if (task.getResult().exists())
+                                                            {
 
-                                          String fund = task.getResult().getString("campaignFunds");
-                                          current = String.valueOf(Double.parseDouble(fund) + Double.parseDouble(target_reward));
-                                          firebaseFirestore.collection("Campaigns").document(campaignID).update("campaignFunds",current );
+                                                                String fund = task.getResult().getString("campaignFunds");
+                                                                current = String.valueOf(Double.parseDouble(fund) + Double.parseDouble(target_reward));
+                                                                firebaseFirestore.collection("Campaigns").document(campaignID).update("campaignFunds",current );
 
-                                          Intent intent = new Intent(DonationDetailsActivity.this,CampaignsListActivity.class);
-                                          startActivity(intent);
+                                                                Intent intent = new Intent(DonationDetailsActivity.this,CampaignsListActivity.class);
+                                                                startActivity(intent);
 
-                                      } else {
-                                          Toast.makeText(DonationDetailsActivity.this, "Error" + task.getException(), Toast.LENGTH_SHORT).show();
-                                      }
+                                                            } else {
+                                                                Toast.makeText(DonationDetailsActivity.this, "Error" + task.getException(), Toast.LENGTH_SHORT).show();
+                                                            }
 
-                                        }
+                                                        }
+
+                                                    }
+                                                });
+
+
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
 
                                     }
                                 });
 
-
                     }
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
                     }
                 });
+        // Create the AlertDialog object and return it
+        builder.create();
+        builder.show();
+
 
     }
 
