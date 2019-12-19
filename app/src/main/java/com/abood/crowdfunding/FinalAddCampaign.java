@@ -79,6 +79,7 @@ public class FinalAddCampaign extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_final_add_campaign);
 
         progressDialog = new ProgressDialog(this);
 
@@ -88,7 +89,6 @@ public class FinalAddCampaign extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
         storage = FirebaseStorage.getInstance();
 
-        setContentView(R.layout.activity_final_add_campaign);
         campaignTitle = findViewById(R.id.camp_title_edit_text);
         campaignCountry = findViewById(R.id.camp_country_edit_text);
         campaignCost = findViewById(R.id.camp_target_edit_text);
@@ -317,7 +317,7 @@ public class FinalAddCampaign extends AppCompatActivity {
         Uri url = null;
 
         Task<Uri> pdf_download_uri;
-        Uri pdf_url_ = null;
+        Uri pdf_url = null;
 
         if (task != null && taskSnapshot != null) {
 
@@ -327,7 +327,7 @@ public class FinalAddCampaign extends AppCompatActivity {
 
             pdf_download_uri = taskSnapshot.getMetadata().getReference().getDownloadUrl();
             while (!pdf_download_uri.isComplete()) ;
-            pdf_url_ = pdf_download_uri.getResult();
+            pdf_url = pdf_download_uri.getResult();
 
         } else {
 
@@ -351,7 +351,7 @@ public class FinalAddCampaign extends AppCompatActivity {
         campaignData.put("campaignFunds", "0");
         campaignData.put("campaignDonors", "0");
         campaignData.put("campaignImage", url.toString());
-        campaignData.put("campaignPdf", pdf_url_.toString());
+        campaignData.put("campaignPdf", pdf_url.toString());
 
         firebaseFirestore.collection("Campaigns").add(campaignData).addOnSuccessListener(FinalAddCampaign.this, new OnSuccessListener<DocumentReference>() {
 

@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,7 +20,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -142,7 +140,7 @@ public class ManageCampaignsFragment extends Fragment {
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.edit:
-                                    Intent intent=new Intent(getActivity(),EditingActivity.class);
+                                    Intent intent=new Intent(getActivity(), EditingActivity.class);
                                     intent.putExtra(EXTRA_CAMPAIGN_UUID,  getSnapshots().getSnapshot(position).getId());
                                     startActivity(intent);
                                     break;
