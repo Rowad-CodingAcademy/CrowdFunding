@@ -1,5 +1,7 @@
 package com.abood.crowdfunding;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -33,6 +35,8 @@ public class ApproveNewCampaignsFragment extends Fragment {
 
 
     private Campaigns mCampaign;
+    AlertDialog.Builder builder ;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -103,11 +107,31 @@ public class ApproveNewCampaignsFragment extends Fragment {
                 }
             });
 
+            builder =new AlertDialog.Builder(getActivity());
             holder.resumeBTN.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    updateStatusToAccepted(holder.getAdapterPosition());
+
+                    builder.setTitle("Are you sure you want to approve this campaign ?")
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // FIRE ZE MISSILES!
+
+                                    updateStatusToAccepted(holder.getAdapterPosition());
+
+
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // User cancelled the dialog
+                                }
+                            });
+                    // Create the AlertDialog object and return it
+                    builder.create();
+                    builder.show();
+
 
                 }
             });
@@ -116,7 +140,25 @@ public class ApproveNewCampaignsFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-                    updateStatusToReject(holder.getAdapterPosition());
+
+                    builder.setTitle("Are you sure you want to reject this campaign ?")
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // FIRE ZE MISSILES!
+
+                                    updateStatusToReject(holder.getAdapterPosition());
+
+
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // User cancelled the dialog
+                                }
+                            });
+                    // Create the AlertDialog object and return it
+                    builder.create();
+                    builder.show();
 
                 }
             });
