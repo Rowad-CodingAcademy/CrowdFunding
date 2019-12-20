@@ -16,17 +16,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".EditingActivity" />
-        <activity android:name=".UploadPDF" >
-        </activity>
         <activity android:name=".CampaignDetailsActivity" />
         <activity android:name=".FinalAddCampaign" />
         <activity android:name=".DonationDetailsActivity" />
         <activity android:name=".CampaignsListActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".UserProfileActivity" />
@@ -36,7 +30,13 @@
         <activity android:name=".ClosedCampaignsActivity" />
         <activity android:name=".PausedCampaignsActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".SplashScreenActivity" />
+        <activity android:name=".SplashScreenActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />

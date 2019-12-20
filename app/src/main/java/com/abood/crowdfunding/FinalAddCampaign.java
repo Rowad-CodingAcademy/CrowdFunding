@@ -101,10 +101,7 @@ public class FinalAddCampaign extends AppCompatActivity {
         campaignChooseImageBtn = findViewById(R.id.upload_new_photo);
         campaignChooseVideoBtn = findViewById(R.id.upload_pdf_file);
         mViewFlipper = findViewById(R.id.viewFlipper);
-        notification = findViewById(R.id.notification);
-        selectFile = findViewById(R.id.select_file);
         pdfName = findViewById(R.id.upload_pdf_tv);
-        upload = findViewById(R.id.upload);
 //        campaignNextBtnToLastPage.setOnClickListener(new OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
