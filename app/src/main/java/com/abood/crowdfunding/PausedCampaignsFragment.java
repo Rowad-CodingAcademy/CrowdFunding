@@ -164,7 +164,8 @@ public class PausedCampaignsFragment extends Fragment {
                                 public void onClick(DialogInterface dialog, int id) {
                                     // User cancelled the dialog
                                 }
-                            });
+                            })
+                            .setCancelable(false);
                     // Create the AlertDialog object and return it
                     builder.create();
                     builder.show();

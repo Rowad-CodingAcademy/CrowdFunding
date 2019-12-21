@@ -252,7 +252,7 @@ public class RegisterActivity extends AppCompatActivity
 }
 
 
-    private void storeData(Task<UploadTask.TaskSnapshot> task, String name) {
+    private void storeData(Task<UploadTask.TaskSnapshot> task, final String name) {
 
 
         Task<Uri> download_uri;
@@ -282,7 +282,7 @@ public class RegisterActivity extends AppCompatActivity
             public void onSuccess(DocumentReference documentReference) {
                 progress.dismiss();
 
-                Toast.makeText(RegisterActivity.this, "User Created Successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, "Welcome "+name, Toast.LENGTH_SHORT).show();
                 intent = new Intent(RegisterActivity.this,CampaignsListActivity.class);
                 startActivity(intent);
 
