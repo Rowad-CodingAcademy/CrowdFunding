@@ -15,22 +15,34 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".EditingActivity" />
-        <activity android:name=".CampaignDetailsActivity" />
-        <activity android:name=".FinalAddCampaign" />
-        <activity android:name=".DonationDetailsActivity" />
-        <activity android:name=".CampaignsListActivity" >
+        <activity android:name=".EditingActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".CampaignDetailsActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".FinalAddCampaign"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".DonationDetailsActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".CampaignsListActivity"
+                  android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".UserProfileActivity" />
-        <activity android:name=".AdminDashboardActivity">
+        <activity android:name=".RegisterActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".UserProfileActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".AdminDashboardActivity"
+                  android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".ClosedCampaignsActivity" />
-        <activity android:name=".PausedCampaignsActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".SplashScreenActivity" >
+        <activity android:name=".ClosedCampaignsActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".PausedCampaignsActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".LoginActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".SplashScreenActivity"
+                  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,8 +51,10 @@
         </activity>
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat" />
-        <activity android:name=".NoItemInternetImage"/>
+            android:theme="@style/Base.Theme.AppCompat"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".NoItemInternetImage"
+            android:screenOrientation="portrait"/>
 
         <service
             android:name=".MyFirebaseMessagingService"
