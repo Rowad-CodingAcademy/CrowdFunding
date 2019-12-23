@@ -1,6 +1,8 @@
 
 package com.abood.crowdfunding;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -51,6 +53,8 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
     LinearLayout user_info_nav, logo_nav;
     boolean isAdmin = false;
     String type = null;
+    AlertDialog.Builder builder ;
+
 
 
     protected abstract Fragment createFragment();
@@ -221,10 +225,12 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
 
     }
 
+
     private void onItemNavigationClicked(MenuItem item) {
+        builder =new AlertDialog.Builder(SingleFragmentActivity.this);
+
         if (!is_account_mode) {
 //            Toast.makeText(getApplicationContext(), item.getTitle() + " Selected", Toast.LENGTH_SHORT).show();
-            actionBar.setTitle(item.getTitle());
             drawer.closeDrawers();
 
             // Handle navigation view item clicks here.
@@ -242,10 +248,28 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
             }
 
             if (id == R.id.nav_log_out) {
-                firebaseAuth = FirebaseAuth.getInstance();
-                firebaseAuth.signOut();
-                Intent i = new Intent(SingleFragmentActivity.this, CampaignsListActivity.class);
-                startActivity(i);
+                builder.setTitle("Log out")
+                        .setMessage("Are you sure you want to log out ?")
+                        .setPositiveButton("LOG OUT", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // FIRE ZE MISSILES!
+                                firebaseAuth = FirebaseAuth.getInstance();
+                                firebaseAuth.signOut();
+                                Intent i = new Intent(SingleFragmentActivity.this, CampaignsListActivity.class);
+                                startActivity(i);
+
+                            }
+                        })
+                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        })
+                .setCancelable(false);
+                // Create the AlertDialog object and return it
+                builder.create();
+                builder.show();
+
             }
 
             if (id == R.id.nav_log_in) {
