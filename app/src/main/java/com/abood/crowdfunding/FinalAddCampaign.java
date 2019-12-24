@@ -4,13 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.location.Address;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,7 +24,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 import android.widget.ViewFlipper;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,22 +32,22 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
 import id.zelory.compressor.Compressor;
 
 public class FinalAddCampaign extends AppCompatActivity {
+
     private static final int PICK_VIDEO_REQUEST = 0;
     private Uri imageUri = null;
     private Uri mVideoUri;
@@ -65,6 +62,7 @@ public class FinalAddCampaign extends AppCompatActivity {
     Button selectFile, upload;
     TextView notification, pdfName;
     Uri pdfURi;
+    static String token;
 
     EditText campaignTitle, campaignCountry, campaignCost, campaignDescription, campaignLocationt, campaignType, campaignDonationDays;
     Button campaignAddBtn;
@@ -88,6 +86,8 @@ public class FinalAddCampaign extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
         storage = FirebaseStorage.getInstance();
+
+        token = FirebaseInstanceId.getInstance().getToken();
 
         campaignTitle = findViewById(R.id.camp_title_edit_text);
         campaignCountry = findViewById(R.id.camp_country_edit_text);
@@ -350,16 +350,20 @@ public class FinalAddCampaign extends AppCompatActivity {
         campaignData.put("campaignImage", url.toString());
         campaignData.put("campaignPdf", pdf_url.toString());
 
-        firebaseFirestore.collection("Campaigns").add(campaignData).addOnSuccessListener(FinalAddCampaign.this, new OnSuccessListener<DocumentReference>() {
+        firebaseFirestore.collection("Campaigns").add(campaignData)
+                .addOnSuccessListener(FinalAddCampaign.this, new OnSuccessListener<DocumentReference>() {
 
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 progressDialog.dismiss();
 
+                new FirebaseNotifications().execute();
+
                 Toast.makeText(FinalAddCampaign.this, "Campaigns Data is Stored Successfully", Toast.LENGTH_LONG).show();
                 Intent mainIntent = new Intent(FinalAddCampaign.this, CampaignsListActivity.class);
                 startActivity(mainIntent);
                 finish();
+
             }
 
         }).addOnFailureListener(FinalAddCampaign.this, new OnFailureListener() {
