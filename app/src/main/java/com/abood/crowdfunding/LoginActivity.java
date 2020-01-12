@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
 public class LoginActivity extends AppCompatActivity
@@ -91,11 +92,13 @@ public class LoginActivity extends AppCompatActivity
 
                                                   if (type.equals("0")){
 
+                                                      FirebaseMessaging.getInstance().subscribeToTopic("Admins");
                                                       Intent intent = new Intent(LoginActivity.this,AdminDashboardActivity.class);
                                                       startActivity(intent);
 
                                                   }else if (type.equals("1")){
 
+                                                      FirebaseMessaging.getInstance().subscribeToTopic("Users");
                                                       Intent intent = new Intent(LoginActivity.this,CampaignsListActivity.class);
                                                       startActivity(intent);
 
