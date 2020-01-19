@@ -44,8 +44,7 @@ import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public class CampaignDetailsActivity extends AppCompatActivity
-{
+public class CampaignDetailsActivity extends AppCompatActivity {
 
     public  static  final String EXTRA_CAMPAIGN_UUID="com.abood.crowdfunding.campaignId";
     private TextView mTitleTV,ownerNameTV,mDonationRatioTV,mDonorsTV,mDaysToGoTV,mDescriptionTV,mCostTV,mLocationTV,mCategoryTV,mDownloadPdfTV,mRemainigAmountTV;
