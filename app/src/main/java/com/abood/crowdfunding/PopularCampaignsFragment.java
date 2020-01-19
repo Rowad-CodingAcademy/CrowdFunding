@@ -173,7 +173,6 @@ public class PopularCampaignsFragment extends Fragment {
             Picasso.get().load(image).into(campaignImage);
 //            Glide.with(getActivity()).load(image).into(campaignImage);
 
-
         }
     }
 
