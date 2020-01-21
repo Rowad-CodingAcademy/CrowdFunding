@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
@@ -37,6 +38,8 @@ public class LoginActivity extends AppCompatActivity
     FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
     ProgressDialog progress;
+    static String token;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -87,18 +90,19 @@ public class LoginActivity extends AppCompatActivity
                                           if (task.isSuccessful()) {
                                               for (QueryDocumentSnapshot document : task.getResult()) {
 
-
                                                   String type = document.getString("userType");
 
                                                   if (type.equals("0")){
 
                                                       FirebaseMessaging.getInstance().subscribeToTopic("Admins");
+                                                      token = FirebaseInstanceId.getInstance().getToken();
                                                       Intent intent = new Intent(LoginActivity.this,AdminDashboardActivity.class);
                                                       startActivity(intent);
 
                                                   }else if (type.equals("1")){
 
                                                       FirebaseMessaging.getInstance().subscribeToTopic("Users");
+//                                                      token = FirebaseInstanceId.getInstance().getToken();
                                                       Intent intent = new Intent(LoginActivity.this,CampaignsListActivity.class);
                                                       startActivity(intent);
 

@@ -160,7 +160,6 @@ public class RegisterActivity extends AppCompatActivity
                                 UploadTask image_path = storageReference.child("userImages").child(user_id + ".jpg").putBytes(thumbData);
                                 image_path.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
 
-
                                     @Override
                                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
 

@@ -1,5 +1,6 @@
 package com.abood.crowdfunding;
 
+
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
@@ -25,7 +26,6 @@ import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-
 class FirebaseNotifications extends AsyncTask<Void,Void,Void> {
 
     @Override
@@ -46,14 +46,12 @@ class FirebaseNotifications extends AsyncTask<Void,Void,Void> {
             conn.setRequestProperty("Content-Type", "application/json");
 
             JSONObject json = new JSONObject();
-
-            json.put("to", FinalAddCampaign.token);
+            json.put("to", LoginActivity.token);
 
 
             JSONObject info = new JSONObject();
             info.put("title", "New Campaign");   // FirebaseNotifications title
             info.put("body", FirebaseAuth.getInstance().getUid()+"Added a new Campaign"); // FirebaseNotifications body
-
             json.put("notification", info);
 
             OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
