@@ -102,23 +102,23 @@ public class CampaignsListFragment extends Fragment {
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-
-            case R.id.search:
-
-//                Intent intent = new Intent(CampaignsListFragment.this,AddCampaignActivity.class);
-//                intent.putExtra("type",tab);
-//                startActivity(intent);
-
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//
+//        switch (item.getItemId()) {
+//
+//            case R.id.search:
+//
+////                Intent intent = new Intent(CampaignsListFragment.this,AddCampaignActivity.class);
+////                intent.putExtra("type",tab);
+////                startActivity(intent);
+//
+//                return true;
+//
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
 
     private void setupViewPager(ViewPager viewPager)

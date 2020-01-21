@@ -141,9 +141,9 @@ public class RegisterActivity extends AppCompatActivity
                                 try {
 
                                     compressed = new Compressor(RegisterActivity.this)
-                                            .setMaxHeight(125)
-                                            .setMaxWidth(125)
-                                            .setQuality(50)
+                                            .setMaxHeight(200)
+                                            .setMaxWidth(200)
+                                            .setQuality(500)
                                             .compressToBitmap(newFile);
 
                                 } catch (IOException e) {

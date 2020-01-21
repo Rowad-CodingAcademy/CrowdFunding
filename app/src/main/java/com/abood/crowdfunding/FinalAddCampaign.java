@@ -160,9 +160,9 @@ public class FinalAddCampaign extends AppCompatActivity {
                     try {
 
                         compressed = new Compressor(FinalAddCampaign.this)
-                                .setMaxHeight(125)
-                                .setMaxWidth(125)
-                                .setQuality(50)
+                                .setMaxHeight(200)
+                                .setMaxWidth(400)
+                                .setQuality(1000)
                                 .compressToBitmap(newFile);
 
                     } catch (IOException e) {
@@ -362,7 +362,7 @@ public class FinalAddCampaign extends AppCompatActivity {
     private void choseImage() {
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
-                .setAspectRatio(1, 1)
+                .setAspectRatio(25, 20)
                 .start(FinalAddCampaign.this);
     }
 
