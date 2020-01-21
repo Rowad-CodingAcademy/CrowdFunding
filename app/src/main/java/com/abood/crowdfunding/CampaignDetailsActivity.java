@@ -54,10 +54,8 @@ public class CampaignDetailsActivity extends AppCompatActivity {
     ImageView ownerPhotoImageView,mDaysToGoImageView;
     private ProgressBar progress_determinate;
     String campaignId;
-    Campaigns campaigns;
     Users user;
     int mDonationRatio;
-    int mDaysToGo;
     String dateDiff;
     private Runnable runnable = null;
     private Handler handler = new Handler();
@@ -116,24 +114,13 @@ public class CampaignDetailsActivity extends AppCompatActivity {
                             if (task.getResult().exists())
                             {
 
-                                campaigns=new Campaigns();
-
-                                //campaigns.setCampaignTitle(task.getResult().getString("campaignTitle"));
-                                //campaigns.setCampaignDescription(task.getResult().getString("campaignDescription"));
-                                //campaigns.setCampaignLocation(task.getResult().getString("campaignLocation"));
-                                //campaigns.setCampaignCountry(task.getResult().getString("campaignCountry"));
-                                //campaigns.setCampaignImage(task.getResult().getString("campaignImage"));
-                                //campaigns.setCampaignCost(task.getResult().getString("campaignCost"));
-                                //campaigns.setCampaignLocation(task.getResult().getString("campaignLocation"));
 
                                 title = task.getResult().getString("campaignTitle");
-
                                 mTitleTV.setText(title);
 
                                 Double fund=Double.parseDouble(task.getResult().getString("campaignFunds"));
                                 Double cost=Double.parseDouble(task.getResult().getString("campaignCost"));
                                 mDonationRatio = new Integer(String.valueOf(Math.round((fund*100)/ cost)));
-
                                 mDonationRatioTV.setText(mDonationRatio+"%");
 
                                 mDescriptionTV.setText(task.getResult().getString("campaignDescription"));
@@ -163,7 +150,6 @@ public class CampaignDetailsActivity extends AppCompatActivity {
                                 }else {
                                     mRemainigAmountTV.setText(cost - fund + "");
                                 }
-                                //campaignPhotoes=campaigns.getCampImageUrl();
 
                                 campaignPhotoes.add(task.getResult().getString("campaignImage"));
                                 campaignPhotoes.add("https://inteng-storage.s3.amazonaws.com/img/iea/nR6bV9jp6o/sizes/learntocodebundle_resize_md.jpg");
@@ -215,20 +201,7 @@ public class CampaignDetailsActivity extends AppCompatActivity {
 
                                 setUpProgressBar();
 
-                                //dateDiff=getDateDifference(getFormattedDate(campaigns.getCampEnd()));
-                                /*  dateDiff=getDateDifference("2019-12-30-11-30-10");
 
-                                if(dateDiff.matches("finished"))
-                                {
-                                    mDaysToGoImageView.setImageResource(R.drawable.ic_alarm_on_black_24dp);
-                                    mDaysToGoTV.setText(dateDiff);
-                                }
-                                else
-                                {
-                                    mDaysToGoTV.setText(dateDiff);
-                                }
-
-                                 */
                                 mDownloadPdfTV.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {

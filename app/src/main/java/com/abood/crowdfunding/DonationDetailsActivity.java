@@ -44,9 +44,8 @@ public class DonationDetailsActivity extends AppCompatActivity {
 
     ImageView image;
 
-//    ScrollView scrollView;
     EditText targetCostED, cardHolderName, expirationDate, cardNumber, securityCode;
-    TextView details, cardNamep, projectTitle, projectDonate;
+    TextView projectTitle, projectDonate;
     public String target_reward;
     public String cardNO;
     public String holder;

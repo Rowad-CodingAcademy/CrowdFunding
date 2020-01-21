@@ -157,21 +157,6 @@ public class UserDonateFragment extends Fragment {
                         }
                     });
 
-//                Task<QuerySnapshot> query = store.collection("Users").whereEqualTo("userId", model.getUserId())
-//                        .get()
-//                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                                if (task.isSuccessful()) {
-//
-//                                    for (QueryDocumentSnapshot document : task.getResult()) {
-//
-//                                        holder.campaignOwner.setText(document.getString("userName"));
-//
-//                                    }
-//                                }
-//                            }
-//                        });
 
             store.collection("Users").whereEqualTo("userId", model.getUserId())
                     .get()

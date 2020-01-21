@@ -59,10 +59,8 @@ public class FinalAddCampaign extends AppCompatActivity {
     private String user_id;
     private Bitmap compressed;
     private ProgressDialog progressDialog;
-    Button selectFile, upload;
-    TextView notification, pdfName;
+    TextView pdfName;
     Uri pdfURi;
-    static String token;
 
     EditText campaignTitle, campaignCountry, campaignCost, campaignDescription, campaignLocationt, campaignType, campaignDonationDays;
     Button campaignAddBtn;
@@ -87,7 +85,6 @@ public class FinalAddCampaign extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
         storage = FirebaseStorage.getInstance();
 
-        token = FirebaseInstanceId.getInstance().getToken();
 
         campaignTitle = findViewById(R.id.camp_title_edit_text);
         campaignCountry = findViewById(R.id.camp_country_edit_text);
@@ -102,20 +99,6 @@ public class FinalAddCampaign extends AppCompatActivity {
         campaignChooseVideoBtn = findViewById(R.id.upload_pdf_file);
         mViewFlipper = findViewById(R.id.viewFlipper);
         pdfName = findViewById(R.id.upload_pdf_tv);
-//        campaignNextBtnToLastPage.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                moveToView2();
-//            }
-//        });
-//        campaignNextBtn.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                moveToView2();
-//            }
-//        });
-
 
         campaignChooseImageBtn.setOnClickListener(new OnClickListener() {
             @Override

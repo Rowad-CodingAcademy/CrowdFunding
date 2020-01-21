@@ -33,8 +33,6 @@ public class ApproveNewCampaignsFragment extends Fragment {
     private ManageNewCampaignAdapter campaignAdapter;
     private FirebaseFirestore firebaseFirestore;
 
-
-    private Campaigns mCampaign;
     AlertDialog.Builder builder ;
 
 
@@ -177,15 +175,10 @@ public class ApproveNewCampaignsFragment extends Fragment {
 
         void updateStatusToAccepted(int position) {
             getSnapshots().getSnapshot(position).getReference().update("campaignApprove", "1");
-//            firebaseFirestore = FirebaseFirestore.getInstance();
-//            firebaseFirestore.collection("Campaigns").document(getSnapshots().getSnapshot(position).getId()).update("campaignApprove", "1");
-
         }
 
         void updateStatusToReject(int position) {
             getSnapshots().getSnapshot(position).getReference().update("campaignApprove", "2");
-//            Toast.makeText(getActivity(),position+"", Toast.LENGTH_SHORT).show();
-
         }
 
         public class CompaignViewHolder extends RecyclerView.ViewHolder {

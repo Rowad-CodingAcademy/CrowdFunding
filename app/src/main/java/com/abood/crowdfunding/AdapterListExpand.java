@@ -24,7 +24,6 @@ public class AdapterListExpand extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private List<DonationModel> items = new ArrayList<>();
 
-
     private Context ctx;
     private OnItemClickListener mOnItemClickListener;
 
@@ -46,7 +45,6 @@ public class AdapterListExpand extends RecyclerView.Adapter<RecyclerView.ViewHol
         public ImageView project_image;
         public TextView project_title;
         public TextView user_donation_cost;
-        public TextView project_owner_name;
         public ImageButton bt_expand;
         public View lyt_expand;
         public View lyt_parent;

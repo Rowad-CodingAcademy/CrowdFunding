@@ -53,10 +53,10 @@ import id.zelory.compressor.Compressor;
 import static com.abood.crowdfunding.CampaignDetailsActivity.EXTRA_CAMPAIGN_UUID;
 
 public class EditingActivity extends AppCompatActivity {
+
     private static final int PICK_VIDEO_REQUEST = 0;
     private Uri imageUri = null;
     private Uri mVideoUri;
-
     private FirebaseAuth firebaseAuth;
     private StorageReference storageReference;
     FirebaseStorage storage;
@@ -64,8 +64,7 @@ public class EditingActivity extends AppCompatActivity {
     private String user_id;
     private Bitmap compressed;
     private ProgressDialog progressDialog;
-    Button selectFile, upload;
-    TextView notification, pdfName;
+    TextView pdfName;
     Uri pdfURi;
     String campaignId;
     String pdf;
@@ -110,19 +109,6 @@ public class EditingActivity extends AppCompatActivity {
         campaignChooseVideoBtn = findViewById(R.id.upload_pdf_file);
         mViewFlipper = findViewById(R.id.viewFlipper);
         pdfName = findViewById(R.id.upload_pdf_tv);
-//        campaignNextBtnToLastPage.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                moveToView2();
-//            }
-//        });
-//        campaignNextBtn.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                moveToView2();
-//            }
-//        });
 
 
         firebaseFirestore.collection("Campaigns").document(campaignId).get()

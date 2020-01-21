@@ -33,7 +33,6 @@ public class ClosedCampaignsFragment extends Fragment {
     FirebaseFirestore store;
     private ClosedCampaignsAdapter closedCampaignsAdapter;
 
-//    private FirestoreRecyclerAdapter<Campaigns, PopularCampaignsViewHolder> adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,34 +56,6 @@ public class ClosedCampaignsFragment extends Fragment {
                 .build();
 
         closedCampaignsAdapter = new ClosedCampaignsAdapter(options);
-
-
-
-//        adapter = new FirestoreRecyclerAdapter<Campaigns, PopularCampaignsViewHolder>(options) {
-//            @Override
-//            protected void onBindViewHolder(@NonNull PopularCampaignsViewHolder holder , final int position, @NonNull Campaigns campaign) {
-//                holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage());
-//
-//                holder.itemView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v)
-//                    {
-//
-//                        Intent i = CampaignDetailsActivity.newIntent(getActivity(),getSnapshots().getSnapshot(position).getId());
-//                        startActivity(i);
-//
-//                    }
-//                });
-//
-//            }
-//
-//            @NonNull
-//            @Override
-//            public PopularCampaignsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.campaign_holder, parent, false);
-//                return new PopularCampaignsViewHolder(view);
-//            }
-//        };
         closedCampaignsRecyclerView.setAdapter(closedCampaignsAdapter);
 
 

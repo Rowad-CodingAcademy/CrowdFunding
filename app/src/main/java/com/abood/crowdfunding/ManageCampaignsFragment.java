@@ -48,8 +48,6 @@ public class ManageCampaignsFragment extends Fragment {
 
     AlertDialog.Builder builder ;
 
-//    private FirestoreRecyclerAdapter<Campaigns, PopularCampaignsViewHolder> adapter;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
