@@ -18,8 +18,6 @@
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".EditingActivity"
                   android:screenOrientation="portrait"/>
-        <activity android:name=".CampaignDetailsActivity"
-                  android:screenOrientation="portrait"/>
         <activity android:name=".FinalAddCampaign"
                   android:screenOrientation="portrait"/>
         <activity android:name=".DonationDetailsActivity"
@@ -82,7 +80,6 @@
         <meta-data
             android:name="firebase_analytics_collection_enabled"
             android:value="false" />
-
 
     </application>
 
