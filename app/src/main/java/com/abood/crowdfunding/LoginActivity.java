@@ -43,6 +43,7 @@ public class LoginActivity extends AppCompatActivity
     ProgressDialog progress;
     static String token;
     Drawable correctDrawable;
+    Drawable errorDrawable;
     boolean isCorrectEmail=false;
 
 
@@ -75,6 +76,7 @@ public class LoginActivity extends AppCompatActivity
             progress.setCancelable(false);
             progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progress.show();
+
 
             firebaseAuth = FirebaseAuth.getInstance();
             firebaseAuth.signInWithEmailAndPassword(userEmail.getText().toString(),userPassword.getText().toString())
@@ -186,24 +188,29 @@ public class LoginActivity extends AppCompatActivity
         public void afterTextChanged(Editable editable) {
             // check Fields For Empty Values
 //            checkFieldsForEmptyValues();
+            correctDrawable = getResources().getDrawable(R.drawable.ic_check_circle);
+            correctDrawable.setBounds(0, 0, correctDrawable.getIntrinsicWidth(), correctDrawable.getIntrinsicHeight());
+            errorDrawable = getResources().getDrawable(R.drawable.ic_error);
+            errorDrawable.setBounds(0, 0, correctDrawable.getIntrinsicWidth(), correctDrawable.getIntrinsicHeight());
 
             if (editable.length() > 0 && userEmail.length() > 0) {
 
                 CharSequence email = userEmail.getText().toString();
 
-                if (isValidEmail(email)) {
+                isValidEmail(email);
 
-//                    userEmail.setError("",correctDrawable);
-//                    requestFocus(userEmail);
-
-                } else {
-//                    userEmail.requestFocus();
-                    userEmail.setError("Enter Correct Email");
+                if (isCorrectEmail) {
+                    userEmail.setCompoundDrawables(null,null,correctDrawable,null);
+                } else if(userEmail.length()!=0) {
+                    userEmail.setError("Enter Correct Email",null);
+                    userEmail.setCompoundDrawables(null,null,errorDrawable,null);
                 }
 
-                if(userPassword.length()!=0 && userPassword.length()<6)
-                    userPassword.setError("password must be more than 6 character");
-                requestFocus(userPassword);
+                if(userPassword.length()!=0 && userPassword.length()>=6)
+                    userPassword.setCompoundDrawables(null,null,correctDrawable,null);
+                else if(userPassword.length()!=0){
+                    userPassword.setCompoundDrawables(null,null,errorDrawable,null);
+                    userPassword.setError("password must be more than 6 character",null);}
             }
 
         }
@@ -235,11 +242,7 @@ public class LoginActivity extends AppCompatActivity
 //
 //    }
 
-    private void requestFocus(View view) {
-        if (view.requestFocus()) {
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        }
-    }
+
 
 
 }
