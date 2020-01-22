@@ -55,7 +55,7 @@ public class PopularCampaignsFragment extends Fragment {
 
         store = FirebaseFirestore.getInstance();
         Query query = store.collection("Campaigns").whereEqualTo("campaignApprove","1")
-                .whereEqualTo("campaignStatus","0").whereGreaterThan("campaignFundsRate","100");
+                .whereEqualTo("campaignStatus","0").whereGreaterThanOrEqualTo("campaignFundsRate","100");
 
         FirestoreRecyclerOptions<Campaigns> options = new FirestoreRecyclerOptions.Builder<Campaigns>()
                 .setQuery(query, Campaigns.class)
