@@ -9,10 +9,13 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -39,6 +42,7 @@ public class LoginActivity extends AppCompatActivity
     private FirebaseFirestore firebaseFirestore;
     ProgressDialog progress;
     static String token;
+    Drawable correctDrawable;
 
 
     @Override
@@ -54,7 +58,7 @@ public class LoginActivity extends AppCompatActivity
         loginBtn = findViewById(R.id.login_btn);
         signupBtn = findViewById(R.id.signup_btn);
 
-        checkFieldsForEmptyValues();
+//        checkFieldsForEmptyValues();
 
         // set listeners
         userEmail.addTextChangedListener(mTextWatcher);
@@ -180,25 +184,61 @@ public class LoginActivity extends AppCompatActivity
         @Override
         public void afterTextChanged(Editable editable) {
             // check Fields For Empty Values
-            checkFieldsForEmptyValues();
+//            checkFieldsForEmptyValues();
+
+            if (editable.length() > 0 && userEmail.length() > 0) {
+
+                CharSequence email = userEmail.getText().toString();
+
+                if (isValidEmail(email)) {
+                    correctDrawable = getResources().getDrawable(R.drawable.ic_check_circle);
+                    correctDrawable.setBounds(0, 0, correctDrawable.getIntrinsicWidth(), correctDrawable.getIntrinsicHeight());
+                    userEmail.setCompoundDrawables(null,null,correctDrawable,null);
+//                    userEmail.setError("",correctDrawable);
+//                    requestFocus(userEmail);
+
+                } else {
+//                    userEmail.requestFocus();
+                    userEmail.setError("Enter Correct Email");
+                }
+
+                if(userPassword.length()!=0 && userPassword.length()<6)
+                    userPassword.setError("password must be more than 6 character");
+                requestFocus(userPassword);
+            }
+
         }
     };
 
-    private void checkFieldsForEmptyValues()
-    {
-        if(!userEmail.getText().toString().equals("") && !userPassword.getText().toString().equals(""))
-        {
-            loginBtn.setEnabled(true);
-            loginBtn.setTextColor(getResources().getColor(R.color.enabledButtonTextColor));
+    public final static boolean isValidEmail(CharSequence target) {
+        if (TextUtils.isEmpty(target)) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
         }
-        else
-        {
-            loginBtn.setEnabled(false);
-            loginBtn.setTextColor(getResources().getColor(R.color.disabledButtonTextColor));
+    }
 
+//    private void checkFieldsForEmptyValues()
+//    {
+//        if(!userEmail.getText().toString().equals("") && !userPassword.getText().toString().equals(""))
+//        {
+//            loginBtn.setEnabled(true);
+//            loginBtn.setTextColor(getResources().getColor(R.color.enabledButtonTextColor));
+//        }
+//        else
+//        {
+//            loginBtn.setEnabled(false);
+//            loginBtn.setTextColor(getResources().getColor(R.color.disabledButtonTextColor));
+//
+//
+//        }
+//
+//    }
 
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
-
     }
 
 
