@@ -9,17 +9,25 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -42,6 +50,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,6 +61,7 @@ public class FinalAddCampaign extends AppCompatActivity {
     private static final int PICK_VIDEO_REQUEST = 0;
     private Uri imageUri = null;
     private Uri mVideoUri;
+    boolean noError = false;
 
     private FirebaseAuth firebaseAuth;
     private StorageReference storageReference;
@@ -63,20 +73,45 @@ public class FinalAddCampaign extends AppCompatActivity {
     TextView pdfName;
     Uri pdfURi;
 
-    EditText campaignTitle, campaignCountry, campaignCost, campaignDescription, campaignLocationt, campaignType, campaignDonationDays;
+    EditText campaignTitle, campaignCost, campaignDescription, campaignLocationt, campaignType, campaignDonationDays;
     Button campaignAddBtn;
     FloatingActionButton campaignChooseImageBtn, campaignChooseVideoBtn;
     ImageView campaignImageView;
     VideoView campaignVideoView;
     ImageButton nextBTN, prevBTN;
-
     ViewFlipper mViewFlipper;
     private int currentSignUpViewNumber = 1;
+    Spinner catSpinner;
+
+    ArrayList<String> categories= new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final_add_campaign);
+
+        catSpinner = findViewById(R.id.camp_type_spinner);
+
+
+        categories.add("Art");
+        categories.add("Technology");
+        categories.add("Music");
+        categories.add("Games");
+        categories.add("Fashion");
+        categories.add("Design");
+        categories.add("Photography");
+        categories.add("Sport");
+        categories.add("Environment");
+        categories.add("Health");
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter(getApplicationContext(),  android.R.layout.simple_spinner_dropdown_item, categories);
+        adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+
+
+        catSpinner.setAdapter(adapter);
+
 
         progressDialog = new ProgressDialog(this);
 
@@ -88,13 +123,13 @@ public class FinalAddCampaign extends AppCompatActivity {
 
 
         campaignTitle = findViewById(R.id.camp_title_edit_text);
-        campaignCountry = findViewById(R.id.camp_country_edit_text);
+
         campaignCost = findViewById(R.id.camp_target_edit_text);
         campaignDescription = findViewById(R.id.camp_description_edit_text);
         campaignLocationt = findViewById(R.id.camp_location_edit_text);
         campaignDonationDays = findViewById(R.id.donation_date_edit_text);
         campaignImageView = findViewById(R.id.image_view);
-        campaignType = findViewById(R.id.camp_type_edit_text);
+
         campaignAddBtn = findViewById(R.id.add_campaign_btn);
         campaignChooseImageBtn = findViewById(R.id.upload_new_photo);
         campaignChooseVideoBtn = findViewById(R.id.upload_pdf_file);
@@ -143,15 +178,14 @@ public class FinalAddCampaign extends AppCompatActivity {
 
 
                 final String title = campaignTitle.getText().toString();
-                final String country = campaignCountry.getText().toString();
                 final String cost = campaignCost.getText().toString();
                 final String description = campaignDescription.getText().toString();
                 final String donatioDays = campaignDonationDays.getText().toString();
-                final String type = campaignType.getText().toString();
+                final String type = catSpinner.getSelectedItem().toString();
                 final String location = campaignLocationt.getText().toString();
 
 
-                if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(country) && !TextUtils.isEmpty(cost) && imageUri != null && pdfURi != null) {
+                if (!TextUtils.isEmpty(title)&& !TextUtils.isEmpty(cost) && imageUri != null && pdfURi != null) {
 
                     progressDialog.setMessage("Storing Data...");
                     progressDialog.show();
@@ -191,7 +225,7 @@ public class FinalAddCampaign extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                                                storeData(task, taskSnapshot, title, country, cost, description, location, type, donatioDays);
+                                                storeData(task, taskSnapshot, title, cost, description, location, type, donatioDays);
 
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
@@ -245,6 +279,10 @@ public class FinalAddCampaign extends AppCompatActivity {
                     final String days = campaignDonationDays.getText().toString();
 
                     if (title.isEmpty() || desc.isEmpty() || days.isEmpty()) {
+                        campaignTitle.setError("fill this field");
+                        campaignDescription.setError("fill this field");
+//                        campaignTitle.setFocusable(false);
+//                        campaignDescription.setFocusable(false);
                         showMessage("Please Verify All Field");
                         return;
                     }
@@ -252,10 +290,12 @@ public class FinalAddCampaign extends AppCompatActivity {
 
                 if (currentSignUpViewNumber == 2) {
                     final String cost = campaignCost.getText().toString();
-                    final String type = campaignType.getText().toString();
+                    final String type = catSpinner.getSelectedItem().toString();
                     final String location = campaignLocationt.getText().toString();
 
                     if (cost.isEmpty() || type.isEmpty() || location.isEmpty()) {
+//                        campaignCost.setError("fill this field");
+//                        campaignType.setError("fill this field");
                         showMessage("Please Verify All Field");
                         return;
                     }
@@ -291,7 +331,7 @@ public class FinalAddCampaign extends AppCompatActivity {
 
     }
 
-    private void storeData(Task<UploadTask.TaskSnapshot> task, UploadTask.TaskSnapshot taskSnapshot, String title, String country, String cost, String description, String location, String type, String donation) {
+    private void storeData(Task<UploadTask.TaskSnapshot> task, UploadTask.TaskSnapshot taskSnapshot, String title, String cost, String description, String location, String type, String donation) {
 
 
         Task<Uri> download_uri;
@@ -320,7 +360,6 @@ public class FinalAddCampaign extends AppCompatActivity {
         Map<String, String> campaignData = new HashMap<>();
         campaignData.put("userId", user_id);
         campaignData.put("campaignTitle", title);
-        campaignData.put("campaignCountry", country);
         campaignData.put("campaignCost", cost);
         campaignData.put("campaignDescription", description);
         campaignData.put("campaignLocation", location);
@@ -330,6 +369,9 @@ public class FinalAddCampaign extends AppCompatActivity {
         campaignData.put("campaignStatus", "0");
         campaignData.put("campaignCategory", "0");
         campaignData.put("campaignFunds", "0");
+        campaignData.put("campaignDonors", "0");
+        campaignData.put("campaignFundsRate", "0");
+        campaignData.put("campaignData", new Date().toString());
         campaignData.put("campaignImage", url.toString());
         campaignData.put("campaignPdf", pdf_url.toString());
 
@@ -458,6 +500,7 @@ public class FinalAddCampaign extends AppCompatActivity {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
     }
+
 
 
 }

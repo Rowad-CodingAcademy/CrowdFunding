@@ -38,6 +38,8 @@
                   android:screenOrientation="portrait"/>
         <activity android:name=".LoginActivity"
                   android:screenOrientation="portrait"/>
+        <activity android:name=".CampaignDetailsActivity"
+            android:screenOrientation="portrait"/>
 
         <activity android:name=".SplashScreenActivity"
                   android:screenOrientation="portrait">
