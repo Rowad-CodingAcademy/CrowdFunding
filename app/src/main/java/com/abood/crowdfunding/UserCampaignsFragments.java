@@ -54,7 +54,7 @@ public class UserCampaignsFragments extends Fragment {
         popularCampaignsRecyclerView = v.findViewById(R.id.popular_campaign_recycler_view);
         popularCampaignsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         store = FirebaseFirestore.getInstance();
-        Query query = store.collection("Campaigns").whereEqualTo("userId", userID);
+        Query query = store.collection("Campaigns").whereEqualTo("campaignApprove","1").whereEqualTo("userId", userID);
 
         FirestoreRecyclerOptions<Campaigns> options = new FirestoreRecyclerOptions.Builder<Campaigns>()
                 .setQuery(query, Campaigns.class)
