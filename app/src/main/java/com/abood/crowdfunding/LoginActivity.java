@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity
         loginBtn = findViewById(R.id.login_btn);
         signupBtn = findViewById(R.id.signup_btn);
 
-//        checkFieldsForEmptyValues();
+        checkFieldsForEmptyValues();
 
         // set listeners
         userEmail.addTextChangedListener(mTextWatcher);
@@ -187,7 +187,7 @@ public class LoginActivity extends AppCompatActivity
         @Override
         public void afterTextChanged(Editable editable) {
             // check Fields For Empty Values
-//            checkFieldsForEmptyValues();
+            checkFieldsForEmptyValues();
             correctDrawable = getResources().getDrawable(R.drawable.ic_check_circle);
             correctDrawable.setBounds(0, 0, correctDrawable.getIntrinsicWidth(), correctDrawable.getIntrinsicHeight());
             errorDrawable = getResources().getDrawable(R.drawable.ic_error);
@@ -225,22 +225,22 @@ public class LoginActivity extends AppCompatActivity
         }
     }
 
-//    private void checkFieldsForEmptyValues()
-//    {
-//        if(!userEmail.getText().toString().equals("") && !userPassword.getText().toString().equals(""))
-//        {
-//            loginBtn.setEnabled(true);
-//            loginBtn.setTextColor(getResources().getColor(R.color.enabledButtonTextColor));
-//        }
-//        else
-//        {
-//            loginBtn.setEnabled(false);
-//            loginBtn.setTextColor(getResources().getColor(R.color.disabledButtonTextColor));
-//
-//
-//        }
-//
-//    }
+    private void checkFieldsForEmptyValues()
+    {
+        if(!userEmail.getText().toString().equals("") && !userPassword.getText().toString().equals(""))
+        {
+            loginBtn.setEnabled(true);
+            loginBtn.setTextColor(getResources().getColor(R.color.enabledButtonTextColor));
+        }
+        else
+        {
+            loginBtn.setEnabled(false);
+            loginBtn.setTextColor(getResources().getColor(R.color.disabledButtonTextColor));
+
+
+        }
+
+    }
 
 
 

@@ -14,10 +14,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -65,6 +67,11 @@ public class RegisterActivity extends AppCompatActivity
     private FirebaseFirestore firebaseFirestore;
     private String user_id;
     private Bitmap compressed;
+
+    Drawable correctDrawable;
+    Drawable errorDrawable;
+    boolean isCorrectEmail=false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +140,7 @@ public class RegisterActivity extends AppCompatActivity
                             public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()) {
 
-//                            if(!TextUtils.isEmpty(title)&&!TextUtils.isEmpty(country)&&!TextUtils.isEmpty(cost)&&imageUri!=null){
+//                            if(imageUri!=null){
                                 user_id = firebaseAuth.getCurrentUser().getUid();
 
                                 File newFile = new File(imageUri.getPath());
@@ -336,8 +343,44 @@ public class RegisterActivity extends AppCompatActivity
         public void afterTextChanged(Editable editable) {
             // check Fields For Empty Values
             checkFieldsForEmptyValues();
+            correctDrawable = getResources().getDrawable(R.drawable.ic_check_circle);
+            correctDrawable.setBounds(0, 0, correctDrawable.getIntrinsicWidth(), correctDrawable.getIntrinsicHeight());
+            errorDrawable = getResources().getDrawable(R.drawable.ic_error);
+            errorDrawable.setBounds(0, 0, correctDrawable.getIntrinsicWidth(), correctDrawable.getIntrinsicHeight());
+
+            if (editable.length() > 0 && newUserEmail.length() > 0) {
+
+                CharSequence email = newUserEmail.getText().toString();
+
+                isValidEmail(email);
+
+                if (isCorrectEmail) {
+                    newUserEmail.setCompoundDrawables(null,null,correctDrawable,null);
+                } else if(newUserEmail.length()!=0) {
+                    newUserEmail.setError("Enter Correct Email",null);
+                    newUserEmail.setCompoundDrawables(null,null,errorDrawable,null);
+                }
+
+                if(newUserPassword.length()!=0 && newUserPassword.length()>=6)
+                    newUserPassword.setCompoundDrawables(null,null,correctDrawable,null);
+                else if(newUserPassword.length()!=0){
+                    newUserPassword.setCompoundDrawables(null,null,errorDrawable,null);
+                    newUserPassword.setError("password must be more than 6 character",null);}
+            }
+
         }
     };
+
+    public  boolean isValidEmail(CharSequence target) {
+        if (TextUtils.isEmpty(target)) {
+            return isCorrectEmail=false;
+        } else {
+            return
+                    isCorrectEmail= android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
+    }
+
+
 
     private void checkFieldsForEmptyValues()
     {
