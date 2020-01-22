@@ -126,7 +126,7 @@ public class CampaignDetailsActivity extends AppCompatActivity {
                                 mDescriptionTV.setText(task.getResult().getString("campaignDescription"));
                                 mLocationTV.setText(task.getResult().getString("campaignCountry"));
                                 mCostTV.setText(task.getResult().getString("campaignCost"));
-                                mCategoryTV.setText(task.getResult().getString("campaignCategory"));
+                                mCategoryTV.setText(task.getResult().getString("campaignType"));
                                 mDaysToGoTV.setText(task.getResult().getString("campaignDonationDays"));
 
                                 firebaseFirestore.collection("Donation").whereEqualTo("campaignId", campaignId)

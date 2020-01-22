@@ -52,7 +52,7 @@ public class NewestCampaignsFragment extends Fragment {
 
         store = FirebaseFirestore.getInstance();
         Query query = store.collection("Campaigns").whereEqualTo("campaignApprove","1")
-                .whereEqualTo("campaignStatus","0").orderBy("campaignData");
+                .whereEqualTo("campaignStatus","0");
 
         FirestoreRecyclerOptions<Campaigns> options = new FirestoreRecyclerOptions.Builder<Campaigns>()
                 .setQuery(query, Campaigns.class)

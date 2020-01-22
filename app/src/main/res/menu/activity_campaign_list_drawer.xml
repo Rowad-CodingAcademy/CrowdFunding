@@ -18,7 +18,16 @@
             android:id="@+id/nav_profile"
             android:checked="true"
             android:icon="@drawable/ic_account_circle"
-            android:title="Profile" />
+            android:title="Profile"
+            />
+        <item
+            android:id="@+id/nav_waiting_campaign"
+            android:icon="@drawable/ic_waiting_black_24dp"
+            android:title="Waiting for approve Campaigns" />
+        <item
+            android:id="@+id/nav_reject_campaign"
+            android:icon="@drawable/ic_reject_black_24dp"
+            android:title="Rejected Campaigns" />
         <item
             android:id="@+id/nav_start_project"
             android:checked="true"
@@ -28,11 +37,11 @@
         <item
             android:id="@+id/nav_paused_campaign"
             android:icon="@drawable/ic_paused"
-            android:title="Paused Campaign" />
+            android:title="Paused Campaigns" />
         <item
             android:id="@+id/nav_closed_campaign"
             android:icon="@drawable/ic_stop"
-            android:title="Closed Campaign" />
+            android:title="Closed Campaigns" />
     </group>
 
 

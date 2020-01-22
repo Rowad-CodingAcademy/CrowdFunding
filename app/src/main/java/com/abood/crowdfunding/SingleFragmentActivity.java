@@ -158,6 +158,8 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
             menu_navigation.findItem(R.id.nav_home).setVisible(false);
 
             menu_navigation.findItem(R.id.nav_profile).setVisible(false);
+            menu_navigation.findItem(R.id.nav_waiting_campaign).setVisible(false);
+            menu_navigation.findItem(R.id.nav_reject_campaign).setVisible(false);
             menu_navigation.findItem(R.id.nav_start_project).setVisible(false);
 
 
@@ -178,6 +180,8 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
 
                 menu_navigation.findItem(R.id.nav_home).setVisible(true);
                 menu_navigation.findItem(R.id.nav_profile).setVisible(false);
+                menu_navigation.findItem(R.id.nav_waiting_campaign).setVisible(false);
+                menu_navigation.findItem(R.id.nav_reject_campaign).setVisible(false);
                 menu_navigation.findItem(R.id.nav_start_project).setVisible(false);
                 menu_navigation.findItem(R.id.nav_paused_campaign).setVisible(true);
                 menu_navigation.findItem(R.id.nav_closed_campaign).setVisible(true);
@@ -192,6 +196,8 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
                 menu_navigation.findItem(R.id.nav_closed_campaign).setVisible(false);
 
                 menu_navigation.findItem(R.id.nav_profile).setVisible(true);
+                menu_navigation.findItem(R.id.nav_waiting_campaign).setVisible(true);
+                menu_navigation.findItem(R.id.nav_reject_campaign).setVisible(true);
                 menu_navigation.setGroupVisible(R.id.nav_start_project, true);
 
                 menu_navigation.setGroupVisible(R.id.grp_2, false);
@@ -285,6 +291,14 @@ abstract public class SingleFragmentActivity extends AppCompatActivity {
 
             if (id == R.id.nav_profile) {
                 Intent i = new Intent(SingleFragmentActivity.this, UserProfileActivity.class);
+                startActivity(i);
+            }
+            if (id == R.id.nav_waiting_campaign) {
+                Intent i = new Intent(SingleFragmentActivity.this, WatingCampaignsActivity.class);
+                startActivity(i);
+            }
+            if (id == R.id.nav_reject_campaign) {
+                Intent i = new Intent(SingleFragmentActivity.this, RejectedCampaignsActivity.class);
                 startActivity(i);
             }
 

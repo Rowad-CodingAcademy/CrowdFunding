@@ -36,6 +36,10 @@
                   android:screenOrientation="portrait"/>
         <activity android:name=".PausedCampaignsActivity"
                   android:screenOrientation="portrait"/>
+        <activity android:name=".WatingCampaignsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".RejectedCampaignsActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".LoginActivity"
                   android:screenOrientation="portrait"/>
         <activity android:name=".CampaignDetailsActivity"
