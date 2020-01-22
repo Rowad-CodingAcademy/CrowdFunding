@@ -1,0 +1,96 @@
+{
+  "project_info": {
+    "project_number": "714473577176",
+    "firebase_url": "https://crowdfunding-df898.firebaseio.com",
+    "project_id": "crowdfunding-df898",
+    "storage_bucket": "crowdfunding-df898.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:714473577176:android:85bff0ab463f70bd4195ad",
+        "android_client_info": {
+          "package_name": "com.abood.crowdfunding"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "714473577176-hqvdqdk8s7bl3fqojqgmoir0j65rpjd1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.abood.crowdfunding",
+            "certificate_hash": "105dd766fcde6f4d065836703465cde8ceaab0ce"
+          }
+        },
+        {
+          "client_id": "714473577176-0n8lmsslitesa06egveoj44vq7nm81d3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.abood.crowdfunding",
+            "certificate_hash": "3bb77d7d968a6f5e94d95e064f3be7bf794c77ac"
+          }
+        },
+        {
+          "client_id": "714473577176-ep331fqige2kcjtvk20bur5lp4rvof12.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.abood.crowdfunding",
+            "certificate_hash": "d2b337db888c1c8f05652a0b8582b25f60d129ec"
+          }
+        },
+        {
+          "client_id": "714473577176-gvaqjtg7e239m8jamoqgff20pf6s6krd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.abood.crowdfunding",
+            "certificate_hash": "6af9930b98ef18197a6b020295bc127e84e241c7"
+          }
+        },
+        {
+          "client_id": "714473577176-hi0ej5aak4rlr3vvovsek2cnfutie37r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.abood.crowdfunding",
+            "certificate_hash": "dc4d558081f6e15f567fa3df66f874092bfb6fe5"
+          }
+        },
+        {
+          "client_id": "714473577176-fp4118j3uf0hdtqdtc5v5294ohh854fa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.abood.crowdfunding",
+            "certificate_hash": "7efdec75c17ea6b37ede37c0b4f4cb46a69d3272"
+          }
+        },
+        {
+          "client_id": "714473577176-h3gv3p3btovqeibqb05n5sogb044klbd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.abood.crowdfunding",
+            "certificate_hash": "080d3e016259729a849ad03fc01d9edb1d63a0a5"
+          }
+        },
+        {
+          "client_id": "714473577176-gquvsr62ki5se9ra8thl22sud07b537u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBA6aSJB-KpMgsqVL4S_Fz_haEpJDGnScs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "714473577176-gquvsr62ki5se9ra8thl22sud07b537u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
