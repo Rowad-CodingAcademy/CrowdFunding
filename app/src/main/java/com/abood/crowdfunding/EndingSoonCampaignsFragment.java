@@ -33,6 +33,7 @@ public class EndingSoonCampaignsFragment extends Fragment {
     RecyclerView endingSoonCampaignsRecyclerView;
     FirebaseFirestore store;
     private FirestoreRecyclerAdapter<Campaigns, EndingSoonCampaignsViewHolder> adapter;
+    String id;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +61,8 @@ public class EndingSoonCampaignsFragment extends Fragment {
         adapter = new FirestoreRecyclerAdapter<Campaigns, EndingSoonCampaignsViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull final EndingSoonCampaignsViewHolder holder , final int position, @NonNull Campaigns campaign) {
+
+                id = getSnapshots().getSnapshot(position).getId();
 
                 holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage(),campaign.getCampaignCost(),campaign.getCampaignFunds(), campaign.getCampaignDonationDays());
 
@@ -160,6 +163,8 @@ public class EndingSoonCampaignsFragment extends Fragment {
             campaignRatio.setText(mDonationRatio+"%");
 
             progress_determinate.setProgress(mDonationRatio);
+
+            store.collection("Campaigns").document(id).update("campaignFundsRate",String.valueOf(mDonationRatio ));
 
             Picasso.get().load(image).into(campaignImage);
 //            Glide.with(getActivity()).load(image).into(campaignImage);

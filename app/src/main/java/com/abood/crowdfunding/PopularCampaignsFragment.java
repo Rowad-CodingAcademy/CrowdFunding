@@ -174,7 +174,7 @@ public class PopularCampaignsFragment extends Fragment {
             campaignRatio.setText(mDonationRatio+"%");
             progress_determinate.setProgress(mDonationRatio);
 
-            store.collection("Campaigns").document(id).update("campaignFundsRate",mDonationRatio );
+            store.collection("Campaigns").document(id).update("campaignFundsRate",String.valueOf(mDonationRatio ));
 
 
             Picasso.get().load(image).into(campaignImage);
