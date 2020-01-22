@@ -43,6 +43,7 @@ public class LoginActivity extends AppCompatActivity
     ProgressDialog progress;
     static String token;
     Drawable correctDrawable;
+    boolean isCorrectEmail=false;
 
 
     @Override
@@ -191,9 +192,7 @@ public class LoginActivity extends AppCompatActivity
                 CharSequence email = userEmail.getText().toString();
 
                 if (isValidEmail(email)) {
-                    correctDrawable = getResources().getDrawable(R.drawable.ic_check_circle);
-                    correctDrawable.setBounds(0, 0, correctDrawable.getIntrinsicWidth(), correctDrawable.getIntrinsicHeight());
-                    userEmail.setCompoundDrawables(null,null,correctDrawable,null);
+
 //                    userEmail.setError("",correctDrawable);
 //                    requestFocus(userEmail);
 
@@ -210,11 +209,12 @@ public class LoginActivity extends AppCompatActivity
         }
     };
 
-    public final static boolean isValidEmail(CharSequence target) {
+    public  boolean isValidEmail(CharSequence target) {
         if (TextUtils.isEmpty(target)) {
-            return false;
+            return isCorrectEmail=false;
         } else {
-            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+            return
+                    isCorrectEmail= android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
         }
     }
 

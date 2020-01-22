@@ -25,6 +25,19 @@
 
     </item>
 
+    <item android:state_selected="true">
+
+        <layer-list>
+            <item android:bottom="2dp" android:left="2dp" android:right="2dp" android:top="2dp">
+                <shape android:shape="rectangle">
+                    <stroke android:width="2dp" android:color="#F80000" />
+                    <solid android:color="@color/transparent" />
+                </shape>
+            </item>
+        </layer-list>
+
+    </item>
+
     <item>
 
         <layer-list>
