@@ -28,12 +28,15 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
+import java.util.UUID;
+
 
 public class PopularCampaignsFragment extends Fragment {
 
     RecyclerView popularCampaignsRecyclerView;
     FirebaseFirestore store;
     private PopularCampaignAdapter popularCampaignAdapter;
+    String id;
 
 
     @Override
@@ -52,7 +55,7 @@ public class PopularCampaignsFragment extends Fragment {
 
         store = FirebaseFirestore.getInstance();
         Query query = store.collection("Campaigns").whereEqualTo("campaignApprove","1")
-                .whereEqualTo("campaignStatus","0").whereGreaterThanOrEqualTo("campaignCost","5000");
+                .whereEqualTo("campaignStatus","0").whereGreaterThan("campaignFundsRate","100");
 
         FirestoreRecyclerOptions<Campaigns> options = new FirestoreRecyclerOptions.Builder<Campaigns>()
                 .setQuery(query, Campaigns.class)
@@ -90,6 +93,8 @@ public class PopularCampaignsFragment extends Fragment {
 
         @Override
         protected void onBindViewHolder(@NonNull final PopularCampaignsViewHolder holder , final int position, @NonNull Campaigns campaign) {
+
+            id = getSnapshots().getSnapshot(position).getId();
 
             holder.setData(campaign.getCampaignTitle(),campaign.getCampaignDescription(),campaign.getCampaignImage(),campaign.getCampaignCost(),campaign.getCampaignFunds(), campaign.getCampaignDonationDays());
 
@@ -167,8 +172,10 @@ public class PopularCampaignsFragment extends Fragment {
             Double costs = Double.parseDouble(cost);
             mDonationRatio = new Integer(String.valueOf(Math.round((funds*100)/ costs)));
             campaignRatio.setText(mDonationRatio+"%");
-
             progress_determinate.setProgress(mDonationRatio);
+
+            store.collection("Campaigns").document(id).update("campaignFundsRate",mDonationRatio );
+
 
             Picasso.get().load(image).into(campaignImage);
 //            Glide.with(getActivity()).load(image).into(campaignImage);

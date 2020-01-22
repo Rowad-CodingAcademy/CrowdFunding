@@ -45,8 +45,8 @@ public class CampaignsListFragment extends Fragment {
                         String token = task.getResult().getToken();
 
                         // Log and toast
-                        String msg = getString(R.string.msg_token_fmt, token);
-                        Log.d("aaa", msg);
+//                        String msg = getString(R.string.msg_token_fmt, token);
+//                        Log.d("aaa", msg);
 //                        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                     }
                 });

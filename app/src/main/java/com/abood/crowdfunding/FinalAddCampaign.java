@@ -42,6 +42,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import id.zelory.compressor.Compressor;
@@ -329,7 +330,6 @@ public class FinalAddCampaign extends AppCompatActivity {
         campaignData.put("campaignStatus", "0");
         campaignData.put("campaignCategory", "0");
         campaignData.put("campaignFunds", "0");
-        campaignData.put("campaignDonors", "0");
         campaignData.put("campaignImage", url.toString());
         campaignData.put("campaignPdf", pdf_url.toString());
 

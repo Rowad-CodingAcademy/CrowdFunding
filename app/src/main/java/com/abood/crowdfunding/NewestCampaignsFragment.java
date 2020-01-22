@@ -50,7 +50,8 @@ public class NewestCampaignsFragment extends Fragment {
         newestCampaignsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         store = FirebaseFirestore.getInstance();
-        Query query = store.collection("Campaigns").whereEqualTo("campaignApprove","1").whereEqualTo("campaignStatus","0");
+        Query query = store.collection("Campaigns").whereEqualTo("campaignApprove","1")
+                .whereEqualTo("campaignStatus","0");
 
         FirestoreRecyclerOptions<Campaigns> options = new FirestoreRecyclerOptions.Builder<Campaigns>()
                 .setQuery(query, Campaigns.class)
